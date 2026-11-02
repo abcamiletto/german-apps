@@ -1,5 +1,6 @@
 package com.abcamiletto.wortschatz.ui.session
 
+import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,8 @@ const val LEARN_BATCH = 5
 private const val REVIEW_BATCH = 20
 private const val DAY_MILLIS = 86_400_000.0
 
+// Navigation looks up route enums by name at runtime, so R8 must not rename this one.
+@Keep
 enum class SessionMode { Learn, ReviewDue, ReviewKnown }
 
 sealed interface Outcome {

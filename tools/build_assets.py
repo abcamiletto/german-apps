@@ -22,8 +22,9 @@ def convert_image(source: Path, target: Path):
     if target.exists() and target.stat().st_mtime >= source.stat().st_mtime:
         return
     image = Image.open(source).convert("RGBA")
-    # Ignore faint alpha noise when finding the subject.
-    box = image.getchannel("A").point(lambda value: 255 if value > 12 else 0).getbbox()
+    # The generator leaves faint specks in the transparent area. Clear them before finding the subject.
+    image.putalpha(image.getchannel("A").point(lambda value: 0 if value < 24 else value))
+    box = image.getchannel("A").getbbox()
     subject = image.crop(box) if box else image
     room = SIZE - 2 * MARGIN
     scale = room / max(subject.size)
