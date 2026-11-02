@@ -1,0 +1,13 @@
+[project]
+name = "wortschatz-tools"
+version = "0.1.0"
+description = "Content pipeline for the Wortschatz Android app: word list, audio and images."
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "pillow>=13.0.0",
+    "wordfreq>=3.1.1",
+]
+
+[tool.uv]
+package = false

@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.Wortschatz" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/paper</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <color name="paper">#F6F7FB</color>
+    <color name="ink">#14213D</color>
+</resources>

@@ -1,0 +1,5 @@
+.venv/
+.cache/
+__pycache__/
+# Extracted text of the Goethe PDFs, which are copyrighted. See the README to recreate it.
+source_lists/
