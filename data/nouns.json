@@ -338,7 +338,7 @@
   "region": "",
   "gloss_en": "the country, the land",
   "category": "countries_languages",
-  "image_brief": "A flat illustration of a world globe with national borders clearly dividing different colored countries.",
+  "image_brief": "A single country shape filled with fields, a small village and a river, outlined by a bold border line.",
   "frequency": 5.47
  },
  {
@@ -554,7 +554,7 @@
   "region": "",
   "gloss_en": "the example",
   "category": "school_learning",
-  "image_brief": "A row of identical white geometric shapes with one brightly colored star highlighted among them.",
+  "image_brief": "A row of five identical grey cubes, one of them coral and lifted forward on a small pedestal.",
   "frequency": 5.35
  },
  {
@@ -1166,7 +1166,7 @@
   "region": "",
   "gloss_en": "the price, the prize",
   "category": "money_shopping",
-  "image_brief": "A red paper price tag with an attached loop of string.",
+  "image_brief": "A cream price tag on a string, with a small stack of gold coins drawn on the tag.",
   "frequency": 5.16
  },
  {
@@ -1490,7 +1490,7 @@
   "region": "",
   "gloss_en": "the apartment, the flat",
   "category": "home",
-  "image_brief": "An apartment door with a peephole, handle, and a doormat in a hallway.",
+  "image_brief": "A cutaway apartment block where one apartment is brightly lit and shows a sofa, a bed and a kitchen inside, while the other units are grey.",
   "frequency": 5.08
  },
  {
@@ -1580,7 +1580,7 @@
   "region": "",
   "gloss_en": "the answer, the reply",
   "category": "communication",
-  "image_brief": "A green speech bubble containing a crisp white checkmark symbol.",
+  "image_brief": "A person with a raised hand and a big smile, next to a speech bubble containing a tick mark.",
   "frequency": 5.04
  },
  {
@@ -2109,7 +2109,7 @@
   "region": "",
   "gloss_en": "the teacher (male)",
   "category": "jobs",
-  "image_brief": "A man standing beside a large chalkboard holding a piece of chalk and a pointer stick.",
+  "image_brief": "A male teacher with a pointer beside a blackboard covered in white chalk drawings of a triangle, a circle and a square.",
   "frequency": 4.92
  },
  {
@@ -2487,7 +2487,7 @@
   "region": "",
   "gloss_en": "the winter",
   "category": "weather_seasons",
-  "image_brief": "A single intricate white snowflake isolated against a cool ice-blue backdrop.",
+  "image_brief": "A snow-covered fir tree and a snowman with a scarf, with dusty blue shadows on the snow.",
   "frequency": 4.84
  },
  {
@@ -3753,7 +3753,7 @@
   "region": "",
   "gloss_en": "the paper",
   "category": "school_learning",
-  "image_brief": "A flat illustration of a single blank white sheet of rectangular paper lying flat.",
+  "image_brief": "A thick stack of paper sheets, seen at an angle, with blue-grey shadows between the sheets and on the side.",
   "frequency": 4.59
  },
  {
@@ -3843,7 +3843,7 @@
   "region": "",
   "gloss_en": "the address",
   "category": "communication",
-  "image_brief": "A white envelope showing neatly written recipient address lines centered on the front.",
+  "image_brief": "A white envelope on a coral backing with a stamp and a location pin, where the address is shown only as three wavy grey lines.",
   "frequency": 4.56
  },
  {
@@ -4621,7 +4621,7 @@
   "region": "",
   "gloss_en": "the cent",
   "category": "money_shopping",
-  "image_brief": "A small copper-colored Euro cent coin showing a globe design.",
+  "image_brief": "A small copper coin with only a large numeral 1 on it.",
   "frequency": 4.37
  },
  {
@@ -5449,7 +5449,7 @@
   "region": "",
   "gloss_en": "the taxi, the cab",
   "category": "transport",
-  "image_brief": "A yellow car with an illuminated roof sign showing the word TAXI, viewed from the side.",
+  "image_brief": "A yellow taxi car with a blank glowing roof sign and a checkered stripe along its side.",
   "frequency": 4.15
  },
  {
@@ -7786,7 +7786,7 @@
   "region": "",
   "gloss_en": "the title",
   "category": "technology_media",
-  "image_brief": "A closed hardcover book with prominent embossed title lettering across the front cover.",
+  "image_brief": "A closed book whose cover has a large blank golden label at the top, with a pointing arrow towards that label.",
   "frequency": 5.08
  },
  {
@@ -8510,7 +8510,7 @@
   "region": "",
   "gloss_en": "the sky, the heaven",
   "category": "nature_animals",
-  "image_brief": "A bright blue sky expanse with a few fluffy white clouds floating across it.",
+  "image_brief": "White clouds and a small sun against an irregular soft blue sky shape with no straight edges.",
   "frequency": 4.82
  },
  {
@@ -9158,7 +9158,7 @@
   "region": "",
   "gloss_en": "the workout, the practice",
   "category": "sport",
-  "image_brief": "A row of bright orange athletic agility cones arranged on a green field.",
+  "image_brief": "A sporty woman doing a dumbbell exercise while a coach with a whistle and clipboard stands beside her.",
   "frequency": 4.63
  },
  {
@@ -9447,7 +9447,7 @@
   "region": "",
   "gloss_en": "the basement, the cellar",
   "category": "home",
-  "image_brief": "A flight of concrete stairs leading down to a dimly lit basement room with stone walls and wooden storage shelves.",
+  "image_brief": "A cutaway house where the underground cellar is lit, with stairs leading down to shelves of jars.",
   "frequency": 4.58
  },
  {
@@ -9501,7 +9501,7 @@
   "region": "",
   "gloss_en": "the capital city",
   "category": "city_places",
-  "image_brief": "A map outline of a country showing a prominent star symbol marking the location of the capital city.",
+  "image_brief": "A country shape in sage green dotted with small trees, with a tall city skyline and a large red star at its centre.",
   "frequency": 4.56
  },
  {
@@ -9828,7 +9828,7 @@
   "region": "",
   "gloss_en": "the neck, the throat",
   "category": "body_health",
-  "image_brief": "A human neck and throat outlined clearly from the chin down to the collarbone.",
+  "image_brief": "A person in side profile with the neck area highlighted in coral, with a small arrow pointing at it.",
   "frequency": 4.46
  },
  {
@@ -10244,7 +10244,7 @@
   "region": "",
   "gloss_en": "the compartment, the school subject",
   "category": "school_learning",
-  "image_brief": "An open wooden shelving unit showing several square compartments, one filled with textbooks.",
+  "image_brief": "A wooden shelf unit of square compartments, where each compartment holds something different: books, a box, a folder and a plant.",
   "frequency": 4.37
  },
  {
@@ -10696,7 +10696,7 @@
   "region": "",
   "gloss_en": "the lie",
   "category": "communication",
-  "image_brief": "A wooden puppet face with an exaggeratedly long grown nose.",
+  "image_brief": "A smiling person holding one hand behind their back with their fingers crossed.",
   "frequency": 4.25
  },
  {
@@ -11170,7 +11170,7 @@
   "region": "",
   "gloss_en": "the blackboard, the chalkboard",
   "category": "school_learning",
-  "image_brief": "A classic dark green classroom blackboard framed in wood with a piece of chalk on the tray.",
+  "image_brief": "A blackboard on a wooden stand, covered in white chalk drawings of a triangle, a circle and a square, with chalk on the tray.",
   "frequency": 4.17
  },
  {
@@ -12381,7 +12381,7 @@
   "region": "",
   "gloss_en": "the report card, certificate",
   "category": "school_learning",
-  "image_brief": "A school report card document showing a grid of graded subjects with a red checkmark at the top.",
+  "image_brief": "A school report sheet with a ribbon seal, showing only rows of subject icons with the numerals 1, 2 and 3 beside them.",
   "frequency": 3.92
  },
  {
@@ -13973,7 +13973,7 @@
   "region": "",
   "gloss_en": "the voicemail, the answering machine",
   "category": "communication",
-  "image_brief": "A classic audio cassette tape symbol representing voicemail messages.",
+  "image_brief": "A smartphone showing a large phone receiver icon and a speech bubble with a sound wave.",
   "frequency": 3.04
  },
  {
@@ -14569,7 +14569,7 @@
   "region": "",
   "gloss_en": "the stop",
   "category": "transport",
-  "image_brief": "An octagonal red stop sign mounted on a metal pole.",
+  "image_brief": "A person's raised open palm in a clear stop gesture, beside a red octagonal sign with a white horizontal bar.",
   "frequency": 5.36
  },
  {
@@ -14733,7 +14733,7 @@
   "region": "",
   "gloss_en": "the area, field",
   "category": "abstract",
-  "image_brief": "A flat surface showing a distinct circular section outlined with a bright colored border.",
+  "image_brief": "A plain map with one neighbourhood-sized region highlighted in teal with a bold outline.",
   "frequency": 5.21
  },
  {
@@ -14985,7 +14985,7 @@
   "region": "",
   "gloss_en": "the video",
   "category": "technology_media",
-  "image_brief": "A video player interface box showing a large triangular play button in the center.",
+  "image_brief": "A video player window showing a colourful scene of mountains and a sun, with a white play button and a progress bar.",
   "frequency": 5.13
  },
  {
@@ -15850,7 +15850,7 @@
   "region": "",
   "gloss_en": "the line",
   "category": "abstract",
-  "image_brief": "A single straight bold red horizontal line drawn cleanly across the middle of the frame.",
+  "image_brief": "A single thick smooth coral line curving across the canvas from lower left to upper right.",
   "frequency": 4.94
  },
  {
@@ -15904,7 +15904,7 @@
   "region": "",
   "gloss_en": "the lap, round",
   "category": "sport",
-  "image_brief": "An oval athletic running track showing a continuous circular loop.",
+  "image_brief": "A runner on a red oval running track around a green infield with white field markings.",
   "frequency": 4.92
  },
  {
@@ -16210,7 +16210,7 @@
   "region": "",
   "gloss_en": "the sign, symbol",
   "category": "communication",
-  "image_brief": "A circular red-and-white prohibition road sign depicting a generic crossed-out line.",
+  "image_brief": "A round traffic sign on a metal pole, with a thick red border and a bold black arrow on a textured white face.",
   "frequency": 4.88
  },
  {
@@ -17362,7 +17362,7 @@
   "region": "",
   "gloss_en": "the majority",
   "category": "society_politics",
-  "image_brief": "A circular pie chart where one colored section clearly occupies three-quarters of the circle.",
+  "image_brief": "A group of ten small people, seven in teal clothes standing together and three in grey clothes to one side.",
   "frequency": 4.73
  },
  {
@@ -17904,7 +17904,7 @@
   "region": "",
   "gloss_en": "the miracle, wonder",
   "category": "abstract",
-  "image_brief": "A magical glowing star bursting with radiant rays and small sparkling motes.",
+  "image_brief": "A flower blooming from a crack in a dry rock, surrounded by golden sparkles and rays of light.",
   "frequency": 4.68
  },
  {
@@ -17940,7 +17940,7 @@
   "region": "",
   "gloss_en": "the introduction",
   "category": "school_learning",
-  "image_brief": "An open textbook showing a large decorative bookmark tucked into the very first chapter page.",
+  "image_brief": "A friendly guide showing a new colleague through an open door, with one arm gesturing into the room.",
   "frequency": 4.67
  },
  {
@@ -18030,7 +18030,7 @@
   "region": "",
   "gloss_en": "the relationship, the ratio",
   "category": "abstract",
-  "image_brief": "A pie chart neatly divided into unequal contrasting segments.",
+  "image_brief": "Two people joined by a looping ribbon that forms a heart between them.",
   "frequency": 4.66
  },
  {
@@ -18444,7 +18444,7 @@
   "region": "",
   "gloss_en": "the field",
   "category": "nature_animals",
-  "image_brief": "A wide agricultural field of green wheat crops stretching out beneath a clear sky.",
+  "image_brief": "A rounded patch of farmland with neat rows of crops and a small tractor, with no background.",
   "frequency": 4.63
  },
  {
@@ -18786,7 +18786,7 @@
   "region": "",
   "gloss_en": "the theory",
   "category": "school_learning",
-  "image_brief": "A green chalkboard filled with mathematical formulas, scientific symbols, and geometric diagrams.",
+  "image_brief": "A chalkboard showing only a diagram of arrows connecting circles, with a glowing light bulb above it.",
   "frequency": 4.61
  },
  {
@@ -19308,7 +19308,7 @@
   "region": "",
   "gloss_en": "the escape, the flight",
   "category": "abstract",
-  "image_brief": "A green emergency exit sign showing a white stick figure running through an open doorway.",
+  "image_brief": "A person running away through an open gate in a tall fence, looking back over their shoulder.",
   "frequency": 4.54
  },
  {
@@ -19758,7 +19758,7 @@
   "region": "",
   "gloss_en": "the approval, the consent",
   "category": "communication",
-  "image_brief": "A green circular icon displaying a prominent white checkmark signifying agreement.",
+  "image_brief": "A hand giving a thumbs up beside a person nodding, with a small green tick badge.",
   "frequency": 4.51
  },
  {
@@ -20316,7 +20316,7 @@
   "region": "",
   "gloss_en": "the edge, the rim",
   "category": "objects_tools",
-  "image_brief": "A sheet of white paper with a bold red line highlighting its outer perimeter.",
+  "image_brief": "A notebook page with a bold coral strip along its left edge and a small pencil pointing at that edge. The page shows grey lines.",
   "frequency": 4.47
  },
  {
@@ -20696,7 +20696,7 @@
   "region": "",
   "gloss_en": "the chapter",
   "category": "school_learning",
-  "image_brief": "An open book with a decorative large dropped capital letter at the start of the right-hand page.",
+  "image_brief": "An open book with a coloured ribbon, where one section of pages is highlighted in a contrasting colour. The page content is only grey lines.",
   "frequency": 4.44
  },
  {
@@ -21074,7 +21074,7 @@
   "region": "",
   "gloss_en": "the conversation, the entertainment",
   "category": "communication",
-  "image_brief": "A flat illustration of two overlapping speech bubbles in alternating pastel colors.",
+  "image_brief": "Two people sitting facing each other and talking, with a speech bubble containing three dots between them.",
   "frequency": 4.42
  },
  {
@@ -21092,7 +21092,7 @@
   "region": "",
   "gloss_en": "the chat",
   "category": "communication",
-  "image_brief": "Two overlapping rounded speech bubbles, one green and one white, simulating a digital conversation.",
+  "image_brief": "Two overlapping speech bubbles, one coral and one teal, each containing three white dots.",
   "frequency": 4.41
  },
  {
@@ -21994,7 +21994,7 @@
   "region": "",
   "gloss_en": "the zone, area",
   "category": "city_places",
-  "image_brief": "A designated demarcated section of ground enclosed by a dashed perimeter line.",
+  "image_brief": "A fenced-off construction zone on a patch of textured grass with tufts, marked out by orange traffic cones and a striped barrier, with a small red flag at one corner.",
   "frequency": 4.31
  },
  {
@@ -24752,7 +24752,7 @@
   "region": "",
   "gloss_en": "the preface, the introduction",
   "category": "school_learning",
-  "image_brief": "The first page of a printed manuscript showing a decorative drop cap initiating a section.",
+  "image_brief": "A single page where only the first short paragraph is highlighted in yellow and the rest is pale grey lines. Lines only.",
   "frequency": 4.06
  },
  {
@@ -25204,7 +25204,7 @@
   "region": "",
   "gloss_en": "the translator (male)",
   "category": "jobs",
-  "image_brief": "A man working at a desk between two open books in different languages with bidirectional arrows connecting them.",
+  "image_brief": "A man at a desk between two speech bubbles, one with a German flag and one with a French flag, with a two-way arrow between them.",
   "frequency": 4.02
  },
  {
@@ -25762,7 +25762,7 @@
   "region": "",
   "gloss_en": "the wound",
   "category": "body_health",
-  "image_brief": "An adhesive bandage strip applied across an arm to cover an injury.",
+  "image_brief": "A knee with a small red scrape, shown non-graphically, next to an open first-aid kit.",
   "frequency": 3.95
  },
  {
@@ -26194,7 +26194,7 @@
   "region": "",
   "gloss_en": "the full-time work",
   "category": "work_business",
-  "image_brief": "A clock face completely filled in with solid color showing all working hours covered.",
+  "image_brief": "An office worker at a desk under an arc running from a rising sun to a setting sun, where the whole arc is filled in teal.",
   "frequency": 3.91
  },
  {
@@ -26880,7 +26880,7 @@
   "region": "",
   "gloss_en": "the federal president (male)",
   "category": "jobs",
-  "image_brief": "A distinguished man in a suit standing formally beside a national flagpole.",
+  "image_brief": "A dignified man in a suit speaking at a lectern, standing beside a German black, red and gold flag.",
   "frequency": 3.84
  },
  {
@@ -29413,7 +29413,7 @@
   "region": "",
   "gloss_en": "the value added tax, the VAT",
   "category": "money_shopping",
-  "image_brief": "A paper shopping receipt with a percent sign highlighted at the bottom total.",
+  "image_brief": "A shopping receipt with a price tag beside a large percent symbol being added with a plus sign.",
   "frequency": 3.51
  },
  {
@@ -29888,7 +29888,7 @@
   "region": "",
   "gloss_en": "the professor",
   "category": "jobs",
-  "image_brief": "A woman with glasses wearing a smart blazer standing beside a green university chalkboard.",
+  "image_brief": "A woman professor with glasses holding books beside a blackboard covered in a white chalk atom diagram and geometric shapes.",
   "frequency": 3.44
  },
  {
@@ -29960,7 +29960,7 @@
   "region": "",
   "gloss_en": "the right of way (traffic)",
   "category": "transport",
-  "image_brief": "A yellow diamond priority road traffic sign with a white border.",
+  "image_brief": "A yellow diamond priority road sign with a white border, mounted on a metal pole at a crossroads.",
   "frequency": 3.44
  },
  {
@@ -30410,7 +30410,7 @@
   "region": "",
   "gloss_en": "the business card",
   "category": "work_business",
-  "image_brief": "A neat rectangular business card showing mock silhouette contact icons.",
+  "image_brief": "A hand holding out a small business card that shows a small person icon and grey lines.",
   "frequency": 3.38
  },
  {
@@ -31192,7 +31192,7 @@
   "region": "",
   "gloss_en": "the registered mail",
   "category": "communication",
-  "image_brief": "A formal paper envelope bearing a prominent red registered mail sticker and barcode.",
+  "image_brief": "A sealed envelope with a red wax seal, a handwritten signature squiggle on a slip and a pen beside it.",
   "frequency": 3.23
  },
  {
@@ -31592,7 +31592,7 @@
   "region": "",
   "gloss_en": "the margarine",
   "category": "food_drink",
-  "image_brief": "A rectangular plastic tub of pale yellow margarine with its lid propped open.",
+  "image_brief": "An open tub of yellow margarine with swirls in it, a butter knife resting on the rim, and the lid decorated with a sunflower.",
   "frequency": 3.11
  },
  {
@@ -32773,7 +32773,7 @@
   "region": "",
   "gloss_en": "the emergency exit",
   "category": "city_places",
-  "image_brief": "A glowing green exit sign depicting a running stick figure passing through an open doorway.",
+  "image_brief": "An open door with a person running through it, with a green arrow above the door.",
   "frequency": 2.62
  },
  {
@@ -33621,7 +33621,7 @@
   "region": "A",
   "gloss_en": "the number one",
   "category": "measures_quantities",
-  "image_brief": "A bus carrying a prominent route destination board with the number one.",
+  "image_brief": "A large navy numeral 1 standing on a small pedestal.",
   "frequency": 6.42
  },
  {

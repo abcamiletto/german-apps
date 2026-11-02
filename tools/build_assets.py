@@ -23,7 +23,7 @@ def convert_image(source: Path, target: Path):
         return
     image = Image.open(source).convert("RGBA")
     # The generator leaves faint specks in the transparent area. Clear them before finding the subject.
-    image.putalpha(image.getchannel("A").point(lambda value: 0 if value < 24 else value))
+    image.putalpha(image.getchannel("A").point(lambda value: 0 if value < 40 else value))
     box = image.getchannel("A").getbbox()
     subject = image.crop(box) if box else image
     room = SIZE - 2 * MARGIN

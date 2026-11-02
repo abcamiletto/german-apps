@@ -1,5 +1,6 @@
 package com.abcamiletto.wortschatz.ui.library
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
@@ -47,6 +49,7 @@ import com.abcamiletto.wortschatz.data.Dictionary
 import com.abcamiletto.wortschatz.domain.Word
 import com.abcamiletto.wortschatz.ui.theme.Ink
 import com.abcamiletto.wortschatz.ui.theme.Slate
+import com.abcamiletto.wortschatz.ui.theme.Stage
 import com.abcamiletto.wortschatz.ui.theme.color
 import java.text.Normalizer
 
@@ -110,7 +113,11 @@ private fun WordRow(word: Word, onPlay: () -> Unit) {
         Modifier.fillMaxWidth().clickable(onClick = onPlay).padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AsyncImage(model = Dictionary.imageUri(word.id), contentDescription = null, modifier = Modifier.size(52.dp))
+        AsyncImage(
+            model = Dictionary.imageUri(word.id),
+            contentDescription = null,
+            modifier = Modifier.size(56.dp).clip(RoundedCornerShape(12.dp)).background(Stage).padding(5.dp),
+        )
         Column(Modifier.weight(1f).padding(horizontal = 14.dp)) {
             Text(
                 buildAnnotatedString {

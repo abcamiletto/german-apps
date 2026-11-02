@@ -58,42 +58,42 @@ private fun Home(state: HomeState, onStart: (SessionMode) -> Unit, onBrowse: () 
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 16.dp),
         ) {
-        Text("Wortschatz", style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(top = 20.dp))
-        Text(
-            state.headline,
-            style = MaterialTheme.typography.bodyLarge,
-            color = Slate,
-            modifier = Modifier.padding(top = 4.dp, bottom = 28.dp),
-        )
-
-        state.reviewMode?.let { reviewMode ->
-            ActionBlock(
-                title = "Review",
-                detail = state.reviewDetail,
-                background = Ink,
-                foreground = Color.White,
-                modifier = Modifier.testTag("review"),
-                onClick = { onStart(reviewMode) },
+            Text("Wortschatz", style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(top = 20.dp))
+            Text(
+                state.headline,
+                style = MaterialTheme.typography.bodyLarge,
+                color = Slate,
+                modifier = Modifier.padding(top = 4.dp, bottom = 28.dp),
             )
-            Spacer(Modifier.height(12.dp))
-        }
-        if (state.newWords > 0) {
-            val primary = state.reviewMode == null
-            ActionBlock(
-                title = "Learn new words",
-                detail = state.learnDetail,
-                background = if (primary) Ink else Color.White,
-                foreground = if (primary) Color.White else Ink,
-                bordered = !primary,
-                modifier = Modifier.testTag("learn"),
-                onClick = { onStart(SessionMode.Learn) },
-            )
-        }
 
-        Column(Modifier.padding(top = 36.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            state.levels.forEach { LevelRow(it) }
-        }
-        ArticleLegend(Modifier.padding(top = 18.dp))
+            state.reviewMode?.let { reviewMode ->
+                ActionBlock(
+                    title = "Review",
+                    detail = state.reviewDetail,
+                    background = Ink,
+                    foreground = Color.White,
+                    modifier = Modifier.testTag("review"),
+                    onClick = { onStart(reviewMode) },
+                )
+                Spacer(Modifier.height(12.dp))
+            }
+            if (state.newWords > 0) {
+                val primary = state.reviewMode == null
+                ActionBlock(
+                    title = "Learn new words",
+                    detail = state.learnDetail,
+                    background = if (primary) Ink else Color.White,
+                    foreground = if (primary) Color.White else Ink,
+                    bordered = !primary,
+                    modifier = Modifier.testTag("learn"),
+                    onClick = { onStart(SessionMode.Learn) },
+                )
+            }
+
+            Column(Modifier.padding(top = 36.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+                state.levels.forEach { LevelRow(it) }
+            }
+            ArticleLegend(Modifier.padding(top = 18.dp))
         }
         TextButton(
             onClick = onBrowse,

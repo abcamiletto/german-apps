@@ -39,10 +39,14 @@ def generate(model: str, body: dict) -> dict:
 
 
 def structured(prompt: str, schema: dict, model: str = "gemini-3.8-flash") -> dict:
+    return structured_parts([{"text": prompt}], schema, model)
+
+
+def structured_parts(parts: list[dict], schema: dict, model: str = "gemini-3.8-flash") -> dict:
     data = generate(
         model,
         {
-            "contents": [{"parts": [{"text": prompt}]}],
+            "contents": [{"parts": parts}],
             "generationConfig": {
                 "responseMimeType": "application/json",
                 "responseJsonSchema": schema,

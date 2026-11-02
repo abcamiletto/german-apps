@@ -4,14 +4,16 @@ The API key's daily quota counts requests, so each request reads a batch of word
 pauses for about a second after each line, and the audio is cut at those pauses. check_audio.py then transcribes
 every clip on its own, which catches a bad cut. Re-running only fills in missing clips.
 
-  uv run make_audio.py [--only id,id] [--voice Kore] [--out DIR]
+  uv run make_audio.py [--only id,id] [--voice Kore] [--model NAME] [--out DIR]
 """
 import argparse
 import base64
+import io
 import json
 import re
 import subprocess
 import tempfile
+import wave
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -60,7 +62,20 @@ def encode(source: str, start: float, end: float, target: Path):
     )
 
 
-def synthesize(words: list[dict], voice: str, out: Path) -> int:
+def as_wav(audio: bytes, mime_type: str) -> bytes:
+    """Older TTS models return bare 24 kHz PCM instead of a WAV file."""
+    if "wav" in mime_type:
+        return audio
+    buffer = io.BytesIO()
+    with wave.open(buffer, "wb") as output:
+        output.setnchannels(1)
+        output.setsampwidth(2)
+        output.setframerate(24000)
+        output.writeframes(audio)
+    return buffer.getvalue()
+
+
+def synthesize(words: list[dict], voice: str, out: Path, model: str = MODEL) -> int:
     text = "\n".join(f"{w['article']} {w['noun']}." for w in words)
     body = {
         "contents": [{"parts": [{"text": text}]}],
@@ -70,8 +85,9 @@ def synthesize(words: list[dict], voice: str, out: Path) -> int:
         },
     }
     for _ in range(3):
-        data = generate(MODEL, body)
-        audio = base64.b64decode(data["candidates"][0]["content"]["parts"][0]["inlineData"]["data"])
+        data = generate(model, body)
+        inline = data["candidates"][0]["content"]["parts"][0]["inlineData"]
+        audio = as_wav(base64.b64decode(inline["data"]), inline["mimeType"])
         with tempfile.NamedTemporaryFile(suffix=".wav") as raw:
             raw.write(audio)
             raw.flush()
@@ -85,13 +101,14 @@ def synthesize(words: list[dict], voice: str, out: Path) -> int:
     if len(words) == 1:
         return 0
     middle = len(words) // 2
-    return synthesize(words[:middle], voice, out) + synthesize(words[middle:], voice, out)
+    return synthesize(words[:middle], voice, out, model) + synthesize(words[middle:], voice, out, model)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--only", default="")
     parser.add_argument("--voice", default="Kore")
+    parser.add_argument("--model", default=MODEL, help="Each model has its own daily quota.")
     parser.add_argument("--out", default=str(ROOT / ".cache/audio"))
     args = parser.parse_args()
     out = Path(args.out)
@@ -104,7 +121,7 @@ def main():
     batches = [words[i : i + BATCH] for i in range(0, len(words), BATCH)]
     print(len(words), "clips to make in", len(batches), "requests", flush=True)
     with ThreadPoolExecutor(3) as pool:
-        made = sum(pool.map(lambda batch: synthesize(batch, args.voice, out), batches))
+        made = sum(pool.map(lambda batch: synthesize(batch, args.voice, out, args.model), batches))
     print(made, "new clips in", out)
 
 

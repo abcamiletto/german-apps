@@ -80,6 +80,7 @@ import com.abcamiletto.wortschatz.domain.Word
 import com.abcamiletto.wortschatz.ui.theme.Hairline
 import com.abcamiletto.wortschatz.ui.theme.Ink
 import com.abcamiletto.wortschatz.ui.theme.Slate
+import com.abcamiletto.wortschatz.ui.theme.Stage
 import com.abcamiletto.wortschatz.ui.theme.Track
 import com.abcamiletto.wortschatz.ui.theme.color
 
@@ -155,11 +156,20 @@ private fun TopBar(state: SessionState, onExit: () -> Unit) {
 
 @Composable
 private fun Illustration(word: Word, modifier: Modifier = Modifier) {
-    AsyncImage(
-        model = Dictionary.imageUri(word.id),
-        contentDescription = "Picture of the word",
-        modifier = modifier.padding(horizontal = 32.dp, vertical = 12.dp).testTag("illustration"),
-    )
+    // The tinted card keeps white subjects such as a plate or a snowflake visible.
+    Box(
+        modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(28.dp))
+            .background(Stage),
+        contentAlignment = Alignment.Center,
+    ) {
+        AsyncImage(
+            model = Dictionary.imageUri(word.id),
+            contentDescription = "Picture of the word",
+            modifier = Modifier.fillMaxSize().padding(20.dp).testTag("illustration"),
+        )
+    }
 }
 
 /** Keeps the picture in place while the coloured answer sheet rises over the lower half of the screen. */
