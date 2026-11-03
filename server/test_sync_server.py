@@ -1,3 +1,5 @@
+import gzip
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -116,6 +118,17 @@ def test_a_signed_in_browser_gets_the_site(browser):
     assert browser.get("/images/die_zeit.webp").content == b"picture"
     assert browser.get("/app.wasm").headers["content-type"] == "application/wasm"
     assert browser.get("/missing").status_code == 404
+
+
+def test_a_compressed_copy_is_sent_when_the_browser_accepts_it(browser, tmp_path):
+    (tmp_path / "site" / "app.wasm.gz").write_bytes(gzip.compress(b"code"))
+    response = browser.get("/app.wasm", headers={"Accept-Encoding": "gzip"})
+    assert response.headers["content-encoding"] == "gzip"
+    assert response.headers["content-type"] == "application/wasm"
+    assert response.content == b"code"
+    plain = browser.get("/app.wasm", headers={"Accept-Encoding": "identity"})
+    assert "content-encoding" not in plain.headers
+    assert plain.content == b"code"
 
 
 def test_nothing_private_can_be_cached_by_cloudflare(browser, visitor):

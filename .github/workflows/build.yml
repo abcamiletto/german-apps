@@ -88,6 +88,8 @@ jobs:
           tag="v1.0.${GITHUB_RUN_NUMBER}"
           cp app/build/outputs/apk/release/app-release.apk "wortschatz-${tag}.apk"
           # The Mac mini downloads this within five minutes. See server/deploy/deploy.sh.
-          tar -czf "wortschatz-website-${tag}.tar.gz" -C web/build/dist/wasmJs/productionExecutable .
+          site=web/build/dist/wasmJs/productionExecutable
+          find "$site" -maxdepth 1 -type f \( -name '*.wasm' -o -name '*.js' -o -name '*.json' \) -exec gzip -9k {} +
+          tar -czf "wortschatz-website-${tag}.tar.gz" -C "$site" .
           gh release create "$tag" "wortschatz-${tag}.apk" "wortschatz-website-${tag}.tar.gz" \
             --title "Wortschatz ${tag}" --generate-notes --latest
