@@ -9,15 +9,12 @@
 		<key>WORTSCHATZ_DB</key>
 		<string>/Users/abcamiletto/Library/Application Support/Wortschatz/sync.db</string>
 	</dict>
+	<key>GroupName</key>
+	<string>staff</string>
 	<key>KeepAlive</key>
 	<true/>
 	<key>Label</key>
 	<string>com.abcamiletto.wortschatz-sync</string>
-	<key>LimitLoadToSessionType</key>
-	<array>
-		<string>Aqua</string>
-		<string>Background</string>
-	</array>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/opt/homebrew/bin/uv</string>
@@ -39,6 +36,8 @@
 	<string>/Users/abcamiletto/Library/Logs/wortschatz-sync.log</string>
 	<key>ThrottleInterval</key>
 	<integer>5</integer>
+	<key>UserName</key>
+	<string>abcamiletto</string>
 	<key>WorkingDirectory</key>
 	<string>/Users/abcamiletto/german-apps/server</string>
 </dict>
