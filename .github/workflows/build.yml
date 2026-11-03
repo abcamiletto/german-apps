@@ -41,6 +41,10 @@ jobs:
       - name: Run shared tests on Android and in Chrome
         run: ./gradlew :shared:testAndroidHostTest :shared:wasmJsBrowserTest
 
+      # This has to stay ahead of the signing key: once it is set, Gradle also needs the passwords to configure :app.
+      - name: Build the website
+        run: ./gradlew :web:wasmJsBrowserDistribution
+
       - name: Decode signing key
         if: github.event_name != 'pull_request'
         env:
@@ -61,9 +65,6 @@ jobs:
           name: wortschatz-apk
           path: app/build/outputs/apk/release/*.apk
           if-no-files-found: error
-
-      - name: Build the website
-        run: ./gradlew :web:wasmJsBrowserDistribution
 
       - name: Check that every word has an image and a clip
         id: media
