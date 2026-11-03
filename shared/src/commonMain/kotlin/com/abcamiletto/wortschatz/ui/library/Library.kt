@@ -2,25 +2,29 @@ package com.abcamiletto.wortschatz.ui.library
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Search
@@ -46,6 +50,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -53,17 +58,26 @@ import com.abcamiletto.wortschatz.AppContainer
 import com.abcamiletto.wortschatz.data.Progress
 import com.abcamiletto.wortschatz.domain.Word
 import com.abcamiletto.wortschatz.domain.WordKind
+import com.abcamiletto.wortschatz.ui.Corner
+import com.abcamiletto.wortschatz.ui.Gap
+import com.abcamiletto.wortschatz.ui.LocalWide
+import com.abcamiletto.wortschatz.ui.PHONE_COLUMN
 import com.abcamiletto.wortschatz.ui.fold
+import com.abcamiletto.wortschatz.ui.hand
 import com.abcamiletto.wortschatz.ui.theme.Ink
 import com.abcamiletto.wortschatz.ui.theme.Slate
-import com.abcamiletto.wortschatz.ui.theme.Track
 import com.abcamiletto.wortschatz.ui.theme.Stage
+import com.abcamiletto.wortschatz.ui.theme.Track
 import com.abcamiletto.wortschatz.ui.theme.color
+import com.abcamiletto.wortschatz.ui.withThousands
 
 private val LEVELS = listOf("A1", "A2", "B1")
 private val KINDS = listOf(WordKind.Noun to "Nouns", WordKind.Verb to "Verbs", WordKind.Adjective to "Adjectives")
 private val STRENGTH_DAYS = listOf(0.0, 7.0, 30.0)
+private val WIDE_CONTENT = 1120.dp
+private val CELL_WIDTH = 300.dp
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
     val words by produceState(emptyList<Word>()) { value = container.dictionary.words() }
@@ -82,41 +96,70 @@ fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
             .sortedBy { fold(it.lemma) }
     }
     LaunchedEffect(Unit) { /* Keep playback from a previous screen from running on. */ container.player.stop() }
+    val wide = LocalWide.current
+    val margin = if (wide) Gap.pageWide else Gap.large
 
-    Column(Modifier.fillMaxSize().statusBarsPadding()) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack, modifier = Modifier.testTag("back")) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = Ink)
+    Box(Modifier.fillMaxSize().statusBarsPadding(), contentAlignment = Alignment.TopCenter) {
+        Column(Modifier.widthIn(max = if (wide) WIDE_CONTENT else PHONE_COLUMN).fillMaxWidth()) {
+            Row(
+                Modifier.fillMaxWidth().height(64.dp).padding(start = if (wide) margin else Gap.tiny, end = margin),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (!wide) {
+                    IconButton(onClick = onBack, modifier = Modifier.hand().testTag("back")) {
+                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = Ink)
+                    }
+                }
+                Text(
+                    "All words",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.weight(1f).padding(start = if (wide) 0.dp else Gap.tiny),
+                )
+                Text(shown.size.withThousands(), style = MaterialTheme.typography.labelMedium, color = Slate)
             }
-            Text("All words", style = MaterialTheme.typography.headlineSmall)
-        }
-        OutlinedTextField(
-            value = query,
-            onValueChange = { query = it },
-            placeholder = { Text("German or English") },
-            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null, tint = Slate) },
-            singleLine = true,
-            shape = RoundedCornerShape(14.dp),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).testTag("search"),
-        )
-        Row(
-            Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Filter("Learned", learnedOnly, "learned") { learnedOnly = !learnedOnly }
-            LEVELS.forEach { name ->
-                Filter(name, level == name, "level$name") { level = if (level == name) null else name }
+            val search: @Composable (Modifier) -> Unit = { modifier ->
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    placeholder = { Text("German or English") },
+                    leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = "Search", tint = Slate) },
+                    singleLine = true,
+                    shape = Corner.medium,
+                    modifier = modifier.testTag("search"),
+                )
             }
-            KINDS.forEach { (option, name) ->
-                Filter(name, kind == option, "kind$name") { kind = if (kind == option) null else option }
+            val filters: @Composable () -> Unit = {
+                Filter("Learned", learnedOnly, "learned") { learnedOnly = !learnedOnly }
+                LEVELS.forEach { name -> Filter(name, level == name, "level$name") { level = if (level == name) null else name } }
+                KINDS.forEach { (option, name) -> Filter(name, kind == option, "kind$name") { kind = if (kind == option) null else option } }
             }
-        }
-        LazyColumn(
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-            modifier = Modifier.fillMaxSize().padding(top = 8.dp).testTag("words"),
-        ) {
-            items(shown, key = { it.id }) { word ->
-                WordRow(word, progress[word.id], container.dictionary.imageUri(word.id)) { container.player.play(word.id) }
+            if (wide) {
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = margin),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Gap.large),
+                ) {
+                    search(Modifier.width(280.dp))
+                    FlowRow(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(Gap.small)) { filters() }
+                }
+            } else {
+                search(Modifier.fillMaxWidth().padding(horizontal = margin))
+                // One line that scrolls: on a phone the list deserves the height that wrapped filters would take.
+                Row(
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = margin),
+                    horizontalArrangement = Arrangement.spacedBy(Gap.small),
+                ) { filters() }
+            }
+            val bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + Gap.large
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(CELL_WIDTH),
+                contentPadding = PaddingValues(start = margin - Gap.small, end = margin - Gap.small, top = Gap.small, bottom = bottom),
+                horizontalArrangement = Arrangement.spacedBy(Gap.tiny),
+                modifier = Modifier.fillMaxSize().testTag("words"),
+            ) {
+                items(shown, key = { it.id }) { word ->
+                    WordRow(word, progress[word.id], container.dictionary.imageUri(word.id)) { container.player.play(word.id) }
+                }
             }
         }
     }
@@ -127,24 +170,34 @@ private fun Filter(label: String, selected: Boolean, tag: String, onClick: () ->
     FilterChip(
         selected = selected,
         onClick = onClick,
-        label = { Text(label) },
-        colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Ink, selectedLabelColor = Color.White),
-        modifier = Modifier.testTag(tag),
+        label = { Text(label, style = MaterialTheme.typography.labelMedium) },
+        colors = FilterChipDefaults.filterChipColors(
+            containerColor = Color.Transparent,
+            labelColor = Ink,
+            selectedContainerColor = Ink,
+            selectedLabelColor = Color.White,
+        ),
+        modifier = Modifier.hand().testTag(tag),
     )
 }
 
 @Composable
 private fun WordRow(word: Word, progress: Progress?, imageUri: String, onPlay: () -> Unit) {
     Row(
-        Modifier.fillMaxWidth().clickable(onClick = onPlay).padding(horizontal = 16.dp, vertical = 8.dp),
+        Modifier
+            .fillMaxWidth()
+            .clip(Corner.medium)
+            .hand()
+            .clickable(onClick = onPlay)
+            .padding(Gap.small),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AsyncImage(
             model = imageUri,
             contentDescription = null,
-            modifier = Modifier.size(56.dp).clip(RoundedCornerShape(12.dp)).background(Stage).padding(5.dp),
+            modifier = Modifier.size(56.dp).clip(Corner.small).background(Stage).padding(6.dp),
         )
-        Column(Modifier.weight(1f).padding(horizontal = 14.dp)) {
+        Column(Modifier.weight(1f).padding(horizontal = Gap.medium)) {
             Text(
                 buildAnnotatedString {
                     val tone = SpanStyle(color = word.tone.color)
@@ -156,8 +209,10 @@ private fun WordRow(word: Word, progress: Progress?, imageUri: String, onPlay: (
                     }
                 },
                 style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
-            Text(word.gloss, style = MaterialTheme.typography.bodyMedium, color = Slate, maxLines = 1)
+            Text(word.gloss, style = MaterialTheme.typography.bodyMedium, color = Slate, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         if (progress != null) Strength(progress.stability)
     }
@@ -167,7 +222,7 @@ private fun WordRow(word: Word, progress: Progress?, imageUri: String, onPlay: (
 @Composable
 private fun Strength(stabilityDays: Double) {
     Row(
-        Modifier.height(16.dp),
+        Modifier.padding(end = Gap.tiny).height(16.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.Bottom,
     ) {
@@ -176,7 +231,7 @@ private fun Strength(stabilityDays: Double) {
                 Modifier
                     .width(4.dp)
                     .height(6.dp + 5.dp * index)
-                    .clip(RoundedCornerShape(2.dp))
+                    .clip(Corner.small)
                     .background(if (stabilityDays >= days) Ink else Track),
             )
         }

@@ -1,21 +1,23 @@
 package com.abcamiletto.wortschatz.ui
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.abcamiletto.wortschatz.AppContainer
@@ -27,20 +29,10 @@ import com.abcamiletto.wortschatz.ui.sync.SignInRoute
 import com.abcamiletto.wortschatz.ui.theme.WortschatzTheme
 import kotlinx.serialization.Serializable
 
-private val READING_WIDTH = 560.dp
-
 @Serializable private data object HomeDestination
 // The mode travels by name: enum route arguments need JVM reflection, which the website does not have.
 @Serializable private data class SessionDestination(val mode: String)
 @Serializable private data object LibraryDestination
-
-/** A phone fills the column. A desktop browser shows it centred instead of stretching the layout. */
-@Composable
-private fun ReadingColumn(content: @Composable () -> Unit) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Box(Modifier.widthIn(max = READING_WIDTH)) { content() }
-    }
-}
 
 @Composable
 fun WortschatzRoot(container: AppContainer, onNavigationReady: suspend (NavController) -> Unit = {}) {
@@ -55,29 +47,51 @@ fun WortschatzRoot(container: AppContainer, onNavigationReady: suspend (NavContr
                 SignInRoute(sync)
                 return@Surface
             }
-            val navController = rememberNavController()
-            NavHost(navController, startDestination = HomeDestination, modifier = Modifier.fillMaxSize()) {
-                composable<HomeDestination> {
-                    HomeRoute(
-                        container = container,
-                        onStart = { navController.navigate(SessionDestination(it.name)) },
-                        onBrowse = { navController.navigate(LibraryDestination) },
-                    )
-                }
-                composable<SessionDestination> { entry ->
-                    ReadingColumn {
-                        SessionRoute(
-                            container = container,
-                            mode = SessionMode.valueOf(entry.toRoute<SessionDestination>().mode),
-                            onExit = { navController.popBackStack() },
-                        )
+            BoxWithConstraints(Modifier.fillMaxSize()) {
+                val wide = maxWidth >= WIDE_FROM
+                CompositionLocalProvider(LocalWide provides wide) {
+                    val navController = rememberNavController()
+                    val destination = navController.currentBackStackEntryAsState().value?.destination
+                    val onHome = destination?.hasRoute<HomeDestination>() == true
+                    val onWords = destination?.hasRoute<LibraryDestination>() == true
+                    val status = sync?.status?.collectAsState()?.value
+                    fun goHome() {
+                        navController.popBackStack<HomeDestination>(inclusive = false)
                     }
-                }
-                composable<LibraryDestination> {
-                    ReadingColumn { LibraryRoute(container = container, onBack = { navController.popBackStack() }) }
+                    Row(Modifier.fillMaxSize()) {
+                        // A session is a focused task, so it takes the whole window.
+                        if (wide && (onHome || onWords)) {
+                            Sidebar(onHome, onWords, status, ::goHome) {
+                                navController.navigate(LibraryDestination) { launchSingleTop = true }
+                            }
+                        }
+                        NavHost(
+                            navController,
+                            startDestination = HomeDestination,
+                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                        ) {
+                            composable<HomeDestination> {
+                                HomeRoute(
+                                    container = container,
+                                    onStart = { navController.navigate(SessionDestination(it.name)) },
+                                    onBrowse = { navController.navigate(LibraryDestination) },
+                                )
+                            }
+                            composable<SessionDestination> { entry ->
+                                SessionRoute(
+                                    container = container,
+                                    mode = SessionMode.valueOf(entry.toRoute<SessionDestination>().mode),
+                                    onExit = { navController.popBackStack() },
+                                )
+                            }
+                            composable<LibraryDestination> {
+                                LibraryRoute(container = container, onBack = { navController.popBackStack() })
+                            }
+                        }
+                    }
+                    LaunchedEffect(navController) { onNavigationReady(navController) }
                 }
             }
-            LaunchedEffect(navController) { onNavigationReady(navController) }
         }
     }
 }

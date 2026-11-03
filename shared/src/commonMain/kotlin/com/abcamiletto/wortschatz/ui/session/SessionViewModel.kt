@@ -286,9 +286,6 @@ class SessionViewModel(
         }
     }
 
-    /** Someone typing answers can press Enter to move on, rather than reach for the mouse. */
-    val focusNextButton: Boolean get() = prefersTyping
-
     fun next() {
         player.stop()
         showQuestion()

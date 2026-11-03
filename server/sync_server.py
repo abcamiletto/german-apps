@@ -79,7 +79,7 @@ SIGN_IN_PAGE = """<!doctype html>
   form { width: min(100% - 40px, 340px); display: grid; gap: 12px; }
   img { width: 96px; height: 96px; justify-self: center; }
   h1 { font-size: 28px; letter-spacing: -0.5px; margin: 0 0 12px; text-align: center; }
-  input, button { font: inherit; height: 54px; border-radius: 14px; box-sizing: border-box; }
+  input, button { font: inherit; height: 52px; border-radius: 16px; box-sizing: border-box; }
   input { padding: 0 16px; border: 1px solid #DDE1EA; background: #fff; color: inherit; }
   input:focus-visible, button:focus-visible { outline: 2px solid #2F5BEA; outline-offset: 2px; }
   button { border: 0; background: #14213D; color: #fff; font-weight: 600; cursor: pointer; }
@@ -276,7 +276,13 @@ def create_app(database: str, password_file: str, site: str) -> FastAPI:
             raise HTTPException(404, "Not found")
         # Cloudflare caches images and scripts unless told otherwise, and it would serve them without signing in.
         lifetime = 604_800 if file.relative_to(root).parts[0] in LONG_LIVED or file.suffix == ".wasm" else 0
-        return FileResponse(file, headers={"Cache-Control": f"private, max-age={lifetime}", "X-Robots-Tag": "noindex"})
+        headers = {"Cache-Control": f"private, max-age={lifetime}", "X-Robots-Tag": "noindex", "Vary": "Accept-Encoding"}
+        # Sent compressed from here, because this machine's upload speed is what limits a first visit.
+        compressed = file.with_name(f"{file.name}.gz")
+        if compressed.is_file() and "gzip" in request.headers.get("accept-encoding", ""):
+            media_type = mimetypes.guess_type(file.name)[0] or "application/octet-stream"
+            return FileResponse(compressed, media_type=media_type, headers={**headers, "Content-Encoding": "gzip"})
+        return FileResponse(file, headers=headers)
 
     return app
 
