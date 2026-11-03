@@ -9,7 +9,6 @@ every clip on its own, which catches a bad cut. Re-running only fills in missing
 import argparse
 import base64
 import io
-import json
 import re
 import subprocess
 import tempfile
@@ -18,6 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from llm import generate
+from vocabulary import load, spoken
 
 ROOT = Path(__file__).parent
 MODEL = "gemini-3.8-flash-lite-tts"
@@ -76,7 +76,7 @@ def as_wav(audio: bytes, mime_type: str) -> bytes:
 
 
 def synthesize(words: list[dict], voice: str, out: Path, model: str = MODEL) -> int:
-    text = "\n".join(f"{w['article']} {w['noun']}." for w in words)
+    text = "\n".join(f"{spoken(w)}." for w in words)
     body = {
         "contents": [{"parts": [{"text": text}]}],
         "generationConfig": {
@@ -113,7 +113,7 @@ def main():
     args = parser.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    words = json.loads((ROOT.parent / "data/nouns.json").read_text())
+    words = load()
     if args.only:
         wanted = set(args.only.split(","))
         words = [w for w in words if w["id"] in wanted]

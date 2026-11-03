@@ -1,4 +1,4 @@
-"""Package data/nouns.json and the generated media into app/src/main/assets.
+"""Package the word list and the generated media into /content, which the app and the website share.
 
 Images become 512 px transparent WebP squares, trimmed to the subject with an even margin.
 Audio clips are copied as they are.
@@ -12,8 +12,10 @@ from pathlib import Path
 
 from PIL import Image
 
+from vocabulary import load
+
 ROOT = Path(__file__).parent
-ASSETS = ROOT.parent / "app/src/main/assets"
+ASSETS = ROOT.parent / "content"
 SIZE = 512
 MARGIN = 20
 
@@ -34,12 +36,34 @@ def convert_image(source: Path, target: Path):
     canvas.save(target, "WEBP", quality=82, alpha_quality=90, method=6)
 
 
+def entry(word: dict) -> dict:
+    shared = {
+        "id": word["id"],
+        "alternatives": word["alternatives"],
+        "level": word["level"],
+        "region": word["region"],
+        "gloss": word["gloss_en"],
+        "category": word["category"],
+    }
+    if "noun" in word:
+        return {
+            **shared,
+            "kind": "noun",
+            "article": word["article"],
+            "lemma": word["noun"],
+            "plural": word["plural"],
+            "pluralOnly": word["plural_only"],
+            "accepted": word["accepted_articles"],
+        }
+    return {**shared, "kind": word["kind"], "lemma": word["lemma"], "forms": word["forms"]}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--allow-missing", action="store_true", help="Package words without media, for development.")
     args = parser.parse_args()
 
-    words = json.loads((ROOT.parent / "data/nouns.json").read_text())
+    words = load()
     (ASSETS / "images").mkdir(parents=True, exist_ok=True)
     (ASSETS / "audio").mkdir(parents=True, exist_ok=True)
     images = ROOT / ".cache/images"
@@ -62,22 +86,7 @@ def main():
     with ThreadPoolExecutor(8) as pool:
         list(pool.map(package, words))
 
-    payload = [
-        {
-            "id": w["id"],
-            "article": w["article"],
-            "noun": w["noun"],
-            "plural": w["plural"],
-            "pluralOnly": w["plural_only"],
-            "accepted": w["accepted_articles"],
-            "alternatives": w["alternatives"],
-            "level": w["level"],
-            "region": w["region"],
-            "gloss": w["gloss_en"],
-            "category": w["category"],
-        }
-        for w in words
-    ]
+    payload = [entry(w) for w in words]
     (ASSETS / "words.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
     size = sum(p.stat().st_size for p in ASSETS.rglob("*") if p.is_file())
     print(f"assets: {size / 1e6:.1f} MB")

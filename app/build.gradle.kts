@@ -45,6 +45,11 @@ android {
         compose = true
     }
 
+    sourceSets {
+        // The word list, images and audio live in /content, which the website serves too.
+        getByName("main").assets.directories.add(rootDir.resolve("content").path)
+    }
+
     androidResources {
         // MediaPlayer opens audio through a file descriptor, which requires uncompressed assets.
         noCompress += listOf("ogg", "webp")
@@ -61,24 +66,12 @@ ksp {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
+    implementation(project(":shared"))
     implementation(libs.activity.compose)
-    implementation(libs.coil.compose)
-    implementation(libs.compose.icons)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.compose)
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.navigation.compose)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-    implementation(libs.serialization.json)
     ksp(libs.room.compiler)
-
-    testImplementation(libs.coroutines.test)
-    testImplementation(libs.junit)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.ui.test)
@@ -86,5 +79,6 @@ dependencies {
     androidTestImplementation(libs.test.core)
     androidTestImplementation(libs.test.rules)
     androidTestImplementation(libs.test.runner)
+    debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.ui.test.manifest)
 }
