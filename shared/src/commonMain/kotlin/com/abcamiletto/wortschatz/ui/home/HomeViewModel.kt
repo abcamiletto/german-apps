@@ -9,48 +9,36 @@ import com.abcamiletto.wortschatz.AppContainer
 import com.abcamiletto.wortschatz.data.Dictionary
 import com.abcamiletto.wortschatz.data.Progress
 import com.abcamiletto.wortschatz.data.ProgressStore
+import com.abcamiletto.wortschatz.domain.ReviewPlan
+import com.abcamiletto.wortschatz.domain.ReviewSet
 import com.abcamiletto.wortschatz.domain.Tone
 import com.abcamiletto.wortschatz.domain.Word
+import com.abcamiletto.wortschatz.domain.nextToLearn
 import com.abcamiletto.wortschatz.ui.session.LEARN_BATCH
-import com.abcamiletto.wortschatz.ui.withThousands
-import com.abcamiletto.wortschatz.ui.session.SessionMode
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlin.time.Clock
 
+private const val PREVIEW = 3
+
 data class LevelProgress(val name: String, val known: Int, val total: Int, val byTone: Map<Tone, Int>)
 
+/** A suggested group of words to repeat, with a few of them to picture. */
+data class RepeatOption(val set: ReviewSet, val count: Int, val preview: List<String>)
+
 data class HomeState(
-    val totalWords: Int = 0,
+    val loaded: Boolean = false,
+    val due: RepeatOption = RepeatOption(ReviewSet.Due, 0, emptyList()),
+    val suggestions: List<RepeatOption> = emptyList(),
     val newWords: Int = 0,
-    val dueWords: Int = 0,
-    val knownWords: Int = 0,
-    val nextLevel: String = "",
+    val newBatch: Int = LEARN_BATCH,
+    val newPreview: List<String> = emptyList(),
+    val forecast: List<Int> = emptyList(),
     val levels: List<LevelProgress> = emptyList(),
-) {
-    val reviewMode: SessionMode?
-        get() = when {
-            dueWords > 0 -> SessionMode.ReviewDue
-            knownWords > 0 -> SessionMode.ReviewKnown
-            else -> null
-        }
-    val headline: String
-        get() = when {
-            totalWords == 0 -> " "
-            knownWords == 0 -> "Learn German nouns, verbs and adjectives, up to B1."
-            else -> "${knownWords.withThousands()} of ${totalWords.withThousands()} words so far."
-        }
-    val reviewDetail: String
-        get() = if (dueWords > 0) {
-            if (dueWords == 1) "1 word is due" else "$dueWords words are due"
-        } else {
-            "Nothing is due. Practise the words you find hardest."
-        }
-    val learnDetail: String get() = "The next $LEARN_BATCH words from $nextLevel"
-}
+)
 
 class HomeViewModel(dictionary: Dictionary, progress: ProgressStore, now: () -> Long) : ViewModel() {
     val state: StateFlow<HomeState> = combine(flow { emit(dictionary.words()) }, progress.observeAll()) { words, rows ->
@@ -66,18 +54,29 @@ class HomeViewModel(dictionary: Dictionary, progress: ProgressStore, now: () -> 
     }
 }
 
-private fun summarize(words: List<Word>, rows: List<Progress>, now: Long): HomeState {
+private fun summarize(words: List<Word>, stored: List<Progress>, now: Long): HomeState {
+    // Another device may be on a word list with words this one no longer has.
+    val ids = words.mapTo(HashSet()) { it.id }
+    val rows = stored.filter { it.wordId in ids }
     val known = rows.mapTo(HashSet()) { it.wordId }
     val levels = words.groupBy { it.level }.entries.sortedBy { it.key }.map { (name, group) ->
         val learned = group.filter { it.id in known }
         LevelProgress(name, learned.size, group.size, learned.groupingBy { it.tone }.eachCount())
     }
+    fun option(set: ReviewSet) = RepeatOption(
+        set,
+        ReviewPlan.members(set, rows, now).size,
+        ReviewPlan.session(set, rows, words, now).take(PREVIEW).map { it.id },
+    )
+    val batch = nextToLearn(words, known, LEARN_BATCH)
     return HomeState(
-        totalWords = words.size,
+        loaded = true,
+        due = option(ReviewSet.Due),
+        suggestions = listOf(ReviewSet.Tricky, ReviewSet.Soon, ReviewSet.Recent).map(::option).filter { it.count > 0 },
         newWords = words.size - known.size,
-        dueWords = rows.count { it.dueAt <= now },
-        knownWords = known.size,
-        nextLevel = words.firstOrNull { it.id !in known }?.level.orEmpty(),
+        newBatch = batch.size,
+        newPreview = batch.take(PREVIEW).map { it.id },
+        forecast = ReviewPlan.forecast(rows, now),
         levels = levels,
     )
 }

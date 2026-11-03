@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.abcamiletto.wortschatz.audio.PronunciationPlayer
 import com.abcamiletto.wortschatz.data.Dictionary
 import com.abcamiletto.wortschatz.data.ProgressStore
+import com.abcamiletto.wortschatz.data.ProgressSync
 import com.abcamiletto.wortschatz.speech.SpeechEngine
 
 /** Asks for the microphone in whatever way the platform requires. */
@@ -17,6 +18,8 @@ interface MicrophoneAccess {
 class AppContainer(
     val dictionary: Dictionary,
     val progress: ProgressStore,
+    /** Off in instrumentation tests, which must not reach the real server. */
+    var sync: ProgressSync?,
     val player: PronunciationPlayer,
     val microphone: MicrophoneAccess,
     /** Replaced in instrumentation tests, because an emulator has no reliable speech service. */

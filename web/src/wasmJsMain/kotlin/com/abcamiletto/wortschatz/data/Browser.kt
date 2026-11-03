@@ -24,6 +24,14 @@ object HostedContent : WordContent {
     override fun imageUri(wordId: String): String = URL("images/$wordId.webp", document.baseURI).href
 }
 
+object BrowserSettings : Settings {
+    override fun get(key: String): String? = localStorage.getItem(key)
+
+    override fun set(key: String, value: String?) {
+        if (value == null) localStorage.removeItem(key) else localStorage.setItem(key, value)
+    }
+}
+
 /** Keeps the schedule in this browser's local storage. About 3,000 small rows fit well within its quota. */
 class BrowserProgressStore : ProgressStore {
     private val rows = MutableStateFlow(load())

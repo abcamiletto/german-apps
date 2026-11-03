@@ -54,6 +54,7 @@ class AppFlowTest {
 
     @Before
     fun setUp() = runBlocking {
+        container.sync = null
         container.progress.clear()
         container.speechFactory = { speech }
         focusOn(WordKind.Noun)
@@ -77,6 +78,12 @@ class AppFlowTest {
         scenario.close()
         focusOn(kind)
         speech.response = { firstWords.map { it.display } }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+    }
+
+    private fun restartWith(rows: List<Progress>) {
+        scenario.close()
+        runBlocking { container.progress.upsertAll(rows) }
         scenario = ActivityScenario.launch(MainActivity::class.java)
     }
 
@@ -110,10 +117,9 @@ class AppFlowTest {
             waitForText("Correct")
             tap("primary")
         }
-        waitForText("5 of 5 right the first time")
+        waitForText("5 of 5")
         tap("done")
-        waitForText("5 of ")
-        compose.onNodeWithTag("review").assertIsDisplayed()
+        compose.onNodeWithTag("forecast").assertIsDisplayed()
         assertEquals(5, known().size)
         assertEquals(setOf(1), known().map { it.reviews }.toSet())
     }
@@ -135,7 +141,7 @@ class AppFlowTest {
             waitForText("Correct")
             tap("primary")
         }
-        waitForText("4 of 5 right the first time")
+        waitForText("4 of 5")
         assertEquals(1, known().count { it.lapses == 1 })
     }
 
@@ -144,7 +150,7 @@ class AppFlowTest {
         skipIntros()
         speech.response = { firstWords.map { it.lemma } }
         tap("mic")
-        waitForText("say it with its article")
+        waitForText("Add the article")
         compose.onNodeWithTag("mic").assertIsDisplayed()
     }
 
@@ -159,7 +165,7 @@ class AppFlowTest {
     fun revealShowsTheAnswerAndTheWordReturns() {
         skipIntros()
         tap("reveal")
-        waitForText("Here's the answer")
+        waitForText("The answer")
         compose.onNodeWithTag("lemma").assertIsDisplayed()
         assertEquals(1, known().single().lapses)
     }
@@ -169,17 +175,17 @@ class AppFlowTest {
         skipIntros()
         speech.failure = SpeechFailure.Unavailable
         tap("mic")
-        waitForText("Type your answer")
+        waitForText("Type instead")
         compose.onNodeWithTag("answer").performTextInput("xyz")
         tap("check")
-        waitForText("different word")
+        waitForText("Not that word")
     }
 
     @Test
     fun alreadyKnownWordSkipsTheTest() {
         tap("learn")
         repeat(firstWords.size) { tap("secondary") }
-        waitForText("Nothing to practise")
+        waitForText("All set")
         assertEquals(5, known().size)
     }
 
@@ -190,7 +196,7 @@ class AppFlowTest {
             waitForText("Correct")
             tap("primary")
         }
-        waitForText("5 of 5 right the first time")
+        waitForText("5 of 5")
         assertEquals(5, known().size)
     }
 
@@ -214,6 +220,33 @@ class AppFlowTest {
         tap("suggest")
         repeat(5) { compose.onNodeWithTag("option$it").assertIsDisplayed() }
         compose.onAllNodes(hasText("der ", substring = true)).assertCountEquals(0)
+    }
+
+    @Test
+    fun aDueWordIsReviewedFromTheHomeScreen() {
+        val word = firstWords.first()
+        val now = System.currentTimeMillis()
+        restartWith(listOf(Progress(word.id, 3.0, 5.0, now - 1_000, now - 86_400_000, 2, 0)))
+        tap("review")
+        tap("mic")
+        waitForText("Correct")
+        assertEquals(3, runBlocking { container.progress.get(word.id)?.reviews })
+    }
+
+    @Test
+    fun aTrickyWordIsSuggested() {
+        val word = firstWords.first()
+        val now = System.currentTimeMillis()
+        restartWith(listOf(Progress(word.id, 3.0, 5.0, now + 86_400_000, now - 86_400_000, 4, 2)))
+        tap("repeatTricky")
+        compose.onNodeWithTag("mic").assertIsDisplayed()
+    }
+
+    @Test
+    fun finishingABatchOffersFiveMore() {
+        speakEveryWordOfALearnSession()
+        tap("continue")
+        compose.onNodeWithTag("sheet").assertIsDisplayed()
     }
 
     @Test

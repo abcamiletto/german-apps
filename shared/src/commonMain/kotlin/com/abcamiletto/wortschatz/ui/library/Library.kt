@@ -3,6 +3,9 @@ package com.abcamiletto.wortschatz.ui.library
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +23,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -31,6 +33,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -47,16 +50,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.abcamiletto.wortschatz.AppContainer
+import com.abcamiletto.wortschatz.data.Progress
 import com.abcamiletto.wortschatz.domain.Word
 import com.abcamiletto.wortschatz.domain.WordKind
 import com.abcamiletto.wortschatz.ui.fold
 import com.abcamiletto.wortschatz.ui.theme.Ink
 import com.abcamiletto.wortschatz.ui.theme.Slate
+import com.abcamiletto.wortschatz.ui.theme.Track
 import com.abcamiletto.wortschatz.ui.theme.Stage
 import com.abcamiletto.wortschatz.ui.theme.color
 
 private val LEVELS = listOf("A1", "A2", "B1")
 private val KINDS = listOf(WordKind.Noun to "Nouns", WordKind.Verb to "Verbs", WordKind.Adjective to "Adjectives")
+private val STRENGTH_DAYS = listOf(0.0, 7.0, 30.0)
 
 @Composable
 fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
@@ -64,10 +70,14 @@ fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
     var query by remember { mutableStateOf("") }
     var level by remember { mutableStateOf<String?>(null) }
     var kind by remember { mutableStateOf<WordKind?>(null) }
+    var learnedOnly by remember { mutableStateOf(false) }
+    val rows by remember { container.progress.observeAll() }.collectAsState(emptyList())
+    val progress = remember(rows) { rows.associateBy { it.wordId } }
     val needle = remember(query) { fold(query.trim()) }
-    val shown = remember(words, needle, level, kind) {
+    val shown = remember(words, needle, level, kind, learnedOnly, progress) {
         words
             .filter { (level == null || it.level == level) && (kind == null || it.kind == kind) }
+            .filter { !learnedOnly || it.id in progress }
             .filter { needle.isEmpty() || listOf(it.lemma, it.forms, it.gloss).any { text -> fold(text).contains(needle) } }
             .sortedBy { fold(it.lemma) }
     }
@@ -83,7 +93,7 @@ fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
-            placeholder = { Text("Search German or English") },
+            placeholder = { Text("German or English") },
             leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null, tint = Slate) },
             singleLine = true,
             shape = RoundedCornerShape(14.dp),
@@ -93,6 +103,7 @@ fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
             Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            Filter("Learned", learnedOnly, "learned") { learnedOnly = !learnedOnly }
             LEVELS.forEach { name ->
                 Filter(name, level == name, "level$name") { level = if (level == name) null else name }
             }
@@ -104,7 +115,9 @@ fun LibraryRoute(container: AppContainer, onBack: () -> Unit) {
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
             modifier = Modifier.fillMaxSize().padding(top = 8.dp).testTag("words"),
         ) {
-            items(shown, key = { it.id }) { word -> WordRow(word, container.dictionary.imageUri(word.id)) { container.player.play(word.id) } }
+            items(shown, key = { it.id }) { word ->
+                WordRow(word, progress[word.id], container.dictionary.imageUri(word.id)) { container.player.play(word.id) }
+            }
         }
     }
 }
@@ -121,7 +134,7 @@ private fun Filter(label: String, selected: Boolean, tag: String, onClick: () ->
 }
 
 @Composable
-private fun WordRow(word: Word, imageUri: String, onPlay: () -> Unit) {
+private fun WordRow(word: Word, progress: Progress?, imageUri: String, onPlay: () -> Unit) {
     Row(
         Modifier.fillMaxWidth().clickable(onClick = onPlay).padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -146,7 +159,26 @@ private fun WordRow(word: Word, imageUri: String, onPlay: () -> Unit) {
             )
             Text(word.gloss, style = MaterialTheme.typography.bodyMedium, color = Slate, maxLines = 1)
         }
-        Text(word.level, style = MaterialTheme.typography.labelMedium, color = Slate, modifier = Modifier.padding(end = 8.dp))
-        Icon(Icons.AutoMirrored.Outlined.VolumeUp, contentDescription = "Listen", tint = Slate, modifier = Modifier.size(20.dp))
+        if (progress != null) Strength(progress.stability)
+    }
+}
+
+/** How well a learned word is held, drawn as three bars. */
+@Composable
+private fun Strength(stabilityDays: Double) {
+    Row(
+        Modifier.height(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        STRENGTH_DAYS.forEachIndexed { index, days ->
+            Box(
+                Modifier
+                    .width(4.dp)
+                    .height(6.dp + 5.dp * index)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(if (stabilityDays >= days) Ink else Track),
+            )
+        }
     }
 }

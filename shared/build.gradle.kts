@@ -31,6 +31,7 @@ kotlin {
             api(libs.compose.runtime)
             api(libs.compose.ui)
             api(libs.coroutines.core)
+            api(libs.ktor.client.core)
             api(libs.lifecycle.runtime.compose)
             api(libs.lifecycle.viewmodel.compose)
             api(libs.navigation.compose)
