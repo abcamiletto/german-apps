@@ -91,16 +91,15 @@ fun SessionRoute(container: AppContainer, mode: SessionMode, onExit: () -> Unit)
         TopBar(state, onExit)
         when (val phase = state.phase) {
             Phase.Loading -> Unit
-            Phase.Empty -> EmptySession(onExit)
-            is Phase.Finished -> FinishedSession(phase, onExit)
+            is Phase.Finished -> FinishedSession(phase, mode, model::continueSession, onExit)
             is Phase.Intro -> WordCard(phase.word, phase.word, model.imageUri(phase.word)) { word ->
                 WordSheet(
                     word = word,
                     message = "New word",
                     onPlay = { model.play(word) },
-                    primary = if (phase.position == phase.total) "Start the test" else "Next word",
+                    primary = if (phase.position == phase.total) "Test me" else "Next",
                     onPrimary = model::introNext,
-                    secondary = "I already know this",
+                    secondary = "I know it",
                     onSecondary = model::introKnown,
                 )
             }
@@ -112,6 +111,7 @@ fun SessionRoute(container: AppContainer, mode: SessionMode, onExit: () -> Unit)
                     onPlay = { model.play(word) },
                     primary = "Next",
                     onPrimary = model::next,
+                    focusPrimary = model.focusNextButton,
                 )
             }
         }
@@ -120,10 +120,10 @@ fun SessionRoute(container: AppContainer, mode: SessionMode, onExit: () -> Unit)
 
 private fun Outcome.message(): String = when (this) {
     Outcome.Correct -> "Correct"
-    Outcome.CorrectWithHelp -> "Correct, with a little help"
-    is Outcome.WrongArticle -> "You said ${said.text}. It comes back later."
-    is Outcome.WrongChoice -> "You picked ${choice.display}. It comes back later."
-    Outcome.Revealed -> "Here's the answer. It comes back later."
+    Outcome.CorrectWithHelp -> "Correct, with help"
+    is Outcome.WrongArticle -> "You said ${said.text}"
+    is Outcome.WrongChoice -> "You picked ${choice.display}"
+    Outcome.Revealed -> "The answer"
 }
 
 @Composable
@@ -194,7 +194,10 @@ private fun WordSheet(
     onPrimary: () -> Unit,
     secondary: String? = null,
     onSecondary: () -> Unit = {},
+    focusPrimary: Boolean = false,
 ) {
+    val focus = remember { FocusRequester() }
+    if (focusPrimary) LaunchedEffect(Unit) { focus.requestFocus() }
     Column(
         Modifier
             .fillMaxWidth()
@@ -224,10 +227,10 @@ private fun WordSheet(
         }
         val details = buildString {
             append(word.gloss)
-            word.plural?.let { append("\nPlural: die $it") }
+            word.plural?.let { append("\ndie $it") }
             if (word.forms.isNotEmpty()) append("\n${word.forms}")
-            if (word.pluralOnly) append("\nOnly used in the plural")
-            regionName(word.region)?.let { append("\nUsed in $it") }
+            if (word.pluralOnly) append("\nPlural only")
+            regionName(word.region)?.let { append("\n$it") }
         }
         Text(details, style = MaterialTheme.typography.bodyLarge, color = Color.White, modifier = Modifier.padding(top = 10.dp))
         Spacer(Modifier.height(18.dp))
@@ -242,7 +245,7 @@ private fun WordSheet(
             }
             Button(
                 onClick = onPrimary,
-                modifier = Modifier.weight(1f).height(54.dp).testTag("primary"),
+                modifier = Modifier.weight(1f).height(54.dp).focusRequester(focus).testTag("primary"),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = word.tone.color),
             ) { Text(primary, style = MaterialTheme.typography.labelLarge) }
         }
@@ -376,8 +379,8 @@ private fun TypedAnswer(kind: WordKind, onSubmit: (String) -> Unit, onSpeak: () 
                 Text(
                     when (kind) {
                         WordKind.Noun -> "der, die or das + noun"
-                        WordKind.Verb -> "The verb"
-                        WordKind.Adjective -> "The adjective"
+                        WordKind.Verb -> "Verb"
+                        WordKind.Adjective -> "Adjective"
                     },
                 )
             },
@@ -424,24 +427,30 @@ private fun OptionList(options: List<Choice>, onChoose: (Choice) -> Unit) {
 }
 
 @Composable
-private fun EmptySession(onExit: () -> Unit) {
-    CenteredMessage("Nothing to practise yet", "Learn some new words first, and they'll appear here.", onExit)
-}
-
-@Composable
-private fun FinishedSession(phase: Phase.Finished, onExit: () -> Unit) {
-    val title = if (phase.firstTry == phase.answered) "All right the first time" else "Session complete"
-    CenteredMessage(title, "${phase.firstTry} of ${phase.answered} right the first time, without help.", onExit)
-}
-
-@Composable
-private fun CenteredMessage(title: String, body: String, onDone: () -> Unit) {
+private fun FinishedSession(phase: Phase.Finished, mode: SessionMode, onContinue: () -> Unit, onDone: () -> Unit) {
     Column(
         Modifier.fillMaxSize().navigationBarsPadding().padding(24.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(title, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.testTag("finished"))
-        Text(body, style = MaterialTheme.typography.bodyLarge, color = Slate, modifier = Modifier.padding(top = 8.dp, bottom = 28.dp))
-        Button(onClick = onDone, modifier = Modifier.fillMaxWidth().height(54.dp).testTag("done")) { Text("Done") }
+        Text(
+            if (phase.answered == 0) "All set" else "${phase.firstTry} of ${phase.answered}",
+            style = MaterialTheme.typography.displayLarge,
+            modifier = Modifier.testTag("finished"),
+        )
+        if (phase.answered > 0) {
+            Text("right first time", style = MaterialTheme.typography.bodyLarge, color = Slate)
+        }
+        Spacer(Modifier.height(28.dp))
+        if (phase.canContinue) {
+            Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().height(54.dp).testTag("continue")) {
+                Text(if (mode == SessionMode.Learn) "$LEARN_BATCH more" else "Keep going")
+            }
+            Spacer(Modifier.height(8.dp))
+            TextButton(onClick = onDone, modifier = Modifier.fillMaxWidth().height(54.dp).testTag("done")) {
+                Text("Done", color = Ink)
+            }
+        } else {
+            Button(onClick = onDone, modifier = Modifier.fillMaxWidth().height(54.dp).testTag("done")) { Text("Done") }
+        }
     }
 }

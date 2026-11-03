@@ -23,6 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Run the sync server tests
+        working-directory: server
+        run: uv run pytest
+
       - uses: actions/setup-java@v6
         with:
           distribution: temurin

@@ -1,0 +1,18 @@
+[project]
+name = "wortschatz-sync"
+version = "0.1.0"
+description = "Keeps Wortschatz progress the same on every device."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28",
+    "pytest>=8.3",
+]
+
+[tool.uv]
+package = false
