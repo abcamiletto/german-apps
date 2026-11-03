@@ -6,8 +6,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 private class MemoryStore : ProgressStore {
@@ -28,18 +26,22 @@ private class MemorySettings : Settings {
     }
 }
 
+private const val PASSWORD = "the password"
+
 /** Behaves like the real server, including last-review-wins merging and cursors. */
 private class FakeServer : SyncApi {
-    val byCode = HashMap<String, MutableMap<String, Pair<Long, Progress>>>()
+    val held = HashMap<String, Pair<Long, Progress>>()
+    val tokens = HashSet<String>()
     var offline = false
+    var acceptsCookie = false
     val requests = ArrayList<SyncRequest>()
     var duringExchange: suspend () -> Unit = {}
 
-    override suspend fun exchange(code: String, request: SyncRequest): SyncResponse {
+    override suspend fun exchange(token: String?, request: SyncRequest): SyncResponse {
         if (offline) error("offline")
+        if (token !in tokens && !acceptsCookie) throw NotSignedIn()
         requests += request
         duringExchange()
-        val held = byCode.getOrPut(code) { HashMap() }
         val seq = (held.values.maxOfOrNull { it.first } ?: 0) + 1
         request.rows.forEach { row ->
             val existing = held[row.wordId]?.second
@@ -49,6 +51,12 @@ private class FakeServer : SyncApi {
             cursor = held.values.maxOfOrNull { it.first } ?: 0,
             rows = held.values.filter { it.first > request.since }.map { it.second },
         )
+    }
+
+    override suspend fun signIn(password: String): SignInResult = when {
+        offline -> SignInResult.Offline
+        password != PASSWORD -> SignInResult.WrongPassword
+        else -> SignInResult.Success("token${tokens.size}".also(tokens::add))
     }
 }
 
@@ -61,69 +69,106 @@ private class Device(val server: FakeServer) {
     val sync = ProgressSync(store, settings, server)
 }
 
+private suspend fun signedIn(server: FakeServer) = Device(server).also { it.sync.signIn(PASSWORD) }
+
 class ProgressSyncTest {
     @Test fun aReviewReachesTheOtherDevice() = runTest {
         val server = FakeServer()
-        val phone = Device(server)
-        val laptop = Device(server)
+        val phone = signedIn(server)
+        val tablet = signedIn(server)
         phone.sync.upsert(progress("die_zeit"))
         phone.sync.syncNow()
-        assertTrue(laptop.sync.link(phone.sync.code))
-        assertEquals(progress("die_zeit"), laptop.store.get("die_zeit"))
-        assertEquals(SyncStatus.Synced, laptop.sync.status.value)
+        tablet.sync.syncNow()
+        assertEquals(progress("die_zeit"), tablet.store.get("die_zeit"))
+        assertEquals(SyncStatus.Synced, tablet.sync.status.value)
     }
 
-    @Test fun linkingKeepsTheProgressOfBothDevices() = runTest {
+    @Test fun nothingSyncsBeforeSigningIn() = runTest {
         val server = FakeServer()
         val phone = Device(server)
-        val laptop = Device(server)
+        assertTrue(phone.sync.needsSignIn.value)
         phone.sync.upsert(progress("die_zeit"))
         phone.sync.syncNow()
-        laptop.sync.upsert(progress("der_tag"))
-        laptop.sync.syncNow()
-        laptop.sync.link(phone.sync.code)
+        assertTrue(server.requests.isEmpty())
+    }
+
+    @Test fun aWrongPasswordKeepsAsking() = runTest {
+        val phone = Device(FakeServer())
+        assertEquals(SignInResult.WrongPassword, phone.sync.signIn("nope"))
+        assertTrue(phone.sync.needsSignIn.value)
+    }
+
+    @Test fun signingInSendsProgressAlreadyOnTheDevice() = runTest {
+        val server = FakeServer()
+        val phone = Device(server)
+        phone.store.upsert(progress("die_zeit"))
+        assertTrue(phone.sync.signIn(PASSWORD) is SignInResult.Success)
+        assertFalse(phone.sync.needsSignIn.value)
+        assertEquals(listOf("die_zeit"), server.requests.single().rows.map { it.wordId })
+    }
+
+    @Test fun signingInStaysAcrossRestarts() = runTest {
+        val server = FakeServer()
+        val phone = signedIn(server)
+        assertFalse(ProgressSync(phone.store, phone.settings, server).needsSignIn.value)
+    }
+
+    @Test fun anEndedSessionAsksAgainAndKeepsUnsentWork() = runTest {
+        val server = FakeServer()
+        val phone = signedIn(server)
+        server.tokens.clear()
+        phone.sync.upsert(progress("die_zeit"))
         phone.sync.syncNow()
-        assertEquals(setOf("die_zeit", "der_tag"), phone.store.rows.value.keys)
-        assertEquals(setOf("die_zeit", "der_tag"), laptop.store.rows.value.keys)
+        assertTrue(phone.sync.needsSignIn.value)
+        phone.sync.signIn(PASSWORD)
+        assertEquals(listOf("die_zeit"), server.requests.last().rows.map { it.wordId })
+    }
+
+    @Test fun aBrowserNeverAsksBecauseItsCookieIsTheSession() = runTest {
+        val server = FakeServer().apply { acceptsCookie = true }
+        val browser = ProgressSync(MemoryStore(), MemorySettings(), server, usesToken = false)
+        assertFalse(browser.needsSignIn.value)
+        browser.upsert(progress("die_zeit"))
+        browser.syncNow()
+        assertEquals(SyncStatus.Synced, browser.status.value)
+    }
+
+    @Test fun anExpiredBrowserSessionIsReported() = runTest {
+        val browser = ProgressSync(MemoryStore(), MemorySettings(), FakeServer(), usesToken = false)
+        browser.syncNow()
+        assertTrue(browser.needsSignIn.value)
     }
 
     @Test fun theLaterReviewWinsOnBothDevices() = runTest {
         val server = FakeServer()
-        val phone = Device(server)
-        val laptop = Device(server)
-        laptop.sync.link(phone.sync.code)
+        val phone = signedIn(server)
+        val tablet = signedIn(server)
         phone.sync.upsert(progress("die_zeit", reviewedAt = 200, reviews = 2))
-        laptop.sync.upsert(progress("die_zeit", reviewedAt = 100, reviews = 1))
+        tablet.sync.upsert(progress("die_zeit", reviewedAt = 100, reviews = 1))
         phone.sync.syncNow()
-        laptop.sync.syncNow()
+        tablet.sync.syncNow()
         phone.sync.syncNow()
         assertEquals(200, phone.store.get("die_zeit")?.lastReviewAt)
-        assertEquals(200, laptop.store.get("die_zeit")?.lastReviewAt)
-    }
-
-    @Test fun progressMadeBeforeTheUpdateIsSentOnTheFirstSync() = runTest {
-        val server = FakeServer()
-        val phone = Device(server)
-        phone.store.upsert(progress("die_zeit"))
-        phone.sync.syncNow()
-        assertEquals(listOf("die_zeit"), server.requests.single().rows.map { it.wordId })
+        assertEquals(200, tablet.store.get("die_zeit")?.lastReviewAt)
     }
 
     @Test fun onlyChangedWordsAreSentAfterThat() = runTest {
         val server = FakeServer()
-        val phone = Device(server)
+        val phone = signedIn(server)
         phone.sync.upsert(progress("die_zeit"))
         phone.sync.syncNow()
         phone.sync.upsert(progress("der_tag"))
         phone.sync.syncNow()
         phone.sync.syncNow()
-        assertEquals(listOf(listOf("die_zeit"), listOf("der_tag"), emptyList()), server.requests.map { r -> r.rows.map { it.wordId } })
+        assertEquals(
+            listOf(emptyList(), listOf("die_zeit"), listOf("der_tag"), emptyList()),
+            server.requests.map { r -> r.rows.map { it.wordId } },
+        )
     }
 
     @Test fun reviewsMadeOfflineAreKeptAndSentLater() = runTest {
         val server = FakeServer()
-        val phone = Device(server)
-        phone.sync.syncNow()
+        val phone = signedIn(server)
         server.offline = true
         phone.sync.upsert(progress("die_zeit"))
         phone.sync.syncNow()
@@ -138,7 +183,7 @@ class ProgressSyncTest {
 
     @Test fun aReviewDuringAnExchangeIsSentNextTime() = runTest {
         val server = FakeServer()
-        val phone = Device(server)
+        val phone = signedIn(server)
         phone.sync.upsert(progress("die_zeit", reviewedAt = 100))
         phone.sync.syncNow()
         phone.sync.upsert(progress("die_zeit", reviewedAt = 200, reviews = 2))
@@ -150,26 +195,5 @@ class ProgressSyncTest {
         assertEquals(300, phone.store.get("die_zeit")?.lastReviewAt)
         phone.sync.syncNow()
         assertEquals(300, server.requests.last().rows.single().lastReviewAt)
-    }
-
-    @Test fun anInvalidCodeChangesNothing() = runTest {
-        val phone = Device(FakeServer())
-        val code = phone.sync.code
-        assertFalse(phone.sync.link("too short"))
-        assertEquals(code, phone.sync.code)
-    }
-
-    @Test fun generatedCodesAreValidAndDifferent() {
-        val codes = List(50) { SyncCode.generate() }
-        assertEquals(50, codes.toSet().size)
-        codes.forEach { assertEquals(it, SyncCode.parse(it)) }
-    }
-
-    @Test fun typedCodesAreForgiving() {
-        assertEquals("7KQ2M9XD3TFA8WPN", SyncCode.parse(" 7kq2-m9xd 3tfa-8wpn "))
-        assertEquals("0110ABCD3TFA8WPN", SyncCode.parse("OIl0-abcd-3tfa-8wpn"))
-        assertNull(SyncCode.parse("7KQ2-M9XD-3TFA-8WP"))
-        assertNull(SyncCode.parse("UUUU-UUUU-UUUU-UUUU"))
-        assertNotNull(SyncCode.display("7KQ2M9XD3TFA8WPN").takeIf { it == "7KQ2-M9XD-3TFA-8WPN" })
     }
 }

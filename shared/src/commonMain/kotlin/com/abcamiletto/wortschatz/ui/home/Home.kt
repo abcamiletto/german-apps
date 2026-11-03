@@ -25,7 +25,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.CloudDone
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.Search
@@ -67,14 +66,14 @@ private val MAX_WIDTH = 980.dp
 private val SECTION_GAP = 28.dp
 
 @Composable
-fun HomeRoute(container: AppContainer, onStart: (SessionMode) -> Unit, onBrowse: () -> Unit, onSync: () -> Unit) {
+fun HomeRoute(container: AppContainer, onStart: (SessionMode) -> Unit, onBrowse: () -> Unit) {
     val model: HomeViewModel = viewModel(factory = HomeViewModel.factory(container))
     val state by model.state.collectAsStateWithLifecycle()
     val syncStatus = container.sync?.status?.collectAsState()?.value
     val picture = container.dictionary::imageUri
 
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Header(syncStatus, onBrowse, onSync, Modifier.widthIn(max = MAX_WIDTH))
+        Header(syncStatus, onBrowse, Modifier.widthIn(max = MAX_WIDTH))
         if (state.loaded) {
             BoxWithConstraints(Modifier.widthIn(max = MAX_WIDTH).fillMaxSize(), contentAlignment = Alignment.TopCenter) {
                 val scroll = Modifier.fillMaxHeight().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)
@@ -103,21 +102,18 @@ fun HomeRoute(container: AppContainer, onStart: (SessionMode) -> Unit, onBrowse:
 }
 
 @Composable
-private fun Header(status: SyncStatus?, onBrowse: () -> Unit, onSync: () -> Unit, modifier: Modifier = Modifier) {
+private fun Header(status: SyncStatus?, onBrowse: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier.fillMaxWidth().padding(start = 20.dp, end = 8.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text("Wortschatz", style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
-        IconButton(onClick = onSync, modifier = Modifier.testTag("sync")) {
-            val icon = when (status) {
-                SyncStatus.Synced -> Icons.Outlined.CloudDone
-                SyncStatus.Offline -> Icons.Outlined.CloudOff
-                else -> Icons.Outlined.Cloud
-            }
-            Icon(icon, contentDescription = "Sync", tint = Slate)
+        when (status) {
+            SyncStatus.Synced -> Icon(Icons.Outlined.CloudDone, contentDescription = "Synced", tint = Slate, modifier = Modifier.testTag("synced"))
+            SyncStatus.Offline -> Icon(Icons.Outlined.CloudOff, contentDescription = "Offline", tint = Slate)
+            else -> Unit
         }
-        IconButton(onClick = onBrowse, modifier = Modifier.testTag("browse")) {
+        IconButton(onClick = onBrowse, modifier = Modifier.padding(start = 4.dp).testTag("browse")) {
             Icon(Icons.Outlined.Search, contentDescription = "All words", tint = Slate)
         }
     }

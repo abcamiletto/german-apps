@@ -1,10 +1,10 @@
-<img src="assets/icon.svg" width="64" height="64" alt="">
+<img src="assets/icon.png" width="64" height="64" alt="">
 
 # Wortschatz
 
 A website and an Android app for learning German vocabulary, covering the Goethe-Institut A1, A2 and B1 word lists: 1,942 nouns, 678 verbs and 465 adjectives, each with its own illustration and pronunciation clip.
 
-**[Open the website](https://abcamiletto.github.io/german-apps/)** or [install the Android app](../../releases/latest). There is no account. A sync code keeps your progress the same on your phone and in your browsers.
+The website is private, at `german.abcamiletto.com`, behind one password. The Android app asks for the same password once, and your progress stays the same everywhere.
 
 ## How it works
 
@@ -21,13 +21,11 @@ Speaking needs German speech recognition. On Android, Google's app provides it o
 
 ## Sync
 
-Each device creates a sync code the first time it runs. To link another device, open **Sync** (the cloud icon) and enter the code there. The two sets of progress merge, and for any word the most recent review wins. Reviews made offline are sent later.
-
-The code is the only key: anyone who has it can see and change that progress. It holds 80 random bits, and the server stores only its hash.
+Every device signs in with the same password, and they all share one set of progress. For any word the most recent review wins, and reviews made offline are sent later. Progress already on a device is merged when it first signs in.
 
 ## Install on Android
 
-Download the APK from the [latest release](../../releases/latest) and open it on your phone. Every release is signed with the same key, so a new version installs over the old one and keeps your progress.
+Download the APK from the [latest release](../../releases/latest), open it on your phone and sign in. Every release is signed with the same key, so a new version installs over the old one and keeps your progress.
 
 ## Stack
 
@@ -39,7 +37,7 @@ One Kotlin codebase with [Compose Multiplatform](https://www.jetbrains.com/compo
 | `app/` | Android only: Room storage, `SpeechRecognizer`, `MediaPlayer`, the microphone permission |
 | `web/` | Browser only (Kotlin/Wasm): local storage, the Web Speech API, `<audio>` |
 | `content/` | The word list, images and audio, used by both |
-| `server/` | The sync backend at `german.abcamiletto.com`: FastAPI and SQLite |
+| `server/` | The private server at `german.abcamiletto.com`: sign-in, the website, and sync, with FastAPI and SQLite |
 
 `shared` asks for the platform through a few small interfaces: `ProgressStore`, `Settings`, `SpeechEngine`, `PronunciationPlayer`, `WordContent` and `MicrophoneAccess`.
 
@@ -52,18 +50,20 @@ Building requires JDK 21 and the Android SDK.
 ./gradlew :shared:wasmJsBrowserTest        # The same tests in headless Chrome
 ./gradlew connectedDebugAndroidTest        # End-to-end tests, on a running emulator
 ./gradlew :app:assembleDebug               # The Android app
-./gradlew :web:wasmJsBrowserDevelopmentRun # The website, with live reload
+./gradlew :web:wasmJsBrowserDevelopmentRun # The website, with live reload and no sign-in or sync
 ./gradlew :web:wasmJsBrowserDistribution   # The production website
 (cd server && uv run pytest)               # The sync server's tests
 ```
 
-Each push to `main` runs all the tests except the emulator's, then builds a signed release APK and the website. The APK is published as a GitHub release and the website to GitHub Pages, but only when every word has both an image and a clip.
+Each push to `main` runs all the tests except the emulator's, then builds a signed release APK and the website. Both are published as a GitHub release, but only when every word has both an image and a clip. The server picks up each release within five minutes.
 
 ## Server
 
-The backend runs on a Mac mini as two system daemons: `uvicorn` on `127.0.0.1:43130`, and a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`. The tunnel's settings are in `~/.cloudflared/wortschatz.yml`, and the database is in `~/Library/Application Support/Wortschatz/`. Devices keep their own full copy of the progress.
+The server runs on a Mac mini as three system daemons: `uvicorn` on `127.0.0.1:43130`, a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`, and a job that deploys each new release. Its data is in `~/Library/Application Support/Wortschatz/`, and the tunnel's settings are in `~/.cloudflared/wortschatz.yml`. Devices keep their own full copy of the progress.
 
-To set it up again, clone this repository into `~/german-apps`, then run `server/deploy/install.sh`. Run `server/deploy/update.sh` to deploy a change. Pushing to `main` does not deploy the server.
+Only `/health` and the icon answer without signing in. Responses are marked `private`, so that Cloudflare can't cache them and serve them to someone who hasn't signed in.
+
+To set it up, clone this repository into `~/german-apps`, then run `server/deploy/install.sh`, which also asks for the password. To change the password and sign every device out, run `server/deploy/set_password.sh`.
 
 ## Content pipeline
 
@@ -74,7 +74,7 @@ The scripts in `tools/` produced the committed files in `data/` and `content/`, 
 3. `uv run make_audio.py` generates the clips with Gemini TTS, reading 25 words per request because the API quota counts requests per day. Use `--model` to switch model when a daily quota runs out. Then `uv run check_audio.py` transcribes each clip back to catch mistakes.
 4. `uv run image_jobs.py plan 50` writes image batches, which Codex agents render with their built-in image tool. `uv run image_jobs.py check` validates the results, `uv run check_images.py` flags readable text or the wrong subject, and `uv run check_holes.py` finds the blurred holes the generator can leave in flat areas.
 5. `uv run rank_frequency.py` looks up each word in [DeReWo](https://www.ids-mannheim.de/derewo) for `data/lemma_classes.json`. The learning order in `vocabulary.py` averages its lemma counts with [wordfreq](https://github.com/rspeer/wordfreq), which counts spellings.
-6. `uv run build_assets.py` packages everything into `content/`.
+6. `uv run build_assets.py` packages everything into `content/`. `uv run make_icon.py` writes the app icon in every size, from `assets/icon-source.png`.
 
 Regional words marked in the lists as Austrian or Swiss come last in the learning order and are labelled in the app.
 

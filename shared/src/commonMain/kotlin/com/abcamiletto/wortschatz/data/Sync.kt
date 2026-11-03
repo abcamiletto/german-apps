@@ -6,6 +6,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.TextContent
 import io.ktor.http.isSuccess
 import kotlinx.coroutines.CancellationException
@@ -22,12 +23,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlin.uuid.Uuid
 
-const val SYNC_URL = "https://german.abcamiletto.com/v1/sync"
+const val SERVER_URL = "https://german.abcamiletto.com"
 
-private const val KEY_CODE = "sync.code"
-private const val KEY_CURSOR = "sync.cursor"
+private const val KEY_TOKEN = "sync.token"
+private const val KEY_CURSOR = "sync.position"
 private const val KEY_DIRTY = "sync.dirty"
 private const val PUSH_DELAY_MILLIS = 1_500L
 private const val POLL_MILLIS = 60_000L
@@ -38,47 +38,63 @@ interface Settings {
     operator fun set(key: String, value: String?)
 }
 
-/** A sync code links devices: 80 random bits, in an alphabet with no look-alike letters so it can be typed by hand. */
-object SyncCode {
-    private const val ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
-    private const val LENGTH = 16
-
-    fun generate(): String {
-        // Bytes 6 and 8 of a UUID hold its version and variant. Every other byte is random.
-        val random = List(2) { Uuid.random().toByteArray().filterIndexed { index, _ -> index != 6 && index != 8 } }.flatten()
-        return random.take(LENGTH).joinToString("") { ALPHABET[it.toInt() and 31].toString() }
-    }
-
-    /** Accepts what a person might type: any case, any separators, and O, I or L for 0, 1 and 1. */
-    fun parse(text: String): String? {
-        val code = text.uppercase().filter { it.isLetterOrDigit() }
-            .replace('O', '0').replace('I', '1').replace('L', '1')
-        return code.takeIf { it.length == LENGTH && it.all(ALPHABET::contains) }
-    }
-
-    fun display(code: String): String = code.chunked(4).joinToString("-")
-}
-
 @Serializable
 data class SyncRequest(val since: Long, val rows: List<Progress>)
 
 @Serializable
 data class SyncResponse(val cursor: Long, val rows: List<Progress>)
 
-fun interface SyncApi {
-    suspend fun exchange(code: String, request: SyncRequest): SyncResponse
+@Serializable
+private data class SignInRequest(val password: String)
+
+@Serializable
+private data class SignInResponse(val token: String)
+
+sealed interface SignInResult {
+    data class Success(val token: String) : SignInResult
+    data object WrongPassword : SignInResult
+    data object TooManyAttempts : SignInResult
+    data object Offline : SignInResult
 }
 
-class HttpSyncApi(private val client: HttpClient, private val url: String = SYNC_URL) : SyncApi {
+/** The session has ended, or never began. */
+class NotSignedIn : Exception()
+
+interface SyncApi {
+    /** [token] is null where the session lives elsewhere, as it does in the browser's cookie. */
+    suspend fun exchange(token: String?, request: SyncRequest): SyncResponse
+    suspend fun signIn(password: String): SignInResult
+}
+
+class HttpSyncApi(private val client: HttpClient, private val server: String = SERVER_URL) : SyncApi {
     private val json = Json { ignoreUnknownKeys = true }
 
-    override suspend fun exchange(code: String, request: SyncRequest): SyncResponse {
-        val response = client.post(url) {
-            bearerAuth(code)
+    override suspend fun exchange(token: String?, request: SyncRequest): SyncResponse {
+        val response = client.post("$server/v1/sync") {
+            token?.let(::bearerAuth)
             setBody(TextContent(json.encodeToString(request), ContentType.Application.Json))
         }
+        if (response.status == HttpStatusCode.Unauthorized) throw NotSignedIn()
         check(response.status.isSuccess()) { "Sync returned ${response.status}" }
         return json.decodeFromString(response.bodyAsText())
+    }
+
+    override suspend fun signIn(password: String): SignInResult {
+        val response = try {
+            client.post("$server/v1/login") {
+                setBody(TextContent(json.encodeToString(SignInRequest(password)), ContentType.Application.Json))
+            }
+        } catch (error: CancellationException) {
+            throw error
+        } catch (_: Exception) {
+            return SignInResult.Offline
+        }
+        return when {
+            response.status.isSuccess() -> SignInResult.Success(json.decodeFromString<SignInResponse>(response.bodyAsText()).token)
+            response.status == HttpStatusCode.Unauthorized -> SignInResult.WrongPassword
+            response.status == HttpStatusCode.TooManyRequests -> SignInResult.TooManyAttempts
+            else -> SignInResult.Offline
+        }
     }
 }
 
@@ -96,6 +112,8 @@ class ProgressSync(
     private val local: ProgressStore,
     private val settings: Settings,
     private val api: SyncApi,
+    /** True where this class holds the session itself. The browser's cookie needs no token. */
+    private val usesToken: Boolean = true,
 ) : ProgressStore by local {
     private val exchange = Mutex()
     private val changes = Channel<Unit>(Channel.CONFLATED)
@@ -103,8 +121,8 @@ class ProgressSync(
     private val mutableStatus = MutableStateFlow(SyncStatus.Waiting)
     val status: StateFlow<SyncStatus> = mutableStatus.asStateFlow()
 
-    val code: String
-        get() = settings[KEY_CODE] ?: SyncCode.generate().also { settings[KEY_CODE] = it }
+    private val mutableNeedsSignIn = MutableStateFlow(usesToken && settings[KEY_TOKEN] == null)
+    val needsSignIn: StateFlow<Boolean> = mutableNeedsSignIn.asStateFlow()
 
     override suspend fun upsert(progress: Progress) {
         local.upsert(progress)
@@ -129,27 +147,29 @@ class ProgressSync(
         changes.trySend(Unit)
     }
 
-    /** Joins the progress behind [input] to this device's. Returns false if it isn't a valid code. */
-    suspend fun link(input: String): Boolean {
-        val parsed = SyncCode.parse(input) ?: return false
-        exchange.withLock {
-            settings[KEY_CODE] = parsed
-            // Without a cursor, the next exchange sends all of this device's words and receives all of the other's.
-            settings[KEY_CURSOR] = null
-            mutableStatus.value = SyncStatus.Waiting
+    suspend fun signIn(password: String): SignInResult {
+        val result = api.signIn(password)
+        if (result is SignInResult.Success) {
+            settings[KEY_TOKEN] = result.token
+            mutableNeedsSignIn.value = false
+            syncNow()
         }
-        syncNow()
-        return true
+        return result
     }
 
     suspend fun syncNow() = exchange.withLock {
+        if (mutableNeedsSignIn.value) return@withLock
         val cursor = settings[KEY_CURSOR]?.toLongOrNull()
         val rows = local.all()
         val pending = if (cursor == null) rows else dirty.value.let { ids -> rows.filter { it.wordId in ids } }
         val response = try {
-            api.exchange(code, SyncRequest(cursor ?: 0, pending))
+            api.exchange(settings[KEY_TOKEN], SyncRequest(cursor ?: 0, pending))
         } catch (error: CancellationException) {
             throw error
+        } catch (_: NotSignedIn) {
+            settings[KEY_TOKEN] = null
+            mutableNeedsSignIn.value = true
+            return@withLock
         } catch (_: Exception) {
             mutableStatus.value = SyncStatus.Offline
             return@withLock
