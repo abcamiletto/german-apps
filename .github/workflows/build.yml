@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: build-${{ github.ref }}
@@ -18,8 +16,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      complete: ${{ steps.media.outputs.complete }}
     steps:
       - uses: actions/checkout@v7
 
@@ -84,28 +80,14 @@ jobs:
             echo "complete=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish the APK as a GitHub release
+      - name: Publish the APK and the website as a GitHub release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.media.outputs.complete == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="v1.0.${GITHUB_RUN_NUMBER}"
           cp app/build/outputs/apk/release/app-release.apk "wortschatz-${tag}.apk"
-          gh release create "$tag" "wortschatz-${tag}.apk" --title "Wortschatz ${tag}" --generate-notes --latest
-
-      - name: Prepare the website for GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.media.outputs.complete == 'true'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: web/build/dist/wasmJs/productionExecutable
-
-  website:
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build.outputs.complete == 'true'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+          # The Mac mini downloads this within five minutes. See server/deploy/deploy.sh.
+          tar -czf "wortschatz-website-${tag}.tar.gz" -C web/build/dist/wasmJs/productionExecutable .
+          gh release create "$tag" "wortschatz-${tag}.apk" "wortschatz-website-${tag}.tar.gz" \
+            --title "Wortschatz ${tag}" --generate-notes --latest

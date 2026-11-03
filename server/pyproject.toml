@@ -1,10 +1,11 @@
 [project]
 name = "wortschatz-sync"
 version = "0.1.0"
-description = "Keeps Wortschatz progress the same on every device."
+description = "Serves the Wortschatz website and keeps progress the same on every device, behind one password."
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115",
+    "python-multipart>=0.0.20",
     "uvicorn>=0.32",
 ]
 

@@ -8,12 +8,19 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.abcamiletto.wortschatz.domain.Article
 import com.abcamiletto.wortschatz.data.Progress
+import com.abcamiletto.wortschatz.data.ProgressSync
+import com.abcamiletto.wortschatz.data.Settings
+import com.abcamiletto.wortschatz.data.SignInResult
+import com.abcamiletto.wortschatz.data.SyncApi
+import com.abcamiletto.wortschatz.data.SyncRequest
+import com.abcamiletto.wortschatz.data.SyncResponse
 import com.abcamiletto.wortschatz.domain.Word
 import com.abcamiletto.wortschatz.domain.WordKind
 import com.abcamiletto.wortschatz.speech.SpeechEngine
@@ -247,6 +254,35 @@ class AppFlowTest {
         speakEveryWordOfALearnSession()
         tap("continue")
         compose.onNodeWithTag("sheet").assertIsDisplayed()
+    }
+
+    @Test
+    fun theAppAsksForThePasswordOnceBeforeAnythingElse() {
+        val server = object : SyncApi {
+            override suspend fun exchange(token: String?, request: SyncRequest) = SyncResponse(0, emptyList())
+            override suspend fun signIn(password: String) =
+                if (password == "right") SignInResult.Success("token") else SignInResult.WrongPassword
+        }
+        val settings = object : Settings {
+            val values = HashMap<String, String>()
+            override fun get(key: String) = values[key]
+            override fun set(key: String, value: String?) {
+                if (value == null) values.remove(key) else values[key] = value
+            }
+        }
+        scenario.close()
+        container.sync = ProgressSync(container.progress, settings, server)
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+
+        compose.onNodeWithTag("password").performTextInput("wrong")
+        tap("signIn")
+        waitForText("Wrong password")
+        compose.onAllNodes(hasTestTag("learn")).assertCountEquals(0)
+
+        compose.onNodeWithTag("password").performTextClearance()
+        compose.onNodeWithTag("password").performTextInput("right")
+        tap("signIn")
+        compose.waitUntil(5_000) { compose.onAllNodes(hasTestTag("learn")).fetchSemanticsNodes().isNotEmpty() }
     }
 
     @Test
