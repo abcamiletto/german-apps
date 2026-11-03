@@ -10,8 +10,10 @@ from pathlib import Path
 
 from PIL import Image
 
+from vocabulary import load, spoken
+
 ROOT = Path(__file__).parent
-WORDS = json.loads((ROOT.parent / "data/nouns.json").read_text())
+WORDS = load()
 IMAGES = ROOT / ".cache/images"
 BATCHES = ROOT / ".cache/image_batches"
 
@@ -60,7 +62,7 @@ def plan(size: int):
         jobs = [
             {
                 "id": w["id"],
-                "word": f"{w['article']} {w['noun']}",
+                "word": spoken(w),
                 "prompt": f"Subject: {subject(w)}\n{STYLE}",
             }
             for w in missing[index : index + size]

@@ -1,6 +1,7 @@
 package com.abcamiletto.wortschatz
 
 import android.Manifest
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
@@ -12,7 +13,9 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import com.abcamiletto.wortschatz.domain.Article
+import com.abcamiletto.wortschatz.data.Progress
 import com.abcamiletto.wortschatz.domain.Word
+import com.abcamiletto.wortschatz.domain.WordKind
 import com.abcamiletto.wortschatz.speech.SpeechEngine
 import com.abcamiletto.wortschatz.speech.SpeechFailure
 import com.abcamiletto.wortschatz.speech.SpeechListener
@@ -47,12 +50,32 @@ class AppFlowTest {
         get() = (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as WortschatzApp).container
     private lateinit var scenario: ActivityScenario<MainActivity>
     private lateinit var firstWords: List<Word>
+    private lateinit var seeded: Set<String>
 
     @Before
     fun setUp() = runBlocking {
-        container.database.progress().clear()
+        container.progress.clear()
         container.speechFactory = { speech }
-        firstWords = container.dictionary.words().take(5)
+        focusOn(WordKind.Noun)
+        speech.response = { firstWords.map { it.display } }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+    }
+
+    /** Learning order mixes every kind of word, so the others are marked as already known and far from due. */
+    private fun focusOn(kind: WordKind) = runBlocking {
+        val words = container.dictionary.words()
+        val others = words.filter { it.kind != kind }
+        container.progress.clear()
+        container.progress.upsertAll(
+            others.map { Progress(it.id, 100.0, 5.0, Long.MAX_VALUE, 0, 1, 0) },
+        )
+        seeded = others.mapTo(HashSet()) { it.id }
+        firstWords = words.filter { it.kind == kind }.take(5)
+    }
+
+    private fun restartFocusedOn(kind: WordKind) {
+        scenario.close()
+        focusOn(kind)
         speech.response = { firstWords.map { it.display } }
         scenario = ActivityScenario.launch(MainActivity::class.java)
     }
@@ -77,7 +100,7 @@ class AppFlowTest {
         repeat(firstWords.size) { tap("primary") }
     }
 
-    private fun known() = runBlocking { container.database.progress().all() }
+    private fun known() = runBlocking { container.progress.all().filter { it.wordId !in seeded } }
 
     @Test
     fun learningFiveWordsBySpeakingThemFinishesTheSession() {
@@ -100,7 +123,7 @@ class AppFlowTest {
         skipIntros()
         // Say every word with an article that is wrong for it.
         speech.response = {
-            firstWords.map { word -> "${Article.entries.first { it !in word.accepted }.text} ${word.noun}" }
+            firstWords.map { word -> "${Article.entries.first { it !in word.accepted }.text} ${word.lemma}" }
         }
         tap("mic")
         waitForText("You said")
@@ -119,7 +142,7 @@ class AppFlowTest {
     @Test
     fun theNounAloneAsksForTheArticle() {
         skipIntros()
-        speech.response = { firstWords.map { it.noun } }
+        speech.response = { firstWords.map { it.lemma } }
         tap("mic")
         waitForText("say it with its article")
         compose.onNodeWithTag("mic").assertIsDisplayed()
@@ -137,7 +160,7 @@ class AppFlowTest {
         skipIntros()
         tap("reveal")
         waitForText("Here's the answer")
-        compose.onNodeWithTag("noun").assertIsDisplayed()
+        compose.onNodeWithTag("lemma").assertIsDisplayed()
         assertEquals(1, known().single().lapses)
     }
 
@@ -158,6 +181,47 @@ class AppFlowTest {
         repeat(firstWords.size) { tap("secondary") }
         waitForText("Nothing to practise")
         assertEquals(5, known().size)
+    }
+
+    private fun speakEveryWordOfALearnSession() {
+        skipIntros()
+        repeat(firstWords.size) {
+            tap("mic")
+            waitForText("Correct")
+            tap("primary")
+        }
+        waitForText("5 of 5 right the first time")
+        assertEquals(5, known().size)
+    }
+
+    @Test
+    fun verbsAreLearnedWithoutAnArticle() {
+        restartFocusedOn(WordKind.Verb)
+        speakEveryWordOfALearnSession()
+    }
+
+    @Test
+    fun adjectivesAreLearnedWithoutAnArticle() {
+        restartFocusedOn(WordKind.Adjective)
+        speakEveryWordOfALearnSession()
+    }
+
+    @Test
+    fun aVerbQuestionAsksForTheVerbAndSuggestsOnlyVerbs() {
+        restartFocusedOn(WordKind.Verb)
+        skipIntros()
+        waitForText("Say the verb")
+        tap("suggest")
+        repeat(5) { compose.onNodeWithTag("option$it").assertIsDisplayed() }
+        compose.onAllNodes(hasText("der ", substring = true)).assertCountEquals(0)
+    }
+
+    @Test
+    fun libraryFindsAVerbFromAConjugatedForm() {
+        tap("browse")
+        tap("kindVerbs")
+        compose.onNodeWithTag("search").performTextInput("fährt")
+        waitForText("fahren")
     }
 
     @Test

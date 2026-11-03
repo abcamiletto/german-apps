@@ -1,0 +1,104 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      complete: ${{ steps.media.outputs.complete }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: "platforms;android-37.0 build-tools;36.0.0"
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      # Ubuntu's AppArmor profile otherwise stops headless Chrome from starting its sandbox.
+      - name: Allow Chrome to run the web tests
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Run shared tests on Android and in Chrome
+        run: ./gradlew :shared:testAndroidHostTest :shared:wasmJsBrowserTest
+
+      - name: Decode signing key
+        if: github.event_name != 'pull_request'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.WORTSCHATZ_KEYSTORE_BASE64 }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          echo "WORTSCHATZ_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+
+      - name: Build release APK
+        env:
+          WORTSCHATZ_KEYSTORE_PASSWORD: ${{ secrets.WORTSCHATZ_KEYSTORE_PASSWORD }}
+          WORTSCHATZ_KEY_ALIAS: ${{ secrets.WORTSCHATZ_KEY_ALIAS }}
+          WORTSCHATZ_KEY_PASSWORD: ${{ secrets.WORTSCHATZ_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wortschatz-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Build the website
+        run: ./gradlew :web:wasmJsBrowserDistribution
+
+      - name: Check that every word has an image and a clip
+        id: media
+        run: |
+          assets=content
+          words=$(jq length "$assets/words.json")
+          images=$(find "$assets/images" -name '*.webp' | wc -l)
+          clips=$(find "$assets/audio" -name '*.ogg' | wc -l)
+          echo "words=$words images=$images clips=$clips"
+          if [ "$images" -eq "$words" ] && [ "$clips" -eq "$words" ]; then
+            echo "complete=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish the APK as a GitHub release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.media.outputs.complete == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v1.0.${GITHUB_RUN_NUMBER}"
+          cp app/build/outputs/apk/release/app-release.apk "wortschatz-${tag}.apk"
+          gh release create "$tag" "wortschatz-${tag}.apk" --title "Wortschatz ${tag}" --generate-notes --latest
+
+      - name: Prepare the website for GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.media.outputs.complete == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: web/build/dist/wasmJs/productionExecutable
+
+  website:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.build.outputs.complete == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

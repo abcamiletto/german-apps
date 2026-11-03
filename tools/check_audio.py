@@ -7,12 +7,13 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from llm import generate
+from vocabulary import load, spoken
 
 ROOT = Path(__file__).parent
 AUDIO = ROOT / ".cache/audio"
 RESULT = ROOT / ".cache/audio_qa.json"
 PROMPT = (
-    "This clip contains a speaker reading a short German noun phrase. Transcribe exactly what is said, using "
+    "This clip contains a speaker reading a short German word or phrase. Transcribe exactly what is said, using "
     "German spelling. Output only the words. If it is not German speech, output NOT_GERMAN."
 )
 
@@ -49,7 +50,7 @@ def check(word: dict) -> dict:
     )
     parts = data["candidates"][0].get("content", {}).get("parts", [])
     heard = "".join(part.get("text", "") for part in parts).strip()
-    expected = f"{word['article']} {word['noun']}"
+    expected = spoken(word)
     return {
         "id": word["id"],
         "expected": expected,
@@ -61,9 +62,11 @@ def check(word: dict) -> dict:
 
 
 def main():
-    words = json.loads((ROOT.parent / "data/nouns.json").read_text())
+    # A clip that passed once doesn't need paying for again.
+    passed = {r["id"]: r for r in json.loads(RESULT.read_text()) if r.get("match") and not r.get("problem")} if RESULT.exists() else {}
+    words = [w for w in load() if w["id"] not in passed]
     with ThreadPoolExecutor(10) as pool:
-        results = list(pool.map(check, words))
+        results = list(passed.values()) + list(pool.map(check, words))
     RESULT.write_text(json.dumps(results, ensure_ascii=False, indent=0))
     bad = [r for r in results if r.get("problem") or not r.get("match")]
     print(len(results), "clips,", len(bad), "flagged")
