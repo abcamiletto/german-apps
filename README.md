@@ -59,7 +59,7 @@ Each push to `main` runs all the tests except the emulator's, then builds a sign
 
 ## Server
 
-The server runs on a Mac mini as three system daemons: `uvicorn` on `127.0.0.1:43130`, a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`, and a job that deploys each new release. Its data is in `~/Library/Application Support/Wortschatz/`, and the tunnel's settings are in `~/.cloudflared/wortschatz.yml`. Devices keep their own full copy of the progress.
+The server runs on a Mac mini as three system daemons: `uvicorn` on `127.0.0.1:43130`, a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`, and a job that deploys each new release. Its data is in `~/Library/Application Support/Wortschatz/`, and the tunnel's settings are in `~/.cloudflared/wortschatz.yml`. Devices keep their own full copy of the progress, and send all of it whenever they sign in, so clearing the `sessions` table is enough to have them restore a lost database.
 
 Only `/health` and the icon answer without signing in. Responses are marked `private`, so that Cloudflare can't cache them and serve them to someone who hasn't signed in.
 

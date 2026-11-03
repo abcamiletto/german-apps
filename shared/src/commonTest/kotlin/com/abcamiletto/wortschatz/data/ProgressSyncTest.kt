@@ -135,6 +135,19 @@ class ProgressSyncTest {
         assertEquals(listOf("die_zeit"), server.requests.last().rows.map { it.wordId })
     }
 
+    @Test fun signingInAgainRestoresAServerThatLostItsData() = runTest {
+        val server = FakeServer()
+        val phone = signedIn(server)
+        phone.sync.upsert(progress("die_zeit"))
+        phone.sync.syncNow()
+        server.held.clear()
+        server.tokens.clear()
+        phone.sync.syncNow()
+        assertTrue(phone.sync.needsSignIn.value)
+        phone.sync.signIn(PASSWORD)
+        assertEquals(setOf("die_zeit"), server.held.keys)
+    }
+
     @Test fun aBrowserNeverAsksBecauseItsCookieIsTheSession() = runTest {
         val server = FakeServer().apply { acceptsCookie = true }
         val browser = ProgressSync(MemoryStore(), MemorySettings(), server, usesToken = false)
