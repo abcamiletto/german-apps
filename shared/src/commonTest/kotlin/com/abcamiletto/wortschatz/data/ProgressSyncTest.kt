@@ -107,6 +107,17 @@ class ProgressSyncTest {
         assertEquals(listOf("die_zeit"), server.requests.single().rows.map { it.wordId })
     }
 
+    @Test fun theSignInScreenStaysUntilTheFirstSyncIsDone() = runTest {
+        val server = FakeServer()
+        val phone = Device(server)
+        phone.store.upsert(progress("die_zeit"))
+        var askingDuringSync = false
+        server.duringExchange = { askingDuringSync = phone.sync.needsSignIn.value }
+        phone.sync.signIn(PASSWORD)
+        assertTrue(askingDuringSync)
+        assertFalse(phone.sync.needsSignIn.value)
+    }
+
     @Test fun signingInStaysAcrossRestarts() = runTest {
         val server = FakeServer()
         val phone = signedIn(server)

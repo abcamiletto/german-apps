@@ -151,14 +151,15 @@ class ProgressSync(
         val result = api.signIn(password)
         if (result is SignInResult.Success) {
             settings[KEY_TOKEN] = result.token
-            mutableNeedsSignIn.value = false
+            // The sign-in screen runs this call and goes away with the flag, so the first sync has to finish first.
             syncNow()
+            if (settings[KEY_TOKEN] != null) mutableNeedsSignIn.value = false
         }
         return result
     }
 
     suspend fun syncNow() = exchange.withLock {
-        if (mutableNeedsSignIn.value) return@withLock
+        if (mutableNeedsSignIn.value && settings[KEY_TOKEN] == null) return@withLock
         val cursor = settings[KEY_CURSOR]?.toLongOrNull()
         val rows = local.all()
         val pending = if (cursor == null) rows else dirty.value.let { ids -> rows.filter { it.wordId in ids } }
