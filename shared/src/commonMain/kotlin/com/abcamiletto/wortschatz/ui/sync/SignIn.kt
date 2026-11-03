@@ -6,16 +6,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -37,6 +34,8 @@ import com.abcamiletto.wortschatz.data.ProgressSync
 import com.abcamiletto.wortschatz.data.SignInResult
 import com.abcamiletto.wortschatz.resources.Res
 import com.abcamiletto.wortschatz.resources.icon
+import com.abcamiletto.wortschatz.ui.Corner
+import com.abcamiletto.wortschatz.ui.PrimaryButton
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -86,16 +85,17 @@ fun SignInRoute(sync: ProgressSync) {
                 isError = message != null,
                 supportingText = message?.let { text -> { Text(text) } },
                 visualTransformation = PasswordVisualTransformation(),
-                shape = RoundedCornerShape(14.dp),
+                shape = Corner.medium,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { submit() }),
                 modifier = Modifier.fillMaxWidth().testTag("password"),
             )
-            Button(
+            PrimaryButton(
+                "Sign in",
                 onClick = ::submit,
                 enabled = !working && password.isNotEmpty(),
-                modifier = Modifier.fillMaxWidth().height(54.dp).testTag("signIn"),
-            ) { Text("Sign in") }
+                modifier = Modifier.fillMaxWidth().testTag("signIn"),
+            )
         }
     }
 }

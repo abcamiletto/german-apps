@@ -79,7 +79,7 @@ SIGN_IN_PAGE = """<!doctype html>
   form { width: min(100% - 40px, 340px); display: grid; gap: 12px; }
   img { width: 96px; height: 96px; justify-self: center; }
   h1 { font-size: 28px; letter-spacing: -0.5px; margin: 0 0 12px; text-align: center; }
-  input, button { font: inherit; height: 54px; border-radius: 14px; box-sizing: border-box; }
+  input, button { font: inherit; height: 52px; border-radius: 16px; box-sizing: border-box; }
   input { padding: 0 16px; border: 1px solid #DDE1EA; background: #fff; color: inherit; }
   input:focus-visible, button:focus-visible { outline: 2px solid #2F5BEA; outline-offset: 2px; }
   button { border: 0; background: #14213D; color: #fff; font-weight: 600; cursor: pointer; }
