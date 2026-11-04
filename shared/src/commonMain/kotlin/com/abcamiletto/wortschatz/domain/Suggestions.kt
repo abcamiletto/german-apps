@@ -25,7 +25,8 @@ object Suggestions {
             Article.entries.filter { it !in word.accepted }.randomOrNull(random)?.let { Choice(it, word.lemma) }
         }
         val fixed = listOfNotNull(correct, wrongArticle)
-        val others = all.filter { it.kind == word.kind && it.lemma != word.lemma }
+        // A word with the same English would also be right, so it can't be offered as a wrong answer.
+        val others = all.filter { it.kind == word.kind && it.lemma != word.lemma && !it.sharesMeaningWith(word) }
         val similar = others.filter { it.category == word.category && it.level == word.level }.shuffled(random)
         val sameCategory = others.filter { it.category == word.category }.shuffled(random)
         val anything = others.shuffled(random)

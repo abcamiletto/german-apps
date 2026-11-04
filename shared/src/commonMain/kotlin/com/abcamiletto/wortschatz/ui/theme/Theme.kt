@@ -13,8 +13,7 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.FontResource
 import com.abcamiletto.wortschatz.resources.Res
-import com.abcamiletto.wortschatz.resources.bricolage_grotesque
-import com.abcamiletto.wortschatz.resources.instrument_sans
+import com.abcamiletto.wortschatz.resources.atkinson_hyperlegible_next
 import com.abcamiletto.wortschatz.domain.Tone
 
 val Paper = Color(0xFFF6F7FB)
@@ -47,27 +46,19 @@ private fun variable(resource: FontResource, weight: Int) = Font(
     variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
 )
 
+// Atkinson Hyperlegible keeps similar letters apart, such as I and l, which matters when learning how words are spelled.
 @Composable
 private fun typography(): Typography {
-    val display = FontFamily(
-        variable(Res.font.bricolage_grotesque, 500),
-        variable(Res.font.bricolage_grotesque, 700),
-        variable(Res.font.bricolage_grotesque, 800),
-    )
-    val body = FontFamily(
-        variable(Res.font.instrument_sans, 400),
-        variable(Res.font.instrument_sans, 500),
-        variable(Res.font.instrument_sans, 600),
-    )
+    val family = FontFamily(listOf(400, 500, 600, 700).map { variable(Res.font.atkinson_hyperlegible_next, it) })
     return Typography(
-    displayLarge = TextStyle(fontFamily = display, fontWeight = FontWeight(800), fontSize = 46.sp, lineHeight = 50.sp, letterSpacing = (-1).sp),
-    headlineLarge = TextStyle(fontFamily = display, fontWeight = FontWeight(800), fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-0.5).sp),
-    headlineSmall = TextStyle(fontFamily = display, fontWeight = FontWeight(700), fontSize = 24.sp, lineHeight = 28.sp),
-    titleMedium = TextStyle(fontFamily = display, fontWeight = FontWeight(700), fontSize = 18.sp, lineHeight = 24.sp),
-    bodyLarge = TextStyle(fontFamily = body, fontWeight = FontWeight(400), fontSize = 17.sp, lineHeight = 24.sp),
-    bodyMedium = TextStyle(fontFamily = body, fontWeight = FontWeight(400), fontSize = 15.sp, lineHeight = 21.sp),
-    labelLarge = TextStyle(fontFamily = body, fontWeight = FontWeight(600), fontSize = 16.sp, lineHeight = 20.sp),
-    labelMedium = TextStyle(fontFamily = body, fontWeight = FontWeight(500), fontSize = 13.sp, lineHeight = 18.sp),
+        displayLarge = TextStyle(fontFamily = family, fontWeight = FontWeight(700), fontSize = 46.sp, lineHeight = 50.sp, letterSpacing = (-0.5).sp),
+        headlineLarge = TextStyle(fontFamily = family, fontWeight = FontWeight(700), fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-0.25).sp),
+        headlineSmall = TextStyle(fontFamily = family, fontWeight = FontWeight(600), fontSize = 24.sp, lineHeight = 30.sp),
+        titleMedium = TextStyle(fontFamily = family, fontWeight = FontWeight(600), fontSize = 18.sp, lineHeight = 24.sp),
+        bodyLarge = TextStyle(fontFamily = family, fontWeight = FontWeight(400), fontSize = 17.sp, lineHeight = 24.sp),
+        bodyMedium = TextStyle(fontFamily = family, fontWeight = FontWeight(400), fontSize = 15.sp, lineHeight = 21.sp),
+        labelLarge = TextStyle(fontFamily = family, fontWeight = FontWeight(600), fontSize = 16.sp, lineHeight = 20.sp),
+        labelMedium = TextStyle(fontFamily = family, fontWeight = FontWeight(500), fontSize = 13.sp, lineHeight = 18.sp),
     )
 }
 

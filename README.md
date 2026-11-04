@@ -8,9 +8,9 @@ The website is private, at `german.abcamiletto.com`, behind one password. The An
 
 ## How it works
 
-The app shows a picture, and you say the word. For a noun you say its article too, such as "der Hund", and a wrong gender is called out by name. For a verb or adjective you say just the word, such as "fahren" or "groß". The answer screen then gives the conjugation (fährt, fuhr, ist gefahren) or comparison (größer, am größten).
+The app shows a picture and the English word, and you say the German word. For a noun you say its article too, such as "der Hund", and a wrong gender is called out by name. For a verb or adjective you say just the word, such as "fahren" or "groß". The answer screen then gives the conjugation (fährt, fuhr, ist gefahren) or comparison (größer, am größten).
 
-- **New words** introduces five words with picture, audio, translation and plural, then tests you on them. The most frequent words come first, whatever their kind or level.
+- **New words** has two steps: discover five words, with picture, audio, translation and plural, then guess them straight away. The most frequent words come first, whatever their kind or level.
 - **Review** brings back words when they are due, scheduled with [FSRS](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm). Words that would lose the most by waiting another day come first, and related words aren't asked back to back.
 - **Practise** suggests what else to repeat: tricky words you have forgotten before, words due soon, and words new this week. **Coming up** shows the reviews of the next week.
 - **Suggest** offers five answers of the same kind as the word. For a noun, one of them repeats it with a wrong article.

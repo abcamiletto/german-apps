@@ -288,7 +288,8 @@ private fun PractiseRow(option: RepeatOption, picture: (String) -> String, onCli
             style = MaterialTheme.typography.labelLarge,
             color = Slate,
             textAlign = TextAlign.End,
-            modifier = Modifier.width(40.dp),
+            maxLines = 1,
+            modifier = Modifier.padding(start = Gap.small).widthIn(min = 40.dp),
         )
         Icon(
             Icons.AutoMirrored.Outlined.KeyboardArrowRight,

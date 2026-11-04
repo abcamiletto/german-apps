@@ -71,4 +71,14 @@ class SuggestionsTest {
         assertTrue(Choice(null, "gehen").isCorrectFor(verb("gehen")))
         assertFalse(Choice(null, "laufen").isCorrectFor(verb("gehen")))
     }
+
+    @Test fun aWordWithTheSameEnglishIsNeverOfferedAsWrong() {
+        val zahlen = verb("zahlen").copy(gloss = "to pay")
+        val bezahlen = verb("bezahlen").copy(gloss = "to pay, to settle")
+        val others = List(6) { verb("verb$it") }
+        repeat(20) { seed ->
+            val options = Suggestions.build(zahlen, listOf(zahlen, bezahlen) + others, Random(seed))
+            assertFalse(options.any { it.lemma == "bezahlen" })
+        }
+    }
 }

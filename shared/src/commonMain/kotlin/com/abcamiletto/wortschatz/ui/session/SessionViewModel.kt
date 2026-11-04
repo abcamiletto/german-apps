@@ -88,6 +88,7 @@ class SessionViewModel(
     val state: StateFlow<SessionState> = mutable.asStateFlow()
 
     private var allWords: List<Word> = emptyList()
+    private var known = HashSet<String>()
     private var intros: List<Word> = emptyList()
     private var introIndex = 0
     private var queue = SessionQueue<Word>(emptyList())
@@ -108,7 +109,8 @@ class SessionViewModel(
         val rows = progress.all()
         val set = mode.set
         if (set == null) {
-            intros = nextToLearn(allWords, rows.mapTo(HashSet()) { it.wordId }, LEARN_BATCH)
+            known = rows.mapTo(HashSet()) { it.wordId }
+            intros = nextToLearn(allWords, known, LEARN_BATCH)
         } else {
             queue = SessionQueue(ReviewPlan.session(set, rows, allWords, now()))
         }
@@ -149,11 +151,12 @@ class SessionViewModel(
         if (introIndex < intros.size) showIntro() else startTest()
     }
 
-    /** The learner already knows this word, so it joins the review schedule without a test. */
+    /** The learner already knows this word, so it joins the review schedule and the next new word takes its place. */
     fun introKnown() {
         val word = intros[introIndex]
         save(word, Rating.Easy)
-        intros = intros - word
+        known.add(word.id)
+        intros = nextToLearn(allWords, known, LEARN_BATCH, partial = intros - word)
         if (introIndex < intros.size) showIntro() else startTest()
     }
 
@@ -215,7 +218,9 @@ class SessionViewModel(
             Answer.Correct -> finish(word, if (slips == 0) Outcome.Correct else Outcome.CorrectWithHelp)
             is Answer.WrongArticle -> finish(word, Outcome.WrongArticle(answer.said))
             Answer.MissingArticle -> retry("Add the article", candidates.first())
-            is Answer.WrongWord -> {
+            is Answer.WrongWord -> if (AnswerMatcher.isSynonym(word, candidates, allWords)) {
+                retry("Right meaning, another word", answer.heard)
+            } else {
                 slips++
                 retry("Not that word. Try again.", answer.heard)
             }

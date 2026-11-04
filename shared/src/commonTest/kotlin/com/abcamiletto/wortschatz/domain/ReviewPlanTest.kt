@@ -94,4 +94,10 @@ class ReviewPlanTest {
         assertEquals(listOf("Leben", "gehen"), nextToLearn(words, emptySet(), 2).map { it.lemma })
         assertEquals(listOf("leben", "gehen"), nextToLearn(words, setOf(words[0].id), 2).map { it.lemma })
     }
+
+    @Test fun aPartialBatchKeepsItsWordsAndTakesTheNextOnes() {
+        val words = listOf("Haus", "Baum", "Tisch").map { word(Article.Der, it) }
+        val batch = nextToLearn(words, setOf(words[0].id), 2, partial = listOf(words[2]))
+        assertEquals(listOf("Tisch", "Baum"), batch.map { it.lemma })
+    }
 }

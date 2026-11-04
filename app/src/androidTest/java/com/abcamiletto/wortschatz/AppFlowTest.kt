@@ -189,11 +189,24 @@ class AppFlowTest {
     }
 
     @Test
-    fun alreadyKnownWordSkipsTheTest() {
+    fun aNewBatchIsDiscoveredAndThenGuessedFromTheEnglish() {
         tap("learn")
-        repeat(firstWords.size) { tap("secondary") }
-        waitForText("All set")
-        assertEquals(5, known().size)
+        compose.onNodeWithTag("discover").assertIsDisplayed()
+        compose.onNodeWithTag("guess").assertIsDisplayed()
+        compose.onNodeWithTag("lemma").assertIsDisplayed()
+        repeat(firstWords.size) { tap("primary") }
+        compose.onNodeWithTag("mic").assertIsDisplayed()
+        compose.onNodeWithTag("prompt").assertIsDisplayed()
+        compose.onNodeWithTag("lemma").assertDoesNotExist()
+    }
+
+    @Test
+    fun aWordAlreadyKnownIsReplacedByTheNextOne() {
+        tap("learn")
+        tap("secondary")
+        repeat(firstWords.size) { tap("primary") }
+        compose.onNodeWithTag("mic").assertIsDisplayed()
+        assertEquals(1, known().size)
     }
 
     private fun speakEveryWordOfALearnSession() {
