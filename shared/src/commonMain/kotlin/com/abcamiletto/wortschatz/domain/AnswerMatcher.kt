@@ -23,6 +23,10 @@ object AnswerMatcher {
         return answers.minByOrNull(::rank) ?: Answer.Nothing
     }
 
+    /** Whether a wrong answer is another German word for the same English, which the prompt can't tell apart. */
+    fun isSynonym(word: Word, candidates: List<String>, all: List<Word>): Boolean =
+        all.any { it.id != word.id && it.sharesMeaningWith(word) && grade(it, candidates) !is Answer.WrongWord }
+
     private fun rank(answer: Answer): Int = when (answer) {
         Answer.Correct -> 0
         is Answer.WrongArticle -> 1

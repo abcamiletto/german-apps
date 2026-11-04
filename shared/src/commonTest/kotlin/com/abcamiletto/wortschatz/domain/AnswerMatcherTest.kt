@@ -1,6 +1,8 @@
 package com.abcamiletto.wortschatz.domain
 
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import kotlin.test.Test
 
 class AnswerMatcherTest {
@@ -86,5 +88,14 @@ class AnswerMatcherTest {
     @Test fun separatedSpellingOfAnAlternativeMatches() {
         val wehtun = Word(id = "w", kind = WordKind.Verb, lemma = "wehtun", alternatives = listOf("weh tun"), level = "A1", gloss = "to hurt", category = "c")
         assertEquals(Answer.Correct, AnswerMatcher.grade(wehtun, listOf("weh tun")))
+    }
+
+    @Test fun anotherWordForTheSameEnglishIsASynonym() {
+        val zahlen = verb("zahlen").copy(gloss = "to pay")
+        val bezahlen = verb("bezahlen").copy(gloss = "to pay, to settle")
+        val gehen = verb("gehen").copy(gloss = "to walk")
+        val all = listOf(zahlen, bezahlen, gehen)
+        assertTrue(AnswerMatcher.isSynonym(zahlen, listOf("bezahlen"), all))
+        assertFalse(AnswerMatcher.isSynonym(zahlen, listOf("gehen"), all))
     }
 }

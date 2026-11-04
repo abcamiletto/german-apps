@@ -77,9 +77,14 @@ fun Word.isRelatedTo(other: Word): Boolean = isSpelledLike(other) || category ==
 
 fun Word.isSpelledLike(other: Word): Boolean = lemma.equals(other.lemma, ignoreCase = true)
 
-/** The next words to learn. Words spelled alike wait for separate batches. */
-fun nextToLearn(words: List<Word>, known: Set<String>, count: Int): List<Word> {
-    val batch = ArrayList<Word>(count)
+/** Glosses list their meanings separated by commas, and two German words can share one of them. */
+fun Word.sharesMeaningWith(other: Word): Boolean = meanings().any { it in other.meanings() }
+
+private fun Word.meanings(): List<String> = gloss.lowercase().split(',').map { it.trim() }
+
+/** Fills [partial] up to [count] with the next words to learn. Words spelled alike wait for separate batches. */
+fun nextToLearn(words: List<Word>, known: Set<String>, count: Int, partial: List<Word> = emptyList()): List<Word> {
+    val batch = ArrayList(partial)
     for (word in words) {
         if (batch.size == count) break
         if (word.id !in known && batch.none { it.isSpelledLike(word) }) batch.add(word)
