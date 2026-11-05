@@ -29,6 +29,10 @@ def learning_score(word: dict, classes: dict[str, int]) -> float:
 def load() -> list[dict]:
     files = ("nouns.json", "verbs_adjectives.json", "others.json")
     words = [word for name in files for word in json.loads((DATA / name).read_text())]
+    # Common meanings the first translation missed. Kept apart so that regenerating the lists can't lose them.
+    glosses = json.loads((DATA / "glosses.json").read_text())
+    for word in words:
+        word["gloss_en"] = glosses.get(word["id"], word["gloss_en"])
     path = DATA / "lemma_classes.json"
     classes = json.loads(path.read_text()) if path.exists() else {}
     # Regional words come last. Everything else goes level by level, and by frequency within a level.

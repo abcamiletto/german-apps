@@ -27,3 +27,8 @@ fun marked(text: String): AnnotatedString = buildAnnotatedString {
         if (index % 2 == 1) withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(part) } else append(part)
     }
 }
+
+private val ARTICLE_OR_TO = Regex("\\b(the|to) ")
+
+/** When an English prompt wraps, "the" and "to" stay on the line of the word they belong to. */
+fun keepWithItsWord(gloss: String): String = gloss.replace(ARTICLE_OR_TO) { it.value.replace(' ', ' ') }
