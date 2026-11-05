@@ -1,27 +1,28 @@
 """The private home of Wortschatz: the website and the progress of its one learner, behind one password.
 
 Only /health and the icon answer without signing in. The browser signs in with a form and keeps a cookie. The Android
-app exchanges the same password for a token. Each row is one word's latest schedule: the most recent review wins,
-so devices can sync in any order and sync the same rows twice.
+app exchanges the same password for a token. Progress and sessions live in Convex, see database/convex/progress.ts.
+The file convex.json, next to the password, holds that deployment's url and the secret this server shares with it.
 
-  WORTSCHATZ_DB=sync.db WORTSCHATZ_PASSWORD_FILE=password WORTSCHATZ_SITE=site \
+  WORTSCHATZ_PASSWORD_FILE=password WORTSCHATZ_SITE=site \
     uv run uvicorn sync_server:from_environment --factory --port 43130
 """
 import base64
 import hashlib
 import hmac
 import html
+import json
 import mimetypes
 import os
 import secrets
-import sqlite3
 import time
 from collections import defaultdict, deque
-from contextlib import contextmanager
 from pathlib import Path
 from typing import Annotated
 
+import httpx
 from fastapi import FastAPI, Form, Header, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from pydantic import BaseModel, Field, ValidationError
 
@@ -32,37 +33,13 @@ ATTEMPTS_PER_MINUTE_PER_CLIENT = 5
 ATTEMPTS_PER_HOUR = 30
 LONG_LIVED = {"images", "audio", "composeResources"}
 ICON = "icon.png"
+# Every image and clip checks the session, so a known one isn't looked up again for a while.
+SESSION_MEMORY_SECONDS = 600
 SCRYPT = {"n": 2**15, "r": 8, "p": 1, "maxmem": 64 * 1024 * 1024}
 
 mimetypes.add_type("application/wasm", ".wasm")
 mimetypes.add_type("image/webp", ".webp")
 mimetypes.add_type("audio/ogg", ".ogg")
-
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS schedule (
-    word_id TEXT PRIMARY KEY,
-    stability REAL NOT NULL,
-    difficulty REAL NOT NULL,
-    due_at INTEGER NOT NULL,
-    last_review_at INTEGER NOT NULL,
-    reviews INTEGER NOT NULL,
-    lapses INTEGER NOT NULL,
-    seq INTEGER NOT NULL
-) WITHOUT ROWID;
-CREATE INDEX IF NOT EXISTS schedule_changes ON schedule (seq);
-CREATE TABLE IF NOT EXISTS sessions (
-    token_hash TEXT PRIMARY KEY,
-    created_at INTEGER NOT NULL
-) WITHOUT ROWID;
-"""
-
-MERGE = """
-INSERT INTO schedule VALUES (:wordId, :stability, :difficulty, :dueAt, :lastReviewAt, :reviews, :lapses, :seq)
-ON CONFLICT (word_id) DO UPDATE SET
-    stability = excluded.stability, difficulty = excluded.difficulty, due_at = excluded.due_at,
-    last_review_at = excluded.last_review_at, reviews = excluded.reviews, lapses = excluded.lapses, seq = excluded.seq
-WHERE (excluded.last_review_at, excluded.reviews) > (schedule.last_review_at, schedule.reviews)
-"""
 
 SIGN_IN_PAGE = """<!doctype html>
 <html lang="en">
@@ -157,19 +134,38 @@ class Attempts:
         return True
 
 
-@contextmanager
-def transaction(path: str):
-    connection = sqlite3.connect(path, timeout=10, isolation_level=None)
-    try:
-        connection.execute("BEGIN IMMEDIATE")
-        yield connection
-        connection.execute("COMMIT")
-    except BaseException:
-        if connection.in_transaction:
-            connection.execute("ROLLBACK")
-        raise
-    finally:
-        connection.close()
+class ConvexStore:
+    def __init__(self, url: str, secret: str, transport: httpx.BaseTransport | None = None):
+        self.client = httpx.Client(base_url=url, timeout=60, transport=transport)
+        self.secret = secret
+
+    def call(self, kind: str, path: str, **args):
+        request = {"path": f"progress:{path}", "args": {"secret": self.secret, **args}, "format": "json"}
+        response = self.client.post(f"/api/{kind}", json=request)
+        response.raise_for_status()
+        body = response.json()
+        if body["status"] != "success":
+            raise RuntimeError(f"Convex {path}: {body['errorMessage']}")
+        return body["value"]
+
+    def sync(self, since: int, rows: list[dict]) -> dict:
+        value = self.call("mutation", "sync", since=since, rows=rows)
+        # Convex keeps every number as a float, and the app's integers can't be read from "1.0".
+        return {"cursor": int(value["cursor"]), "rows": [Row.model_validate(row).model_dump() for row in value["rows"]]}
+
+    def add_session(self, token_hash: str):
+        self.call("mutation", "addSession", tokenHash=token_hash)
+
+    def has_session(self, token_hash: str) -> bool:
+        return self.call("query", "hasSession", tokenHash=token_hash)
+
+    def clear_sessions(self):
+        self.call("mutation", "clearSessions")
+
+
+def convex_from(password_file: str) -> ConvexStore:
+    settings = json.loads(Path(password_file).with_name("convex.json").read_text())
+    return ConvexStore(settings["url"], settings["secret"])
 
 
 async def read_body(request: Request) -> bytes:
@@ -190,12 +186,11 @@ def sign_in_page(status: int = 401, message: str = "") -> HTMLResponse:
     )
 
 
-def create_app(database: str, password_file: str, site: str) -> FastAPI:
+def create_app(store: ConvexStore, password_file: str, site: str) -> FastAPI:
     app = FastAPI(title="Wortschatz", docs_url=None, redoc_url=None, openapi_url=None)
     attempts = Attempts()
     root = Path(site).resolve()
-    with sqlite3.connect(database) as db:
-        db.executescript(SCHEMA)
+    remembered: dict[str, float] = {}
 
     def client_of(request: Request) -> str:
         # Only the tunnel reaches this server, and Cloudflare always sets this header.
@@ -207,16 +202,20 @@ def create_app(database: str, password_file: str, site: str) -> FastAPI:
 
     def new_session() -> str:
         token = secrets.token_urlsafe(32)
-        with transaction(database) as db:
-            db.execute("INSERT INTO sessions VALUES (?, ?)", (token_hash(token), int(time.time())))
+        store.add_session(token_hash(token))
         return token
 
     def signed_in(request: Request, authorization: str | None = None) -> bool:
         token = (authorization or "").removeprefix("Bearer ") or request.cookies.get(COOKIE, "")
         if not token:
             return False
-        with sqlite3.connect(database) as db:
-            return db.execute("SELECT 1 FROM sessions WHERE token_hash = ?", (token_hash(token),)).fetchone() is not None
+        hashed = token_hash(token)
+        if remembered.get(hashed, 0) > time.monotonic():
+            return True
+        if not store.has_session(hashed):
+            return False
+        remembered[hashed] = time.monotonic() + SESSION_MEMORY_SECONDS
+        return True
 
     @app.get("/health")
     def health():
@@ -250,22 +249,13 @@ def create_app(database: str, password_file: str, site: str) -> FastAPI:
 
     @app.post("/v1/sync")
     async def sync(request: Request, authorization: Annotated[str | None, Header()] = None):
-        if not signed_in(request, authorization):
+        if not await run_in_threadpool(signed_in, request, authorization):
             raise HTTPException(401, "Sign in first")
         try:
             payload = SyncRequest.model_validate_json(await read_body(request))
         except ValidationError as error:
             raise HTTPException(422, "Invalid sync request") from error
-        with transaction(database) as db:
-            seq = db.execute("SELECT COALESCE(MAX(seq), 0) FROM schedule").fetchone()[0] + 1
-            db.executemany(MERGE, [{**row.model_dump(), "seq": seq} for row in payload.rows])
-            cursor = db.execute("SELECT COALESCE(MAX(seq), 0) FROM schedule").fetchone()[0]
-            changes = db.execute(
-                "SELECT word_id, stability, difficulty, due_at, last_review_at, reviews, lapses FROM schedule WHERE seq > ?",
-                (payload.since,),
-            ).fetchall()
-        fields = ("wordId", "stability", "difficulty", "dueAt", "lastReviewAt", "reviews", "lapses")
-        return {"cursor": cursor, "rows": [dict(zip(fields, change)) for change in changes]}
+        return await run_in_threadpool(store.sync, payload.since, [row.model_dump() for row in payload.rows])
 
     @app.get("/{path:path}")
     def website(path: str, request: Request):
@@ -288,8 +278,5 @@ def create_app(database: str, password_file: str, site: str) -> FastAPI:
 
 
 def from_environment() -> FastAPI:
-    return create_app(
-        os.environ.get("WORTSCHATZ_DB", "sync.db"),
-        os.environ.get("WORTSCHATZ_PASSWORD_FILE", "password"),
-        os.environ.get("WORTSCHATZ_SITE", "site"),
-    )
+    password_file = os.environ.get("WORTSCHATZ_PASSWORD_FILE", "password")
+    return create_app(convex_from(password_file), password_file, os.environ.get("WORTSCHATZ_SITE", "site"))

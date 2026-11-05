@@ -1,0 +1,17 @@
+{
+  "name": "wortschatz-database",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p convex",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@edge-runtime/vm": "5.0.0",
+    "@types/node": "26.6.6",
+    "convex": "1.49.0",
+    "convex-test": "0.0.67",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  }
+}

@@ -1,12 +1,38 @@
 import gzip
+import json
 
+import httpx
 import pytest
 from fastapi.testclient import TestClient
 
 import sync_server
-from sync_server import COOKIE, create_app, hash_password
+from sync_server import COOKIE, ConvexStore, create_app, hash_password
 
 PASSWORD = "correct horse battery"
+
+
+class FakeStore:
+    """Convex's own behaviour is tested in database/convex/progress.test.ts."""
+
+    def __init__(self):
+        self.rows: dict[str, dict] = {}
+        self.sessions: set[str] = set()
+        self.lookups = 0
+        self.down = False
+
+    def sync(self, since, rows):
+        assert not self.down, "Convex is down"
+        self.rows.update({row["wordId"]: row for row in rows})
+        return {"cursor": len(self.rows), "rows": list(self.rows.values()) if since < len(self.rows) else []}
+
+    def add_session(self, token_hash):
+        assert not self.down, "Convex is down"
+        self.sessions.add(token_hash)
+
+    def has_session(self, token_hash):
+        assert not self.down, "Convex is down"
+        self.lookups += 1
+        return token_hash in self.sessions
 
 
 def row(word="die_zeit", reviewed=100, reviews=1):
@@ -17,7 +43,12 @@ def row(word="die_zeit", reviewed=100, reviews=1):
 
 
 @pytest.fixture
-def app(tmp_path):
+def store():
+    return FakeStore()
+
+
+@pytest.fixture
+def app(tmp_path, store):
     (tmp_path / "password").write_text(hash_password(PASSWORD))
     site = tmp_path / "site"
     (site / "images").mkdir(parents=True)
@@ -26,7 +57,7 @@ def app(tmp_path):
     (site / "app.wasm").write_bytes(b"code")
     (site / "icon.png").write_bytes(b"icon")
     (tmp_path / "secret.txt").write_text("outside the site")
-    return create_app(str(tmp_path / "sync.db"), str(tmp_path / "password"), str(site))
+    return create_app(store, str(tmp_path / "password"), str(site))
 
 
 @pytest.fixture
@@ -87,7 +118,7 @@ def test_a_wrong_password_is_refused(visitor):
 
 
 def test_without_a_password_set_nobody_can_sign_in(tmp_path):
-    app = create_app(str(tmp_path / "sync.db"), str(tmp_path / "missing"), str(tmp_path))
+    app = create_app(FakeStore(), str(tmp_path / "missing"), str(tmp_path))
     client = TestClient(app, base_url="https://testserver")
     assert client.post("/v1/login", json={"password": ""}).status_code == 401
 
@@ -147,32 +178,67 @@ def test_a_review_reaches_the_other_device(browser, phone):
     assert sync(browser)["rows"] == [row()]
 
 
-def test_the_most_recent_review_wins_in_either_order(phone):
-    sync(phone, [row(reviewed=200, reviews=2)])
-    sync(phone, [row(reviewed=100, reviews=1)])
-    assert sync(phone)["rows"] == [row(reviewed=200, reviews=2)]
-    sync(phone, [row(reviewed=300, reviews=3)])
-    assert sync(phone)["rows"] == [row(reviewed=300, reviews=3)]
-
-
-def test_only_changes_after_the_cursor_come_back(phone):
-    cursor = sync(phone, [row("die_zeit")])["cursor"]
-    assert sync(phone, since=cursor)["rows"] == []
-    sync(phone, [row("der_tag")])
-    assert [r["wordId"] for r in sync(phone, since=cursor)["rows"]] == ["der_tag"]
-
-
-def test_a_stale_row_does_not_advance_the_cursor(phone):
-    cursor = sync(phone, [row(reviewed=200, reviews=2)])["cursor"]
-    assert sync(phone, [row(reviewed=100)], since=cursor) == {"cursor": cursor, "rows": []}
-
-
 def test_invalid_rows_are_refused(phone):
     assert phone.post("/v1/sync", json={"since": 0, "rows": [{**row(), "wordId": "../../etc"}]}).status_code == 422
 
 
-def test_neither_the_password_nor_a_token_is_stored(app, tmp_path, phone):
+def test_neither_the_password_nor_a_token_is_stored(tmp_path, store, phone):
     token = phone.headers["Authorization"].removeprefix("Bearer ")
-    stored = (tmp_path / "sync.db").read_bytes() + (tmp_path / "password").read_bytes()
-    assert token.encode() not in stored
-    assert PASSWORD.encode() not in stored
+    stored = " ".join(store.sessions) + (tmp_path / "password").read_text()
+    assert store.sessions
+    assert token not in stored
+    assert PASSWORD not in stored
+
+
+def test_a_session_is_only_looked_up_once_for_all_the_images(store, browser):
+    for _ in range(5):
+        assert browser.get("/images/die_zeit.webp").status_code == 200
+    assert store.lookups == 1
+
+
+def test_a_session_is_checked_again_after_a_while(store, browser, monkeypatch):
+    monkeypatch.setattr(sync_server, "SESSION_MEMORY_SECONDS", -1)
+    browser.get("/")
+    browser.get("/")
+    assert store.lookups == 2
+
+
+def test_an_outage_does_not_sign_anyone_out(app, store, phone):
+    store.down = True
+    # Only a 401 signs a device out. This phone's session isn't remembered yet, because it has only signed in.
+    client = TestClient(app, base_url="https://testserver", raise_server_exceptions=False)
+    assert client.post("/v1/sync", json={"since": 0, "rows": []}, headers=phone.headers).status_code == 500
+    assert client.post("/v1/login", json={"password": PASSWORD}).status_code == 500
+
+
+def test_a_remembered_session_keeps_the_site_up_during_an_outage(store, browser):
+    browser.get("/")
+    store.down = True
+    assert browser.get("/").status_code == 200
+
+
+def convex(respond):
+    return ConvexStore("https://example.convex.cloud", "the secret", httpx.MockTransport(respond))
+
+
+def test_convex_gets_the_secret_and_gives_back_whole_numbers():
+    seen = {}
+
+    def respond(request):
+        seen.update(path=request.url.path, body=json.loads(request.content))
+        stored = {**row(), "dueAt": 110.0, "lastReviewAt": 100.0, "reviews": 1.0, "lapses": 0.0}
+        return httpx.Response(200, json={"status": "success", "value": {"cursor": 4.0, "rows": [stored]}})
+
+    result = convex(respond).sync(2, [row()])
+    assert seen == {
+        "path": "/api/mutation",
+        "body": {"path": "progress:sync", "args": {"secret": "the secret", "since": 2, "rows": [row()]}, "format": "json"},
+    }
+    # The app can't read "4.0" as an integer.
+    assert json.dumps(result) == json.dumps({"cursor": 4, "rows": [row()]})
+
+
+def test_an_error_from_convex_is_not_taken_for_an_answer():
+    store = convex(lambda _: httpx.Response(200, json={"status": "error", "errorMessage": "Server Error"}))
+    with pytest.raises(RuntimeError, match="Server Error"):
+        store.has_session("x")

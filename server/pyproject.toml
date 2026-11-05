@@ -4,15 +4,15 @@ version = "0.1.0"
 description = "Serves the Wortschatz website and keeps progress the same on every device, behind one password."
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi>=0.115",
-    "python-multipart>=0.0.20",
-    "uvicorn>=0.32",
+    "fastapi>=0.162",
+    "httpx>=0.28",
+    "python-multipart>=0.0.33",
+    "uvicorn>=0.54",
 ]
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28",
-    "pytest>=8.3",
+    "pytest>=9.2",
 ]
 
 [tool.uv]

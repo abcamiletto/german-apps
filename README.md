@@ -37,7 +37,8 @@ One Kotlin codebase with [Compose Multiplatform](https://www.jetbrains.com/compo
 | `app/` | Android only: Room storage, `SpeechRecognizer`, `MediaPlayer`, the microphone permission |
 | `web/` | Browser only (Kotlin/Wasm): local storage, the Web Speech API, `<audio>` |
 | `content/` | The word list, images and audio, used by both |
-| `server/` | The private server at `german.abcamiletto.com`: sign-in, the website, and sync, with FastAPI and SQLite |
+| `server/` | The private server at `german.abcamiletto.com`: sign-in, the website, and sync, with FastAPI |
+| `database/` | Where progress and sessions are stored, as [Convex](https://www.convex.dev) functions |
 
 `shared` asks for the platform through a few small interfaces: `ProgressStore`, `Settings`, `SpeechEngine`, `PronunciationPlayer`, `WordContent` and `MicrophoneAccess`.
 
@@ -53,17 +54,20 @@ Building requires JDK 21 and the Android SDK.
 ./gradlew :web:wasmJsBrowserDevelopmentRun # The website, with live reload and no sign-in or sync
 ./gradlew :web:wasmJsBrowserDistribution   # The production website
 (cd server && uv run pytest)               # The sync server's tests
+(cd database && npm ci && npm test)        # The database functions' tests
 ```
 
 Each push to `main` runs all the tests except the emulator's, then builds a signed release APK and the website. Both are published as a GitHub release, but only when every word has both an image and a clip. The server picks up each release within five minutes.
 
 ## Server
 
-The server runs on a Mac mini as three system daemons: `uvicorn` on `127.0.0.1:43130`, a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`, and a job that deploys each new release. Its data is in `~/Library/Application Support/Wortschatz/`, and the tunnel's settings are in `~/.cloudflared/wortschatz.yml`. Devices keep their own full copy of the progress, and send all of it whenever they sign in, so clearing the `sessions` table is enough to have them restore a lost database.
+The server runs on a Mac mini as three system daemons: `uvicorn` on `127.0.0.1:43130`, a dedicated Cloudflare tunnel, `wortschatz`, that exposes it as `german.abcamiletto.com`, and a job that deploys each new release. Its password hash and website are in `~/Library/Application Support/Wortschatz/`, and the tunnel's settings are in `~/.cloudflared/wortschatz.yml`.
+
+Progress and sessions are in a hosted Convex deployment in Ireland, which only this server talks to. The file `convex.json`, next to the password, holds `{"url": ..., "secret": ...}`, and the same secret is the deployment's `WORTSCHATZ_SERVER_SECRET` environment variable. CI deploys `database/` on every push to `main`, using the `CONVEX_DEPLOY_KEY` repository secret. If Convex is down the server answers 500, which leaves devices signed in and still working from their own copy. Devices keep a full copy of the progress and send all of it whenever they sign in, so clearing the `sessions` table is enough to have them restore a lost database.
 
 Only `/health` and the icon answer without signing in. Responses are marked `private`, so that Cloudflare can't cache them and serve them to someone who hasn't signed in.
 
-To set it up, clone this repository into `~/german-apps`, then run `server/deploy/install.sh`, which also asks for the password. To change the password and sign every device out, run `server/deploy/set_password.sh`.
+To set it up, clone this repository into `~/german-apps`, write `convex.json`, then run `server/deploy/install.sh`, which also asks for the password. To change the password and sign every device out, run `server/deploy/set_password.sh`.
 
 ## Content pipeline
 
