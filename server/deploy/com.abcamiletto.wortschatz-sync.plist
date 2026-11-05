@@ -8,8 +8,6 @@
 		<string>/Users/abcamiletto</string>
 		<key>PATH</key>
 		<string>/opt/homebrew/bin:/usr/bin:/bin</string>
-		<key>WORTSCHATZ_DB</key>
-		<string>/Users/abcamiletto/Library/Application Support/Wortschatz/sync.db</string>
 		<key>WORTSCHATZ_PASSWORD_FILE</key>
 		<string>/Users/abcamiletto/Library/Application Support/Wortschatz/password</string>
 		<key>WORTSCHATZ_SITE</key>
