@@ -36,18 +36,16 @@ export const sync = mutation({
       .collect();
     return {
       cursor: (await newest())?.seq ?? 0,
-      rows: changes.map(({ wordId, stability, difficulty, dueAt, lastReviewAt, reviews, lapses }) => ({
-        wordId, stability, difficulty, dueAt, lastReviewAt, reviews, lapses,
-      })),
+      rows: changes.map(({ _id, _creationTime, seq, ...row }) => row),
     };
   },
 });
 
 export const addSession = mutation({
-  args: { secret: v.string(), tokenHash: v.string(), createdAt: v.number() },
-  handler: async (ctx, { secret, tokenHash, createdAt }) => {
+  args: { secret: v.string(), tokenHash: v.string() },
+  handler: async (ctx, { secret, tokenHash }) => {
     requireServer(secret);
-    await ctx.db.insert("sessions", { tokenHash, createdAt });
+    await ctx.db.insert("sessions", { tokenHash });
   },
 });
 
@@ -58,7 +56,7 @@ export const hasSession = query({
     const session = await ctx.db
       .query("sessions")
       .withIndex("by_token", (q) => q.eq("tokenHash", tokenHash))
-      .first();
+      .unique();
     return session !== null;
   },
 });

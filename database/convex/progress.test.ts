@@ -68,7 +68,7 @@ describe("sessions", () => {
     const t = convexTest(schema, modules);
     const has = () => t.query(api.progress.hasSession, { secret, tokenHash: "hash" });
     expect(await has()).toBe(false);
-    await t.mutation(api.progress.addSession, { secret, tokenHash: "hash", createdAt: 1 });
+    await t.mutation(api.progress.addSession, { secret, tokenHash: "hash" });
     expect(await has()).toBe(true);
     await t.mutation(api.progress.clearSessions, { secret });
     expect(await has()).toBe(false);
@@ -79,7 +79,7 @@ describe("without the server's secret", () => {
   test.each([
     ["sync", (t: ReturnType<typeof convexTest>, s: string) => t.mutation(api.progress.sync, { secret: s, since: 0, rows: [] })],
     ["hasSession", (t: ReturnType<typeof convexTest>, s: string) => t.query(api.progress.hasSession, { secret: s, tokenHash: "x" })],
-    ["addSession", (t: ReturnType<typeof convexTest>, s: string) => t.mutation(api.progress.addSession, { secret: s, tokenHash: "x", createdAt: 1 })],
+    ["addSession", (t: ReturnType<typeof convexTest>, s: string) => t.mutation(api.progress.addSession, { secret: s, tokenHash: "x" })],
     ["clearSessions", (t: ReturnType<typeof convexTest>, s: string) => t.mutation(api.progress.clearSessions, { secret: s })],
   ])("%s refuses", async (_, call) => {
     const t = convexTest(schema, modules);

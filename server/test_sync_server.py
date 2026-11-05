@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import sync_server
-from sync_server import COOKIE, ConvexStore, StoreUnavailable, create_app, hash_password
+from sync_server import COOKIE, ConvexStore, create_app, hash_password
 
 PASSWORD = "correct horse battery"
 
@@ -20,26 +20,19 @@ class FakeStore:
         self.lookups = 0
         self.down = False
 
-    def check(self):
-        if self.down:
-            raise StoreUnavailable("down")
-
     def sync(self, since, rows):
-        self.check()
+        assert not self.down, "Convex is down"
         self.rows.update({row["wordId"]: row for row in rows})
         return {"cursor": len(self.rows), "rows": list(self.rows.values()) if since < len(self.rows) else []}
 
-    def add_session(self, token_hash, created_at):
-        self.check()
+    def add_session(self, token_hash):
+        assert not self.down, "Convex is down"
         self.sessions.add(token_hash)
 
     def has_session(self, token_hash):
-        self.check()
+        assert not self.down, "Convex is down"
         self.lookups += 1
         return token_hash in self.sessions
-
-    def clear_sessions(self):
-        self.sessions.clear()
 
 
 def row(word="die_zeit", reviewed=100, reviews=1):
@@ -212,12 +205,10 @@ def test_a_session_is_checked_again_after_a_while(store, browser, monkeypatch):
 
 def test_an_outage_does_not_sign_anyone_out(app, store, phone):
     store.down = True
-    # The session isn't remembered yet, because this phone has only signed in.
-    assert phone.post("/v1/sync", json={"since": 0, "rows": []}).status_code == 503
-    assert TestClient(app, base_url="https://testserver").post("/v1/login", json={"password": PASSWORD}).status_code == 503
-    returning = TestClient(app, base_url="https://testserver")
-    returning.cookies.set(COOKIE, "x")
-    assert returning.get("/").status_code == 503
+    # Only a 401 signs a device out. This phone's session isn't remembered yet, because it has only signed in.
+    client = TestClient(app, base_url="https://testserver", raise_server_exceptions=False)
+    assert client.post("/v1/sync", json={"since": 0, "rows": []}, headers=phone.headers).status_code == 500
+    assert client.post("/v1/login", json={"password": PASSWORD}).status_code == 500
 
 
 def test_a_remembered_session_keeps_the_site_up_during_an_outage(store, browser):
@@ -247,19 +238,7 @@ def test_convex_gets_the_secret_and_gives_back_whole_numbers():
     assert json.dumps(result) == json.dumps({"cursor": 4, "rows": [row()]})
 
 
-@pytest.mark.parametrize("respond", [
-    lambda _: httpx.Response(200, json={"status": "error", "errorMessage": "Server Error"}),
-    lambda _: httpx.Response(500, text="oops"),
-    lambda _: httpx.Response(200, text="not json"),
-])
-def test_a_bad_answer_from_convex_counts_as_unavailable(respond):
-    with pytest.raises(StoreUnavailable):
-        convex(respond).has_session("x")
-
-
-def test_no_connection_to_convex_counts_as_unavailable():
-    def respond(request):
-        raise httpx.ConnectError("no route", request=request)
-
-    with pytest.raises(StoreUnavailable):
-        convex(respond).has_session("x")
+def test_an_error_from_convex_is_not_taken_for_an_answer():
+    store = convex(lambda _: httpx.Response(200, json={"status": "error", "errorMessage": "Server Error"}))
+    with pytest.raises(RuntimeError, match="Server Error"):
+        store.has_session("x")

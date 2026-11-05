@@ -17,12 +17,11 @@ def main():
     if len(password) < 8:
         raise SystemExit("Use at least 8 characters.")
     password_file = os.environ.get("WORTSCHATZ_PASSWORD_FILE", "password")
-    store = convex_from(password_file)
     target = Path(password_file)
     target.touch(mode=0o600)
     target.chmod(0o600)
     target.write_text(hash_password(password))
-    store.clear_sessions()
+    convex_from(password_file).clear_sessions()
 
 
 if __name__ == "__main__":

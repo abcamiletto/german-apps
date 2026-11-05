@@ -23,7 +23,7 @@ from typing import Annotated
 import httpx
 from fastapi import FastAPI, Form, Header, HTTPException, Request
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from pydantic import BaseModel, Field, ValidationError
 
 COOKIE = "wortschatz_session"
@@ -134,26 +134,18 @@ class Attempts:
         return True
 
 
-class StoreUnavailable(Exception):
-    """Convex can't be reached. This isn't the learner's fault, and it must not sign them out."""
-
-
 class ConvexStore:
     def __init__(self, url: str, secret: str, transport: httpx.BaseTransport | None = None):
         self.client = httpx.Client(base_url=url, timeout=60, transport=transport)
         self.secret = secret
 
     def call(self, kind: str, path: str, **args):
-        try:
-            response = self.client.post(
-                f"/api/{kind}", json={"path": f"progress:{path}", "args": {"secret": self.secret, **args}, "format": "json"},
-            )
-            response.raise_for_status()
-            body = response.json()
-        except (httpx.HTTPError, ValueError) as error:
-            raise StoreUnavailable(path) from error
-        if body.get("status") != "success":
-            raise StoreUnavailable(f"{path}: {body.get('errorMessage')}")
+        request = {"path": f"progress:{path}", "args": {"secret": self.secret, **args}, "format": "json"}
+        response = self.client.post(f"/api/{kind}", json=request)
+        response.raise_for_status()
+        body = response.json()
+        if body["status"] != "success":
+            raise RuntimeError(f"Convex {path}: {body['errorMessage']}")
         return body["value"]
 
     def sync(self, since: int, rows: list[dict]) -> dict:
@@ -161,8 +153,8 @@ class ConvexStore:
         # Convex keeps every number as a float, and the app's integers can't be read from "1.0".
         return {"cursor": int(value["cursor"]), "rows": [Row.model_validate(row).model_dump() for row in value["rows"]]}
 
-    def add_session(self, token_hash: str, created_at: int):
-        self.call("mutation", "addSession", tokenHash=token_hash, createdAt=created_at)
+    def add_session(self, token_hash: str):
+        self.call("mutation", "addSession", tokenHash=token_hash)
 
     def has_session(self, token_hash: str) -> bool:
         return self.call("query", "hasSession", tokenHash=token_hash)
@@ -200,11 +192,6 @@ def create_app(store: ConvexStore, password_file: str, site: str) -> FastAPI:
     root = Path(site).resolve()
     remembered: dict[str, float] = {}
 
-    @app.exception_handler(StoreUnavailable)
-    def store_unavailable(_: Request, error: StoreUnavailable):
-        print(f"Convex failed: {error}", flush=True)
-        return PlainTextResponse("Try again in a moment", status_code=503, headers={"Cache-Control": "no-store"})
-
     def client_of(request: Request) -> str:
         # Only the tunnel reaches this server, and Cloudflare always sets this header.
         return request.headers.get("cf-connecting-ip") or request.client.host
@@ -215,7 +202,7 @@ def create_app(store: ConvexStore, password_file: str, site: str) -> FastAPI:
 
     def new_session() -> str:
         token = secrets.token_urlsafe(32)
-        store.add_session(token_hash(token), int(time.time()))
+        store.add_session(token_hash(token))
         return token
 
     def signed_in(request: Request, authorization: str | None = None) -> bool:
@@ -227,8 +214,6 @@ def create_app(store: ConvexStore, password_file: str, site: str) -> FastAPI:
             return True
         if not store.has_session(hashed):
             return False
-        if len(remembered) > 1000:
-            remembered.clear()
         remembered[hashed] = time.monotonic() + SESSION_MEMORY_SECONDS
         return True
 
