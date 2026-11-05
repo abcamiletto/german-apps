@@ -72,7 +72,7 @@ import com.abcamiletto.wortschatz.ui.theme.color
 import com.abcamiletto.wortschatz.ui.withThousands
 
 private val LEVELS = listOf("A1", "A2", "B1")
-private val KINDS = listOf(WordKind.Noun to "Nouns", WordKind.Verb to "Verbs", WordKind.Adjective to "Adjectives")
+private val KINDS = listOf(WordKind.Noun to "Nouns", WordKind.Verb to "Verbs", WordKind.Adjective to "Adjectives", WordKind.Other to "Other")
 private val STRENGTH_DAYS = listOf(0.0, 7.0, 30.0)
 private val WIDE_CONTENT = 1120.dp
 private val CELL_WIDTH = 300.dp

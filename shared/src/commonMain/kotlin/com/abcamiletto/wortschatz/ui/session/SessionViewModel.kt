@@ -74,6 +74,7 @@ private fun askFor(word: Word): String = when (word.kind) {
     WordKind.Noun -> "Say it with the article"
     WordKind.Verb -> "Say the verb"
     WordKind.Adjective -> "Say the adjective"
+    WordKind.Other -> "Say it in German"
 }
 
 class SessionViewModel(
@@ -187,7 +188,7 @@ class SessionViewModel(
                 override fun onReady() = Unit
                 override fun onPartial(text: String) = updateQuestion { it.copy(heard = text) }
                 override fun onLevel(level: Float) = updateQuestion { it.copy(level = level) }
-                override fun onResults(candidates: List<String>) = submit(question.word, candidates)
+                override fun onResults(candidates: List<String>) = submit(question.word, candidates, spoken = true)
                 override fun onFailure(failure: SpeechFailure) = showFailure(failure)
             },
         )
@@ -210,11 +211,11 @@ class SessionViewModel(
 
     fun submitTyped(text: String) {
         val question = question() ?: return
-        submit(question.word, listOf(text))
+        submit(question.word, listOf(text), spoken = false)
     }
 
-    private fun submit(word: Word, candidates: List<String>) {
-        when (val answer = AnswerMatcher.grade(word, candidates)) {
+    private fun submit(word: Word, candidates: List<String>, spoken: Boolean) {
+        when (val answer = AnswerMatcher.grade(word, candidates, spoken)) {
             Answer.Correct -> finish(word, if (slips == 0) Outcome.Correct else Outcome.CorrectWithHelp)
             is Answer.WrongArticle -> finish(word, Outcome.WrongArticle(answer.said))
             Answer.MissingArticle -> retry("Add the article", candidates.first())

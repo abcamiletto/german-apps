@@ -17,15 +17,18 @@ object AnswerMatcher {
         "das" to Article.Das, "dass" to Article.Das, "daß" to Article.Das,
     )
 
-    /** [candidates] are recogniser alternatives, best first. The most favourable reading wins. */
-    fun grade(word: Word, candidates: List<String>): Answer {
-        val answers = candidates.filter { it.isNotBlank() }.map { grade(word, it) }
+    /**
+     * [candidates] are recogniser alternatives, best first. The most favourable reading wins.
+     * Only a [spoken] answer can use a homophone, since saying "dass" and "das" sounds the same but typing them doesn't.
+     */
+    fun grade(word: Word, candidates: List<String>, spoken: Boolean = false): Answer {
+        val answers = candidates.filter { it.isNotBlank() }.map { grade(word, it, spoken) }
         return answers.minByOrNull(::rank) ?: Answer.Nothing
     }
 
     /** Whether a wrong answer is another German word for the same English, which the prompt can't tell apart. */
     fun isSynonym(word: Word, candidates: List<String>, all: List<Word>): Boolean =
-        all.any { it.id != word.id && it.sharesMeaningWith(word) && grade(it, candidates) !is Answer.WrongWord }
+        all.any { it.id != word.id && it.sharesMeaningWith(word) && grade(it, candidates, spoken = false) !is Answer.WrongWord }
 
     private fun rank(answer: Answer): Int = when (answer) {
         Answer.Correct -> 0
@@ -35,12 +38,12 @@ object AnswerMatcher {
         Answer.Nothing -> 4
     }
 
-    private fun grade(word: Word, text: String): Answer {
+    private fun grade(word: Word, text: String, spoken: Boolean): Answer {
         val tokens = normalize(text).split(' ').filter { it.isNotEmpty() }
         if (tokens.isEmpty()) return Answer.Nothing
         val article = if (word.kind == WordKind.Noun) articleSpellings[tokens.first()] else null
         val rest = (if (article != null) tokens.drop(1) else tokens).joinToString("").withoutSich(word)
-        val forms = (word.alternatives + word.lemma).map { normalize(it).replace(" ", "").withoutSich(word) }
+        val forms = (word.alternatives + word.lemma + if (spoken) word.heardAs else emptyList()).map { normalize(it).replace(" ", "").withoutSich(word) }
         if (rest.isEmpty() || forms.none { closeEnough(word, rest, it) }) return Answer.WrongWord(text.trim())
         return when {
             word.kind != WordKind.Noun -> Answer.Correct

@@ -98,4 +98,29 @@ class AnswerMatcherTest {
         assertTrue(AnswerMatcher.isSynonym(zahlen, listOf("bezahlen"), all))
         assertFalse(AnswerMatcher.isSynonym(zahlen, listOf("gehen"), all))
     }
+
+    private val dass = Word(id = "o", kind = WordKind.Other, lemma = "dass", heardAs = listOf("das"), level = "A2", gloss = "that", category = "conjunction")
+
+    @Test fun aHomophoneCountsWhenSpoken() {
+        assertEquals(Answer.Correct, AnswerMatcher.grade(dass, listOf("das"), spoken = true))
+    }
+
+    @Test fun aHomophoneDoesNotCountWhenTyped() {
+        assertEquals(Answer.WrongWord("das"), AnswerMatcher.grade(dass, listOf("das")))
+    }
+
+    @Test fun aFigureCountsForASpokenNumber() {
+        val seven = Word(id = "n", kind = WordKind.Other, lemma = "sieben", heardAs = listOf("7"), level = "A1", gloss = "seven", category = "number")
+        assertEquals(Answer.Correct, AnswerMatcher.grade(seven, listOf("7"), spoken = true))
+    }
+
+    @Test fun aPairedConjunctionIsAcceptedWithoutItsDots() {
+        val either = Word(id = "p", kind = WordKind.Other, lemma = "entweder ... oder", level = "B1", gloss = "either or", category = "conjunction")
+        assertEquals(Answer.Correct, AnswerMatcher.grade(either, listOf("entweder oder")))
+    }
+
+    @Test fun wordsOtherThanNounsTakeNoArticle() {
+        val der = Word(id = "d", kind = WordKind.Other, lemma = "der", level = "A1", gloss = "the", category = "article")
+        assertEquals(Answer.Correct, AnswerMatcher.grade(der, listOf("der")))
+    }
 }

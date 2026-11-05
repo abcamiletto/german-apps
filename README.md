@@ -2,15 +2,15 @@
 
 # Wortschatz
 
-A website and an Android app for learning German vocabulary, covering the Goethe-Institut A1, A2 and B1 word lists: 1,942 nouns, 678 verbs and 465 adjectives, each with its own illustration and pronunciation clip.
+A website and an Android app for learning German vocabulary, covering the Goethe-Institut A1, A2 and B1 word lists: 1,942 nouns, 678 verbs, 465 adjectives and 406 other words: pronouns, articles, prepositions, conjunctions, adverbs, numbers and set expressions. Each has its own illustration, pronunciation clip, example phrases and example sentences.
 
 The website is private, at `german.abcamiletto.com`, behind one password. The Android app asks for the same password once, and your progress stays the same everywhere.
 
 ## How it works
 
-The app shows a picture and the English word, and you say the German word. For a noun you say its article too, such as "der Hund", and a wrong gender is called out by name. For a verb or adjective you say just the word, such as "fahren" or "groß". The answer screen then gives the conjugation (fährt, fuhr, ist gefahren) or comparison (größer, am größten).
+The app shows a picture and the English word, and you say the German word. For a noun you say its article too, such as "der Hund", and a wrong gender is called out by name. Anything else you say as it is, such as "fahren", "groß" or "mit". The answer screen then explains the word: the conjugation (fährt, fuhr, ist gefahren), comparison (größer, am größten) or case (+ dative), then common phrases and two example sentences, all translated.
 
-- **New words** has two steps: discover five words, with picture, audio, translation and plural, then guess them straight away. The most frequent words come first, whatever their kind or level.
+- **New words** has two steps: discover five words, with picture, audio, translation, plural and examples, then guess them straight away. All of A1 comes first, then A2, then B1, and within a level the most frequent words come first, whatever their kind.
 - **Review** brings back words when they are due, scheduled with [FSRS](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm). Words that would lose the most by waiting another day come first, and related words aren't asked back to back.
 - **Practise** suggests what else to repeat: tricky words you have forgotten before, words due soon, and words new this week. **Coming up** shows the reviews of the next week.
 - **Suggest** offers five answers of the same kind as the word. For a noun, one of them repeats it with a wrong article.
@@ -70,11 +70,12 @@ To set it up, clone this repository into `~/german-apps`, then run `server/deplo
 The scripts in `tools/` produced the committed files in `data/` and `content/`, so you only need them to change the content. They use `uv` and need `GEMINI_API_KEY`.
 
 1. Download the three Goethe word list PDFs and convert them with `pdftotext -layout` into `tools/source_lists/`. The expected filenames are in `tools/normalize_nouns.py`. They aren't in this repository because they are the Goethe-Institut's copyrighted documents.
-2. `uv run normalize_nouns.py` extracts the noun entries. `uv run enrich_nouns.py` and `uv run fix_nouns.py` merge them and add translations, categories and image briefs. `uv run check_nouns.py` reports disagreements with Wiktionary. `normalize_verbs_adjectives.py`, `enrich_verbs_adjectives.py` and `fix_verbs_adjectives.py` do the same for verbs and adjectives, preferring the conjugations printed in the lists.
+2. `uv run normalize_nouns.py` extracts the noun entries. `uv run enrich_nouns.py` and `uv run fix_nouns.py` merge them and add translations, categories and image briefs. `uv run check_nouns.py` reports disagreements with Wiktionary. `normalize_verbs_adjectives.py`, `enrich_verbs_adjectives.py` and `fix_verbs_adjectives.py` do the same for verbs and adjectives, preferring the conjugations printed in the lists. `normalize_others.py` and `enrich_others.py` cover every other word, and add a few essentials the lists take for granted, such as `du`, `uns` and `im`.
 3. `uv run make_audio.py` generates the clips with Gemini TTS, reading 25 words per request because the API quota counts requests per day. Use `--model` to switch model when a daily quota runs out. Then `uv run check_audio.py` transcribes each clip back to catch mistakes.
 4. `uv run image_jobs.py plan 50` writes image batches, which Codex agents render with their built-in image tool. `uv run image_jobs.py check` validates the results, `uv run check_images.py` flags readable text or the wrong subject, and `uv run check_holes.py` finds the blurred holes the generator can leave in flat areas.
-5. `uv run rank_frequency.py` looks up each word in [DeReWo](https://www.ids-mannheim.de/derewo) for `data/lemma_classes.json`. The learning order in `vocabulary.py` averages its lemma counts with [wordfreq](https://github.com/rspeer/wordfreq), which counts spellings.
-6. `uv run build_assets.py` packages everything into `content/`. `uv run make_icon.py` writes the app icon in every size, from `assets/icon-source.png`.
+5. `uv run make_example_jobs.py 195` writes batches of words, and Codex agents write their phrases and sentences. `uv run check_examples.py --merge` checks their form and writes `data/examples.json`, then `uv run qa_examples.py` has Gemini proofread them, and its reports are reviewed by hand.
+6. `uv run rank_frequency.py` looks up each word in [DeReWo](https://www.ids-mannheim.de/derewo) for `data/lemma_classes.json`. The learning order in `vocabulary.py` goes level by level and, within a level, averages its lemma counts with [wordfreq](https://github.com/rspeer/wordfreq), which counts spellings.
+7. `uv run build_assets.py` packages everything into `content/`. `uv run make_icon.py` writes the app icon in every size, from `assets/icon-source.png`.
 
 Regional words marked in the lists as Austrian or Swiss come last in the learning order and are labelled in the app.
 

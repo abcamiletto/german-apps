@@ -12,7 +12,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from vocabulary import load
+from vocabulary import DATA, load
 
 ROOT = Path(__file__).parent
 ASSETS = ROOT.parent / "content"
@@ -36,7 +36,7 @@ def convert_image(source: Path, target: Path):
     canvas.save(target, "WEBP", quality=82, alpha_quality=90, method=6)
 
 
-def entry(word: dict) -> dict:
+def entry(word: dict, examples: dict) -> dict:
     shared = {
         "id": word["id"],
         "alternatives": word["alternatives"],
@@ -44,6 +44,7 @@ def entry(word: dict) -> dict:
         "region": word["region"],
         "gloss": word["gloss_en"],
         "category": word["category"],
+        **examples.get(word["id"], {}),
     }
     if "noun" in word:
         return {
@@ -55,7 +56,7 @@ def entry(word: dict) -> dict:
             "pluralOnly": word["plural_only"],
             "accepted": word["accepted_articles"],
         }
-    return {**shared, "kind": word["kind"], "lemma": word["lemma"], "forms": word["forms"]}
+    return {**shared, "kind": word["kind"], "lemma": word["lemma"], "forms": word["forms"], "heardAs": word.get("heard_as", [])}
 
 
 def main():
@@ -86,7 +87,12 @@ def main():
     with ThreadPoolExecutor(8) as pool:
         list(pool.map(package, words))
 
-    payload = [entry(w) for w in words]
+    examples = json.loads((DATA / "examples.json").read_text())
+    missing_examples = [w["id"] for w in words if w["id"] not in examples]
+    print(len(missing_examples), "words without examples")
+    if missing_examples and not args.allow_missing:
+        raise SystemExit("Examples are incomplete. Pass --allow-missing for a development build.")
+    payload = [entry(w, examples) for w in words]
     (ASSETS / "words.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
     size = sum(p.stat().st_size for p in ASSETS.rglob("*") if p.is_file())
     print(f"assets: {size / 1e6:.1f} MB")

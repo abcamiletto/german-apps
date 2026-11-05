@@ -49,7 +49,7 @@ def main():
         for name in candidates(word):
             if name in classes:
                 entry = classes[name]
-                found[word["id"]] = entry.get(PART_OF_SPEECH[kind], min(entry.values()))
+                found[word["id"]] = entry.get(PART_OF_SPEECH.get(kind, ""), min(entry.values()))
                 break
     (DATA / "lemma_classes.json").write_text(json.dumps(found, indent=0, sort_keys=True))
     print(len(found), "of", len(load()), "words found")

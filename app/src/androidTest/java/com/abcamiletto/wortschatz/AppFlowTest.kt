@@ -29,6 +29,7 @@ import com.abcamiletto.wortschatz.speech.SpeechListener
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -186,6 +187,25 @@ class AppFlowTest {
         compose.onNodeWithTag("answer").performTextInput("xyz")
         tap("check")
         waitForText("Not that word")
+    }
+
+    @Test
+    fun aNewWordIsExplainedWithPhrasesAndSentences() {
+        tap("learn")
+        val word = firstWords.first()
+        waitForText(word.phrases.first().en)
+        waitForText(word.sentences.first().de.replace("**", ""))
+        waitForText(word.sentences.last().en)
+    }
+
+    @Test
+    fun wordsComeLevelByLevelAndIncludeEveryKind() = runBlocking {
+        val words = container.dictionary.words()
+        val levels = words.filter { it.region.isEmpty() }.map { it.level }
+        assertEquals(levels.sorted(), levels)
+        val others = words.filter { it.kind == WordKind.Other }.map { it.lemma }
+        assertTrue(listOf("ich", "und", "mit", "nicht", "zwei").all { it in others })
+        assertTrue(words.all { it.phrases.isNotEmpty() && it.sentences.size == 2 })
     }
 
     @Test

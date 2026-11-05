@@ -1,6 +1,7 @@
 package com.abcamiletto.wortschatz.domain
 
 import com.abcamiletto.wortschatz.ui.fold
+import com.abcamiletto.wortschatz.ui.marked
 import com.abcamiletto.wortschatz.ui.withThousands
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,5 +13,11 @@ class TextTest {
         assertEquals("999", 999.withThousands())
         assertEquals("3,085", 3085.withThousands())
         assertEquals("1,234,567", 1234567.withThousands())
+    }
+
+    @Test fun markedTextLosesItsAsterisksAndKeepsTheBoldParts() {
+        val text = marked("Ich **rufe** dich **an**.")
+        assertEquals("Ich rufe dich an.", text.text)
+        assertEquals(listOf("rufe", "an"), text.spanStyles.map { text.text.substring(it.start, it.end) })
     }
 }

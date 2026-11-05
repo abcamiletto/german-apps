@@ -1,5 +1,11 @@
 package com.abcamiletto.wortschatz.ui
 
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+
 /** "3085" becomes "3,085". */
 fun Int.withThousands(): String =
     toString().reversed().chunked(3).joinToString(",").reversed()
@@ -13,4 +19,11 @@ private val FOLDED = mapOf(
 /** Search ignores case and umlauts, so "muller" finds "Müller". */
 fun fold(text: String): String = buildString {
     text.lowercase().forEach { append(FOLDED[it] ?: it) }
+}
+
+/** "Ich **gehe** heim." with the marked part in bold. */
+fun marked(text: String): AnnotatedString = buildAnnotatedString {
+    text.split("**").forEachIndexed { index, part ->
+        if (index % 2 == 1) withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(part) } else append(part)
+    }
 }

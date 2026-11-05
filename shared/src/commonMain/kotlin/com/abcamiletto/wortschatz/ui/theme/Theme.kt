@@ -28,6 +28,7 @@ val DieRed = Color(0xFFD92C5C)
 val DasGreen = Color(0xFF0B8A62)
 val VerbViolet = Color(0xFF7239C9)
 val AdjectiveAmber = Color(0xFFB45309)
+val OtherTeal = Color(0xFF0E7490)
 
 /** The learner's strongest memory cue: each article, and each other part of speech, always has its own colour. */
 val Tone.color: Color
@@ -37,6 +38,7 @@ val Tone.color: Color
         Tone.Das -> DasGreen
         Tone.Verb -> VerbViolet
         Tone.Adjective -> AdjectiveAmber
+        Tone.Other -> OtherTeal
     }
 
 @Composable
