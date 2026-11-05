@@ -99,6 +99,7 @@ import com.abcamiletto.wortschatz.ui.PHONE_COLUMN
 import com.abcamiletto.wortschatz.ui.PrimaryButton
 import com.abcamiletto.wortschatz.ui.SecondaryButton
 import com.abcamiletto.wortschatz.ui.hand
+import com.abcamiletto.wortschatz.ui.keepWithItsWord
 import com.abcamiletto.wortschatz.ui.marked
 import com.abcamiletto.wortschatz.ui.theme.Hairline
 import com.abcamiletto.wortschatz.ui.theme.Ink
@@ -283,7 +284,7 @@ private fun Prompt(imageUri: String, word: Word, modifier: Modifier = Modifier) 
         )
         val size = promptSize(word.gloss, LocalWide.current)
         Text(
-            word.gloss,
+            keepWithItsWord(word.gloss),
             style = MaterialTheme.typography.headlineLarge.copy(fontSize = size, lineHeight = size * 1.15f),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = Gap.large).testTag("prompt"),
