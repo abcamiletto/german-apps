@@ -65,9 +65,9 @@ def review(batch: list[dict]) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--new", action="store_true", help="Review only verbs and adjectives.")
+    parser.add_argument("--new", action="store_true", help="Review only the words that are not nouns, verbs or adjectives.")
     args = parser.parse_args()
-    words = [w for w in load() if (IMAGES / f"{w['id']}.png").exists() and (not args.new or "kind" in w)]
+    words = [w for w in load() if (IMAGES / f"{w['id']}.png").exists() and (not args.new or w.get("kind") == "other")]
     batches = [words[i : i + BATCH] for i in range(0, len(words), BATCH)]
     with ThreadPoolExecutor(6) as pool:
         problems = [p for found in pool.map(review, batches) for p in found]

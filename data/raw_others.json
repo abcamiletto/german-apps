@@ -1,0 +1,5966 @@
+[
+{
+"lemma": "eins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zwei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "drei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vier",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "fünf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sechs",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sieben",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "acht",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "neun",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "elf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zwölf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dreizehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vierzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "fünfzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sechzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "siebzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "achtzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "neunzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zwanzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "einundzwanzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dreißig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vierzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "fünfzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sechzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "siebzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "achtzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "neunzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "hundert",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [
+"einhundert"
+],
+"level": "A1"
+},
+{
+"lemma": "hunderteins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zweihundert",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "tausend",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [
+"eintausend"
+],
+"level": "A1"
+},
+{
+"lemma": "erste",
+"kind": "number",
+"printed": "das/der/die",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zweite",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dritte",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vierte",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "halb",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "Deutschland",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "Europa",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ab",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "aber",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "all-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "allein",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "also",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "an",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "also",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "an",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ander-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "auch",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "auf",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "aus",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "bald",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "bei",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "beide",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "bis",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "bisschen",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "bitte",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "circa",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"ca."
+],
+"level": "A1"
+},
+{
+"lemma": "da",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "circa",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"ca."
+],
+"level": "A1"
+},
+{
+"lemma": "da",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "daneben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "danke",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dann",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dein-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "denn",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "der",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "die",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "das",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dich",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dies-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dir",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "dort",
+"kind": "adverb",
+"printed": ", -her, -hin",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "draußen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "durch",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ein-",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "er",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "es",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "euer",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "früher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "für",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "gegen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "gerade",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "geradeaus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "gern",
+"kind": "adverb",
+"printed": "(e)",
+"region": "",
+"alternatives": [
+"gerne"
+],
+"level": "A1"
+},
+{
+"lemma": "gestern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "hallo",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "heute",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "hier",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "hinten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ich",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ihr",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ihm",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ihn",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "immer",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "in",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ja",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "jed-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "jetzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "kein",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "lange",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "lange",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "leider",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "lieber",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "links",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "man",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "mehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "mein",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "mit",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "morgen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nach",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nein",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nicht",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nichts",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nie",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "noch",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "nur",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "oben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "oder",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "oft",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "ohne",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "rechts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "schon",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "seit",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sich",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sie",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "Sie",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "so",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "sofort",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "später",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "tschüss",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "über",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "um",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "und",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "unser",
+"kind": "pronoun",
+"printed": "–",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "unten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "unter",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "viel",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vielleicht",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "von",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "vor",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wann",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "warum",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "was",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "was für ein",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "warum",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "was",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "was für ein",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "weiter",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "welch-",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wenig",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wer",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wie",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wie viel",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "willkommen",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wir",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wo",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "woher",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "wohin",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zurzeit",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zu",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zurück",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zusammen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "zwischen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A1"
+},
+{
+"lemma": "Deutschland",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "Österreich",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "Luxemburg",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "Europa",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "eins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zwei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "drei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vier",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "fünf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sechs",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sieben",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "acht",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "neun",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "elf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zwölf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dreizehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vierzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "fünfzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sechzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "siebzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "achtzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "neunzehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zwanzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "einundzwanzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dreißig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vierzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "fünfzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sechzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "siebzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "achtzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "neunzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hundert",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [
+"einhundert"
+],
+"level": "A2"
+},
+{
+"lemma": "hunderteins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zweihundert",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "tausend",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [
+"eintausend"
+],
+"level": "A2"
+},
+{
+"lemma": "zweitausendeins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "erste",
+"kind": "number",
+"printed": "der/die",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zweite",
+"kind": "number",
+"printed": "der/die",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dritte",
+"kind": "number",
+"printed": "der/die",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vierte",
+"kind": "number",
+"printed": "der/die",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "erstens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zweitens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "drittens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "viertens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zweimal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dreimal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "viermal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "ab",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "aber",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "all-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "ander-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "anders",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "all-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "allein",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "als",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "also",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "an",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "auch",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "auf",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "auf jeden Fall",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [
+"auf keinen Fall"
+],
+"level": "A2"
+},
+{
+"lemma": "aus",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "außer",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "außerdem",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "außerhalb",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "bald",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "bei",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "beide",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "besonders",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "bis",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "bisschen",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "bitte",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "da",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "da(r)",
+"kind": "adverb",
+"printed": "(Bsp. darauf, darüber)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "damals",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "daneben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "danke",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dann",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dass",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "denn",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "deshalb",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "doch",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "dort",
+"kind": "adverb",
+"printed": "-her, -hin",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "draußen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "drinnen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "drüben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "durch",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "eigentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "einig-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "endlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "erst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "etwas",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "fast",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "früher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "für",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "gegen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "gegenüber",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "genug",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "gerade",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "geradeaus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "gern",
+"kind": "adverb",
+"printed": ", lieber, am liebsten",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "gestern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hallo",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "herein",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"rein"
+],
+"level": "A2"
+},
+{
+"lemma": "heute",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hier",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hin",
+"kind": "adverb",
+"printed": "/hin-/-hin",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hinten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hinter",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "hoffentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "her",
+"kind": "adverb",
+"printed": "/her-/-her",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "heraus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"raus"
+],
+"level": "A2"
+},
+{
+"lemma": "hoffentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "immer",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "in",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "ja",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "jeder",
+"kind": "pronoun",
+"printed": ", e, s",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "jemand",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "jetzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "kein",
+"kind": "article",
+"printed": ", e",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "lange",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "links",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "leider",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "mal",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "man",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "manch-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "manchmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "mehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "meistens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "mindestens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "mit",
+"kind": "preposition",
+"printed": "(+ mitbringen/-kommen/-machen/-nehmen/-spielen)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "morgen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nach",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "natürlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "neben",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nebenan",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nein",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nicht",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nichts",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nie",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "niemand",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nirgends",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "noch",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nur",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "oft",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "ohne",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "online",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "ein paar",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "nur",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "oben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "oder",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "pro",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "rechts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "schon",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "seit",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "selbst",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "so",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sofort",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sogar",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "sonst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "später",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "tschüs",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "über",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "überall",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "übermorgen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "um",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "und",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "unten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "unter",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "viel",
+"kind": "pronoun",
+"printed": ", e",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vielleicht",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "von",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vor",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vorbei",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vorgestern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vorher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "vorn",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"vorne"
+],
+"level": "A2"
+},
+{
+"lemma": "vorwärts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wann",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "warum",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "was",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wenn",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wer",
+"kind": "question",
+"printed": "(wen, wem)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "was",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "weg",
+"kind": "adverb",
+"printed": "/weg- (wegbringen/-fahren/-gehen/-laufen/-machen/-nehmen/-werfen)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wegen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "weil",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "weiter",
+"kind": "adverb",
+"printed": "(z. B. weitermachen/-helfen)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "welcher",
+"kind": "question",
+"printed": ", -e, -s",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wenigstens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wenn",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wer",
+"kind": "question",
+"printed": "(wen, wem)",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wie",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wie viel",
+"kind": "question",
+"printed": ", -e",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wieder",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "willkommen",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wo",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "woher",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "wohin",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zu",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zuerst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zuletzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zum Beispiel",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zurück",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zusammen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "zwischen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "A2"
+},
+{
+"lemma": "Deutschland",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Europa",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Österreich",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Griechenland",
+"kind": "name",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "eins",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zwei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drei",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vier",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "fünf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sechs",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sieben",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "acht",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "neun",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "elf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zwölf",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dreizehn",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einundzwanzig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dreißig",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hundert",
+"kind": "number",
+"printed": "(ein)hundert",
+"region": "",
+"alternatives": [
+"einhundert"
+],
+"level": "B1"
+},
+{
+"lemma": "zweihundert",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "tausend",
+"kind": "number",
+"printed": "(ein)tausend",
+"region": "",
+"alternatives": [
+"eintausend"
+],
+"level": "B1"
+},
+{
+"lemma": "erste",
+"kind": "number",
+"printed": "der/die/das erste",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zweite",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dritte",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vierte",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "erstens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zweitens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drittens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "viertens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zweimal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dreimal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "viermal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "plus",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "minus",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "halb",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drittel",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "viertel",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "tagsüber",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "morgens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vormittags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mittags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nachmittags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "abends",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nachts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wochentags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "werktags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "montags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dienstags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mittwochs",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "donnerstags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "freitags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "samstags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sonnabends",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sonntags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ab",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "aber",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "abwärts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Achtung!",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "all-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "allein",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "aller-",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "allerdings",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "als",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "als ob",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "also",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "an",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ander-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "andererseits",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "anders",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "anfangs",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "auch",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "auf",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "aufwärts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "aus",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "auseinander",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ausschließlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "außen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ausschließlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "außen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "außerhalb",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "außer",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "außerdem",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bald",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bei",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "beid-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "beinahe",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bereits",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "besonders",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bevor",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bis",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bisher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ein bisschen",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bitte",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "bloß",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "da",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dabei",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dafür",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dagegen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "daher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dahin",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "damals",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "damit",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "danach",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "daneben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "danke",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dann",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dass",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "denn",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "derselbe",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dieselbe",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dasselbe",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "deshalb",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "deswegen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dies-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "diesmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "doch",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dort",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "dorthin",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "draußen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drin",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drinnen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "drüben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "durch",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "durcheinander",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "eben",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ebenfalls",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ebenso",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "eher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "eigentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ein-",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einerseits",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "eigentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einig-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "einschließlich",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "endlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "entlang",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "entweder ... oder",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "entweder ... oder",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "erst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "erst-",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "es",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "etwa",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "etwas",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "extra",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "fast",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "falls",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "im Freien",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "für",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gegen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gegenüber",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"gerne"
+],
+"level": "B1"
+},
+{
+"lemma": "genauso",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "genug",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "geradeaus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"gerne"
+],
+"level": "B1"
+},
+{
+"lemma": "gestern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gleichfalls",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "gratis",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "halb",
+"kind": "number",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "halbtags",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hallo",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "halt",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "heim",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "her",
+"kind": "adverb",
+"printed": "/her-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "herein",
+"kind": "adverb",
+"printed": "-, rein-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "heute",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hier",
+"kind": "adverb",
+"printed": "/hier-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hierher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hinten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hinter",
+"kind": "preposition",
+"printed": "/hinter-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hinterher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "höchstens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hoffentlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "hinterher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "immer",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "in",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "indem",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "inklusive",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "innen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "innerhalb",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "insgesamt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "inzwischen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "irgendein",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "irgendwann",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ja",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "je",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "je … desto …",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jeder",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jedes",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jede",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jederzeit",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jedes Mal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jedoch",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jemals",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jemand",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jetzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "jeweils",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "kaum",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "kein-",
+"kind": "article",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "kürzlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "lange",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"lang"
+],
+"level": "B1"
+},
+{
+"lemma": "laut",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "längst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "leider",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "links",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mal",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "man",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "manch-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "manchmal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mehr",
+"kind": "adverb",
+"printed": "(siehe auch viel)",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mehrere",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "meinetwegen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "meist-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "die meisten",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "meistens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"meist"
+],
+"level": "B1"
+},
+{
+"lemma": "mindestens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mit",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "miteinander",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mitten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "mittlerweile",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "möglichst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nachdem",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nach",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nachdem",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nachher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nämlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "neben",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nebenan",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nebenbei",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nein",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "neulich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nicht",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nichts",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nie",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "niemand",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nirgends",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nirgendwo",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "noch",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "noch mal",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nochmals",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "normalerweise",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nun",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "nur",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ob",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "oben",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "obwohl",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "oder",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "oft",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"öfter"
+],
+"level": "B1"
+},
+{
+"lemma": "ohne",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ein paar",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [
+"paar"
+],
+"level": "B1"
+},
+{
+"lemma": "per",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "pro",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Prost",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "quer",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "rauf",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"rauf-"
+],
+"level": "B1"
+},
+{
+"lemma": "raus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"raus-"
+],
+"level": "B1"
+},
+{
+"lemma": "rechts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "rückwärts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sämtliche",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "schließlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "schon",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sehr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "seit",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "seitdem",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "selb-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "selbst",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "selber",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "so",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sobald",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sodass",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sofort",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sogar",
+"kind": "particle",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "solange",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "solch-",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sondern",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sonst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "soviel",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "so viel",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "so viel wie",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sowieso",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "sowohl … als auch",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "spätestens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "statt",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "trotz",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "trotzdem",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "über",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "überall",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "überhaupt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "übermorgen",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "übrigens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "um",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "um … zu",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [
+"um ... zu"
+],
+"level": "B1"
+},
+{
+"lemma": "umso",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "umsonst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "unten",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "unter",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "und",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ungefähr",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "unterwegs",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "Verzeihung",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "viel",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [
+"viele"
+],
+"level": "B1"
+},
+{
+"lemma": "vielleicht",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "von",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "voneinander",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vor",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vor allem",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "voraus",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vorbei",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"vorbei-"
+],
+"level": "B1"
+},
+{
+"lemma": "vorgestern",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vorher",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vorhin",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "vorn",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"vorne"
+],
+"level": "B1"
+},
+{
+"lemma": "vorwärts",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wann",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "während",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wann",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "warum",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "was",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "was für ein-",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "weder … noch",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "weg",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"weg-"
+],
+"level": "B1"
+},
+{
+"lemma": "wegen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "weil",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "weiter",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"weiter-"
+],
+"level": "B1"
+},
+{
+"lemma": "welcher",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "welche",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "welches",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wenig",
+"kind": "pronoun",
+"printed": "",
+"region": "",
+"alternatives": [
+"wenige"
+],
+"level": "B1"
+},
+{
+"lemma": "wenigstens",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wenn",
+"kind": "conjunction",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wer",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "weshalb",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wie",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wieder",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [
+"wieder-"
+],
+"level": "B1"
+},
+{
+"lemma": "wieso",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wie viel",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [
+"wie viele"
+],
+"level": "B1"
+},
+{
+"lemma": "willkommen",
+"kind": "expression",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wo",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "woher",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wohin",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wieso",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wohin",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "wohl",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "worüber",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "worum",
+"kind": "question",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zurzeit",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "ziemlich",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zu",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zuerst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zuletzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zumindest",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zurück",
+"kind": "adverb",
+"printed": "/zurück-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zusammen",
+"kind": "adverb",
+"printed": "/zusammen-",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zuletzt",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zumindest",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zunächst",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zwar",
+"kind": "adverb",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+},
+{
+"lemma": "zwischen",
+"kind": "preposition",
+"printed": "",
+"region": "",
+"alternatives": [],
+"level": "B1"
+}
+]

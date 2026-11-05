@@ -12,6 +12,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,7 +75,10 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.intl.LocaleList
@@ -94,6 +99,7 @@ import com.abcamiletto.wortschatz.ui.PHONE_COLUMN
 import com.abcamiletto.wortschatz.ui.PrimaryButton
 import com.abcamiletto.wortschatz.ui.SecondaryButton
 import com.abcamiletto.wortschatz.ui.hand
+import com.abcamiletto.wortschatz.ui.marked
 import com.abcamiletto.wortschatz.ui.theme.Hairline
 import com.abcamiletto.wortschatz.ui.theme.Ink
 import com.abcamiletto.wortschatz.ui.theme.Slate
@@ -103,7 +109,9 @@ import com.abcamiletto.wortschatz.ui.theme.color
 
 private val WIDE_CONTENT = 1040.dp
 // The panel keeps its height on a wide screen, so the picture stays still from the question to the answer.
-private val WIDE_PANEL = 208.dp
+private val WIDE_PANEL = 288.dp
+private val PHONE_EXAMPLES = 184.dp
+private val TRANSLATION = Color.White.copy(alpha = 0.78f)
 // The pictures are 512 pixels, so a larger stage leaves them space around them rather than stretching them.
 private val LARGEST_PICTURE = 440.dp
 private val WIDE_ACTION = 168.dp
@@ -395,15 +403,23 @@ private fun WordSheet(
         )
     }
     if (LocalWide.current) {
-        Row(
+        Column(
             Modifier.fillMaxSize().clip(Corner.large).background(word.tone.color).padding(horizontal = Gap.section, vertical = Gap.wide).testTag("sheet"),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Gap.medium),
+            verticalArrangement = Arrangement.spacedBy(Gap.large, Alignment.CenterVertically),
         ) {
-            heading(Modifier.weight(1f))
-            play()
-            Spacer(Modifier.width(Gap.medium))
-            actions(Modifier.width(WIDE_ACTION))
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Gap.medium)) {
+                heading(Modifier.weight(1f))
+                play()
+                Spacer(Modifier.width(Gap.medium))
+                actions(Modifier.width(WIDE_ACTION))
+            }
+            Row(
+                Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(Gap.section),
+            ) {
+                Phrases(word, Modifier.weight(2f))
+                Sentences(word, Modifier.weight(3f))
+            }
         }
     } else {
         Column(
@@ -419,8 +435,45 @@ private fun WordSheet(
                 heading(Modifier.weight(1f))
                 Box(Modifier.padding(start = Gap.small)) { play() }
             }
-            Row(Modifier.padding(top = Gap.wide), horizontalArrangement = Arrangement.spacedBy(Gap.medium)) {
+            Column(
+                Modifier.padding(top = Gap.medium).heightIn(max = PHONE_EXAMPLES).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Gap.small),
+            ) {
+                Phrases(word)
+                Sentences(word)
+            }
+            Row(Modifier.padding(top = Gap.large), horizontalArrangement = Arrangement.spacedBy(Gap.medium)) {
                 actions(Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+/** The word in common combinations, each on one line with its translation. */
+@Composable
+private fun Phrases(word: Word, modifier: Modifier = Modifier) {
+    Column(modifier.testTag("phrases"), verticalArrangement = Arrangement.spacedBy(Gap.tiny)) {
+        word.phrases.forEach { phrase ->
+            Text(
+                buildAnnotatedString {
+                    append(marked(phrase.de))
+                    withStyle(SpanStyle(color = TRANSLATION, fontSize = 13.sp)) { append("   ${phrase.en}") }
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White,
+            )
+        }
+    }
+}
+
+/** The word at work in whole sentences, with the translation below each. */
+@Composable
+private fun Sentences(word: Word, modifier: Modifier = Modifier) {
+    Column(modifier.testTag("sentences"), verticalArrangement = Arrangement.spacedBy(Gap.small)) {
+        word.sentences.forEach { sentence ->
+            Column {
+                Text(marked(sentence.de), style = MaterialTheme.typography.bodyMedium, color = Color.White)
+                Text(sentence.en, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Normal), color = TRANSLATION)
             }
         }
     }
@@ -637,6 +690,7 @@ private fun TypedAnswer(kind: WordKind, onSubmit: (String) -> Unit, onSpeak: () 
                         WordKind.Noun -> "der, die or das + noun"
                         WordKind.Verb -> "Verb"
                         WordKind.Adjective -> "Adjective"
+                        WordKind.Other -> "In German"
                     },
                     maxLines = 1,
                 )

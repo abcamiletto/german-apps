@@ -1,8 +1,9 @@
-"""The whole word list: nouns, verbs and adjectives, most useful to learn first."""
+"""The whole word list, most useful to learn first."""
 import json
 from pathlib import Path
 
 DATA = Path(__file__).parent.parent / "data"
+LEVELS = ["A1", "A2", "B1"]
 # In wordfreq's scale, where "der" is about 7.5. Each DeReWo class is half as frequent as the one before it.
 DEREWO_TOP = 7.6
 DEREWO_STEP = 0.301
@@ -10,7 +11,7 @@ DEREWO_STEP = 0.301
 
 def spoken(word: dict) -> str:
     """The word as the learner says it, and as the clip reads it."""
-    return f"{word['article']} {word['noun']}" if "noun" in word else word["lemma"]
+    return f"{word['article']} {word['noun']}" if "noun" in word else word["lemma"].replace(" ... ", " ")
 
 
 def learning_score(word: dict, classes: dict[str, int]) -> float:
@@ -26,8 +27,12 @@ def learning_score(word: dict, classes: dict[str, int]) -> float:
 
 
 def load() -> list[dict]:
-    words = [*json.loads((DATA / "nouns.json").read_text()), *json.loads((DATA / "verbs_adjectives.json").read_text())]
+    files = ("nouns.json", "verbs_adjectives.json", "others.json")
+    words = [word for name in files for word in json.loads((DATA / name).read_text())]
     path = DATA / "lemma_classes.json"
     classes = json.loads(path.read_text()) if path.exists() else {}
-    # Regional words come last. Everything else follows frequency, whatever its kind or level.
-    return sorted(words, key=lambda w: (w["region"] != "", -learning_score(w, classes), spoken(w)))
+    # Regional words come last. Everything else goes level by level, and by frequency within a level.
+    def order(word: dict) -> tuple:
+        return word["region"] != "", LEVELS.index(word["level"]), -learning_score(word, classes), spoken(word)
+
+    return sorted(words, key=order)
