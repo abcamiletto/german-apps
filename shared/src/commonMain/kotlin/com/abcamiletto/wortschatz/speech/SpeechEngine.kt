@@ -13,6 +13,13 @@ interface SpeechListener {
 interface SpeechEngine {
     val isAvailable: Boolean
     fun start(listener: SpeechListener)
+
+    /** Ends listening and asks for the result. */
     fun stop()
+
+    /** Ends listening and drops the result. The engine stays ready for the next [start]. */
+    fun cancel()
+
+    /** Releases the engine at the end of a session. */
     fun destroy()
 }
