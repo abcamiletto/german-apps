@@ -204,7 +204,7 @@ class SessionViewModel(
     }
 
     fun setTyping(typing: Boolean) {
-        speech.destroy()
+        speech.cancel()
         prefersTyping = typing
         updateQuestion { it.copy(typing = typing, listening = false, heard = "", hint = askFor(it.word), options = null) }
     }
@@ -248,7 +248,7 @@ class SessionViewModel(
 
     fun suggest() {
         val question = question() ?: return
-        speech.destroy()
+        speech.cancel()
         updateQuestion {
             it.copy(
                 listening = false,
@@ -266,7 +266,7 @@ class SessionViewModel(
 
     fun reveal() {
         val word = question()?.word ?: return
-        speech.destroy()
+        speech.cancel()
         finish(word, Outcome.Revealed)
     }
 

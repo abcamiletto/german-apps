@@ -64,6 +64,8 @@ class BrowserSpeechEngine : SpeechEngine {
         recognition?.stop()
     }
 
+    override fun cancel() = destroy()
+
     override fun destroy() {
         recognition?.run {
             onresult = null

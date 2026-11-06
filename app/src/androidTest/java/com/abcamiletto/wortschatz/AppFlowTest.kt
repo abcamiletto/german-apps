@@ -1,6 +1,7 @@
 package com.abcamiletto.wortschatz
 
 import android.Manifest
+import android.speech.SpeechRecognizer
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
@@ -26,6 +27,7 @@ import com.abcamiletto.wortschatz.domain.WordKind
 import com.abcamiletto.wortschatz.speech.SpeechEngine
 import com.abcamiletto.wortschatz.speech.SpeechFailure
 import com.abcamiletto.wortschatz.speech.SpeechListener
+import com.abcamiletto.wortschatz.speech.failureFor
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -46,6 +48,7 @@ private class FakeSpeech : SpeechEngine {
     }
 
     override fun stop() = Unit
+    override fun cancel() = Unit
     override fun destroy() = Unit
 }
 
@@ -187,6 +190,18 @@ class AppFlowTest {
         compose.onNodeWithTag("answer").performTextInput("xyz")
         tap("check")
         waitForText("Not that word")
+    }
+
+    @Test
+    fun aMomentaryRecogniserFailureKeepsTheMicrophone() {
+        skipIntros()
+        speech.failure = failureFor(SpeechRecognizer.ERROR_SERVER_DISCONNECTED)
+        tap("mic")
+        waitForText("Try again")
+        compose.onAllNodes(hasTestTag("answer")).assertCountEquals(0)
+        speech.failure = null
+        tap("mic")
+        waitForText("Correct")
     }
 
     @Test

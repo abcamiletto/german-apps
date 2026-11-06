@@ -33,6 +33,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Lets tests run on a phone without touching the installed app or its progress.
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -79,6 +83,7 @@ dependencies {
     androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.test.core)
     androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.test.espresso)
     androidTestImplementation(libs.test.runner)
     debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.ui.test.manifest)
