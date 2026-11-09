@@ -8,7 +8,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.abcamiletto.wortschatz.audio.AndroidPronunciationPlayer
 import com.abcamiletto.wortschatz.data.Dictionary
@@ -37,7 +36,7 @@ private object RuntimePermission : MicrophoneAccess {
         val context = LocalContext.current
         val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission(), onResult)
         return {
-            val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+            val granted = context.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
             if (granted) onResult(true) else launcher.launch(Manifest.permission.RECORD_AUDIO)
         }
     }

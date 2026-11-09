@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.abcamiletto.wortschatz"
-        minSdk = 26
+        minSdk = 33
         targetSdk = 36
         versionCode = providers.environmentVariable("GITHUB_RUN_NUMBER").orNull?.toInt() ?: 1
         versionName = "1.0.${providers.environmentVariable("GITHUB_RUN_NUMBER").orNull ?: "0"}"

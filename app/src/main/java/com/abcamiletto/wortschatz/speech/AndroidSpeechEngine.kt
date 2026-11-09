@@ -2,7 +2,6 @@ package com.abcamiletto.wortschatz.speech
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognitionSupport
@@ -20,7 +19,7 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
     private var offline = false
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && SpeechRecognizer.isOnDeviceRecognitionAvailable(context)) {
+        if (SpeechRecognizer.isOnDeviceRecognitionAvailable(context)) {
             val probe = SpeechRecognizer.createOnDeviceSpeechRecognizer(context)
             probe.checkRecognitionSupport(
                 intent(),
@@ -28,8 +27,7 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
                 object : RecognitionSupportCallback {
                     override fun onSupportResult(support: RecognitionSupport) {
                         offline = GERMAN in support.installedOnDeviceLanguages
-                        // Keep the probe unless the learner already started listening with the online recogniser.
-                        if (offline && recognizer == null) recognizer = probe else probe.destroy()
+                        probe.destroy()
                     }
                     override fun onError(error: Int) = probe.destroy()
                 },
@@ -52,11 +50,7 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
     }
 
     private fun newRecognizer(): SpeechRecognizer =
-        if (offline && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            SpeechRecognizer.createOnDeviceSpeechRecognizer(context)
-        } else {
-            SpeechRecognizer.createSpeechRecognizer(context)
-        }
+        if (offline) SpeechRecognizer.createOnDeviceSpeechRecognizer(context) else SpeechRecognizer.createSpeechRecognizer(context)
 
     // The web search model expects a few words rather than dictation, which is what an answer is.
     private fun intent() = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -108,13 +102,6 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
         override fun onResults(results: Bundle?) = listener.onResults(results.candidates().ifEmpty { heard })
         override fun onError(error: Int) {
             Log.w("WortschatzSpeech", "Recogniser error $error")
-            if (error == SpeechRecognizer.ERROR_NO_MATCH && heard.isNotEmpty()) return listener.onResults(heard)
-            // The offline model has gone, so the next attempt goes online.
-            if (error == SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE && offline) {
-                offline = false
-                destroy()
-                return listener.onFailure(SpeechFailure.Busy)
-            }
             // The connection to the service is gone, so the next attempt needs a new recogniser.
             if (error == SpeechRecognizer.ERROR_SERVER_DISCONNECTED) destroy()
             listener.onFailure(failureFor(error))
