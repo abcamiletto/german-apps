@@ -45,8 +45,8 @@ class BrowserSpeechEngine : SpeechEngine {
                 val candidates = latestTranscripts(event).split('\n').map { it.trim() }.filter { it.isNotEmpty() }
                 if (latestIsFinal(event)) {
                     finish { listener.onResults(candidates) }
-                } else {
-                    candidates.firstOrNull()?.let(listener::onPartial)
+                } else if (candidates.isNotEmpty()) {
+                    listener.onPartial(candidates)
                 }
             }
             onerror = { event ->

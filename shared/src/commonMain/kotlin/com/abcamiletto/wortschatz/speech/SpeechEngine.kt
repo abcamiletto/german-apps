@@ -4,7 +4,8 @@ enum class SpeechFailure { NotUnderstood, Offline, Unavailable, Busy, NoPermissi
 
 interface SpeechListener {
     fun onReady()
-    fun onPartial(text: String)
+    /** What has been heard so far, as recogniser alternatives, best first. */
+    fun onPartial(candidates: List<String>)
     fun onLevel(level: Float)
     fun onResults(candidates: List<String>)
     fun onFailure(failure: SpeechFailure)

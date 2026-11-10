@@ -43,6 +43,7 @@ def entry(word: dict, examples: dict) -> dict:
         "level": word["level"],
         "region": word["region"],
         "gloss": word["gloss_en"],
+        "cue": word["cue"],
         "category": word["category"],
         **examples.get(word["id"], {}),
     }

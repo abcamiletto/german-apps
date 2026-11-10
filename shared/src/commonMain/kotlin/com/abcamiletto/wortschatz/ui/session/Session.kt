@@ -77,6 +77,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -289,6 +290,15 @@ private fun Prompt(imageUri: String, word: Word, modifier: Modifier = Modifier) 
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = Gap.large).testTag("prompt"),
         )
+        if (word.cue.isNotEmpty()) {
+            Text(
+                "“${word.cue}”",
+                style = MaterialTheme.typography.titleMedium.copy(fontStyle = FontStyle.Italic),
+                color = Slate,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = Gap.tiny).testTag("cue"),
+            )
+        }
     }
 }
 
