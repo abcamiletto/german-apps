@@ -81,7 +81,7 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
 
     private object Ignored : SpeechListener {
         override fun onReady() = Unit
-        override fun onPartial(text: String) = Unit
+        override fun onPartial(candidates: List<String>) = Unit
         override fun onLevel(level: Float) = Unit
         override fun onResults(candidates: List<String>) = Unit
         override fun onFailure(failure: SpeechFailure) = Unit
@@ -97,7 +97,7 @@ class AndroidSpeechEngine(private val context: Context) : SpeechEngine {
             val candidates = partialResults.candidates()
             if (candidates.isEmpty()) return
             heard = candidates
-            listener.onPartial(candidates.first())
+            listener.onPartial(candidates)
         }
         override fun onResults(results: Bundle?) = listener.onResults(results.candidates().ifEmpty { heard })
         override fun onError(error: Int) {

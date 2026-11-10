@@ -26,6 +26,7 @@ import com.abcamiletto.wortschatz.speech.SpeechEngine
 import com.abcamiletto.wortschatz.speech.SpeechFailure
 import com.abcamiletto.wortschatz.speech.SpeechListener
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +36,10 @@ import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
 const val LEARN_BATCH = 5
+
+// How long a right partial answer must hold before it counts, and how much silence ends an answer.
+private const val STEADY_ANSWER_MS = 250L
+private const val QUIET_MS = 900L
 
 enum class SessionMode(val set: ReviewSet?) {
     Learn(null),
@@ -98,6 +103,7 @@ class SessionViewModel(
     private var slips = 0
     private var saves = emptyList<Job>()
     private var prefersTyping = false
+    private var settle: Job? = null
 
     val speechAvailable: Boolean get() = speech.isAvailable
 
@@ -182,16 +188,45 @@ class SessionViewModel(
     fun listen() {
         val question = question() ?: return
         player.stop()
+        settle?.cancel()
         updateQuestion { it.copy(listening = true, heard = "", hint = "Listening…", options = null) }
         speech.start(
             object : SpeechListener {
                 override fun onReady() = Unit
-                override fun onPartial(text: String) = updateQuestion { it.copy(heard = text) }
+                override fun onPartial(candidates: List<String>) {
+                    updateQuestion { it.copy(heard = candidates.first()) }
+                    settle(question.word, candidates)
+                }
                 override fun onLevel(level: Float) = updateQuestion { it.copy(level = level) }
-                override fun onResults(candidates: List<String>) = submit(question.word, candidates, spoken = true)
-                override fun onFailure(failure: SpeechFailure) = showFailure(failure)
+                override fun onResults(candidates: List<String>) {
+                    settle?.cancel()
+                    submit(question.word, candidates, spoken = true)
+                }
+                override fun onFailure(failure: SpeechFailure) {
+                    settle?.cancel()
+                    showFailure(failure)
+                }
             },
         )
+    }
+
+    /**
+     * The recogniser waits for a long silence before it gives its final result. A right answer is taken as soon as
+     * the partial result holds still, and once the learner goes quiet the recogniser is told to finish.
+     */
+    private fun settle(word: Word, candidates: List<String>) {
+        settle?.cancel()
+        val correct = AnswerMatcher.grade(word, candidates, spoken = true) == Answer.Correct
+        settle = viewModelScope.launch {
+            delay(if (correct) STEADY_ANSWER_MS else QUIET_MS)
+            if (question()?.listening != true) return@launch
+            if (correct) {
+                speech.cancel()
+                submit(word, candidates, spoken = true)
+            } else {
+                speech.stop()
+            }
+        }
     }
 
     fun stopListening() {
