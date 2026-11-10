@@ -31,11 +31,10 @@ def load() -> list[dict]:
     words = [word for name in files for word in json.loads((DATA / name).read_text())]
     # Common meanings the first translation missed. Kept apart so that regenerating the lists can't lose them.
     glosses = json.loads((DATA / "glosses.json").read_text())
-    for word in words:
-        word["gloss_en"] = glosses.get(word["id"], word["gloss_en"])
     # A short English example for words a gloss alone can't pin down, such as "made of wood" for "aus".
     cues = json.loads((DATA / "cues.json").read_text())
     for word in words:
+        word["gloss_en"] = glosses.get(word["id"], word["gloss_en"])
         word["cue"] = cues.get(word["id"], "")
     path = DATA / "lemma_classes.json"
     classes = json.loads(path.read_text()) if path.exists() else {}

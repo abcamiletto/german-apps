@@ -103,7 +103,7 @@ class SessionViewModel(
     private var slips = 0
     private var saves = emptyList<Job>()
     private var prefersTyping = false
-    private var settle: Job? = null
+    private var settling: Job? = null
 
     val speechAvailable: Boolean get() = speech.isAvailable
 
@@ -188,7 +188,7 @@ class SessionViewModel(
     fun listen() {
         val question = question() ?: return
         player.stop()
-        settle?.cancel()
+        settling?.cancel()
         updateQuestion { it.copy(listening = true, heard = "", hint = "Listening…", options = null) }
         speech.start(
             object : SpeechListener {
@@ -198,26 +198,21 @@ class SessionViewModel(
                     settle(question.word, candidates)
                 }
                 override fun onLevel(level: Float) = updateQuestion { it.copy(level = level) }
-                override fun onResults(candidates: List<String>) {
-                    settle?.cancel()
-                    submit(question.word, candidates, spoken = true)
-                }
-                override fun onFailure(failure: SpeechFailure) {
-                    settle?.cancel()
-                    showFailure(failure)
-                }
+                override fun onResults(candidates: List<String>) = submit(question.word, candidates, spoken = true)
+                override fun onFailure(failure: SpeechFailure) = showFailure(failure)
             },
         )
     }
 
     /**
      * The recogniser waits for a long silence before it gives its final result. A right answer is taken as soon as
-     * the partial result holds still, and once the learner goes quiet the recogniser is told to finish.
+     * the partial result holds still, and once the learner goes quiet the recogniser is told to finish. Anything that
+     * ends listening first makes this a no-op.
      */
     private fun settle(word: Word, candidates: List<String>) {
-        settle?.cancel()
+        settling?.cancel()
         val correct = AnswerMatcher.grade(word, candidates, spoken = true) == Answer.Correct
-        settle = viewModelScope.launch {
+        settling = viewModelScope.launch {
             delay(if (correct) STEADY_ANSWER_MS else QUIET_MS)
             if (question()?.listening != true) return@launch
             if (correct) {
