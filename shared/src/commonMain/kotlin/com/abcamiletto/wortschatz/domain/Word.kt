@@ -53,6 +53,8 @@ data class Word(
     val level: String,
     val region: String = "",
     val gloss: String,
+    /** A short English example for words a gloss alone can't pin down, such as "made of wood" for "aus". */
+    val cue: String = "",
     val category: String,
     val phrases: List<Example> = emptyList(),
     val sentences: List<Example> = emptyList(),

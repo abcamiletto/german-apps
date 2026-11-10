@@ -33,6 +33,10 @@ def load() -> list[dict]:
     glosses = json.loads((DATA / "glosses.json").read_text())
     for word in words:
         word["gloss_en"] = glosses.get(word["id"], word["gloss_en"])
+    # A short English example for words a gloss alone can't pin down, such as "made of wood" for "aus".
+    cues = json.loads((DATA / "cues.json").read_text())
+    for word in words:
+        word["cue"] = cues.get(word["id"], "")
     path = DATA / "lemma_classes.json"
     classes = json.loads(path.read_text()) if path.exists() else {}
     # Regional words come last. Everything else goes level by level, and by frequency within a level.
